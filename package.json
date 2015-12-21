@@ -1,0 +1,24 @@
+{
+  "name": "zombie",
+  "version": "0.1.0",
+  "description": "a survival game",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ben Copeland",
+  "license": "none",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-preset-es2015": "^6.1.18",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-eslint": "^1.1.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-server-livereload": "^1.5.4",
+    "gulp-util": "^3.0.7"
+  },
+  "dependencies": {
+    "gulp-less": "^3.0.5"
+  }
+}
