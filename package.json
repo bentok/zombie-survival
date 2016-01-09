@@ -16,7 +16,8 @@
     "gulp-eslint": "^1.1.1",
     "gulp-livereload": "^3.8.1",
     "gulp-server-livereload": "^1.5.4",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "Phaser":"git://github.com/photonstorm/phaser.git#v2.4.4"
   },
   "dependencies": {
     "gulp-less": "^3.0.5"
