@@ -17,17 +17,17 @@ gulp.task('watch', () => {
 });
 
 // Task for transpiling es2015 to es6 with Babel
-gulp.task('transpile', ['lint'],  () => {
-  return gulp.src('src/js/app.js')
+gulp.task('transpile', () => {
+  return gulp.src('src/**/*.js')
   .pipe(babel())
-  .pipe(gulp.dest('/dist/js'));
+  .pipe(gulp.dest('dist/js'));
 });
 
 // Compile less
 gulp.task('less', () => {
   return gulp.src('src/**/*.less')
     .pipe(less())
-    .pipe(gulp.dest('/dist'));
+    .pipe(gulp.dest('dist'));
 });
 
 
