@@ -8,25 +8,26 @@ var gulp  = require('gulp'),
     babel = require("gulp-babel");
 
 gulp.task('default', ['watch', 'server']);
+gulp.task('build', ['less', 'transpile']);
 
 gulp.task('watch', () => {
-  gulp.watch('src/**/*.js', ['lint']);
+  // gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
   gulp.watch('src/js/app.js', ['transpile']);
 });
 
 // Task for transpiling es2015 to es6 with Babel
-gulp.task('transpile', () => {
+gulp.task('transpile', ['lint'],  () => {
   return gulp.src('src/js/app.js')
   .pipe(babel())
-  .pipe(gulp.dest('dist/js'));
+  .pipe(gulp.dest('/dist/js'));
 });
 
 // Compile less
 gulp.task('less', () => {
   return gulp.src('src/**/*.less')
     .pipe(less())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('/dist'));
 });
 
 
