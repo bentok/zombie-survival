@@ -18,7 +18,7 @@ gulp.task('watch', () => {
 
 // Task for transpiling es2015 to es6 with Babel
 gulp.task('transpile', () => {
-  return gulp.src('src/**/*.js')
+  return gulp.src(['src/**/*.js', '!src/vendor/**/*'])
   .pipe(babel())
   .pipe(gulp.dest('dist/js'));
 });
