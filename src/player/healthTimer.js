@@ -15,10 +15,10 @@ class HealthTimer {
       x: 10,
       y: 580,
       bg: {
-          color: '#651828'
+          color: '#404040'
       },
       bar: {
-          color: '#FEFF03'
+          color: '#AB1111'
       },
       animationDuration: 200
     };
