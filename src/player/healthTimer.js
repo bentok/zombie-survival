@@ -24,41 +24,47 @@ class HealthTimer {
     };
 
     this.healthLossIncrement = 0.1;
-    this.increment = 1000;
+    this.increment = 100;
+
     this.render();
   }
 
   render(){
-    // let graphics = game.add.graphics(0,0);
-    // graphics.beginFill(0xE0042D);
-    // graphics.lineStyle(2, 0xFFFFFF, 0.8);
-    // this.healthBar = graphics.drawRect(30, 590, 740, 6);
-    // graphics.endFill();
 
-
-    let back = this.game.add.bitmapData(this.config.width, this.config.height);
-    back.ctx.fillStyle = this.config.bg.color;
-    back.ctx.beginPath();
-    back.ctx.rect(0, 0, this.config.width, this.config.height);
-    back.ctx.fill();
-
-    this.bgSprite = this.game.add.sprite(this.config.x, this.config.y, back);
-    this.bgSprite.anchor.set(0);
-
-
-    var health = this.game.add.bitmapData(this.config.width, this.config.height);
-    health.ctx.fillStyle = this.config.bar.color;
-    health.ctx.beginPath();
-    health.ctx.rect(0, 0, this.config.width - 10, this.config.height/2);
-    health.ctx.fill();
-
-    this.barSprite = this.game.add.sprite(this.config.x + 5 , this.config.y + this.bgSprite.height/4, health);
-    this.barSprite.anchor.set(0);
-
-    this.bgSprite.fixedToCamera = true;
-    this.barSprite.fixedToCamera =true;
+    drawBackground.call(this);
+    drawBar.call(this);
+    setFixed.call(this);
 
     this.timer.loop(this.increment, this.updateCounter, this);
+
+
+    function drawBackground(){
+      let back = this.game.add.bitmapData(this.config.width, this.config.height);
+      back.ctx.fillStyle = this.config.bg.color;
+      back.ctx.beginPath();
+      back.ctx.rect(0, 0, this.config.width, this.config.height);
+      back.ctx.fill();
+
+      this.bgSprite = this.game.add.sprite(this.config.x, this.config.y, back);
+      this.bgSprite.anchor.set(0);
+    }
+
+    function drawBar(){
+      let bar = this.game.add.bitmapData(this.config.width, this.config.height);
+      bar.ctx.fillStyle = this.config.bar.color;
+      bar.ctx.beginPath();
+      bar.ctx.rect(0, 0, this.config.width - 10, this.config.height/2);
+      bar.ctx.fill();
+
+      this.barSprite = this.game.add.sprite(this.config.x + 5 , this.config.y + this.bgSprite.height/4, bar);
+      this.barSprite.anchor.set(0);
+    };
+
+    function setFixed(){
+      this.bgSprite.fixedToCamera = true;
+      this.barSprite.fixedToCamera =true;
+    };
+
   }
 
   /*
@@ -94,8 +100,4 @@ class HealthTimer {
     }
   }
 
-  update(){
-    // this.healthBar.width = Math.floor((this.player.health / this.player.maxHealth) * 780);
-  }
-
-}
+} //emd HealthTimer class

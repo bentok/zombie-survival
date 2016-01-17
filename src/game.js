@@ -13,5 +13,4 @@ function create() {
 }
 
 function update() {
-  character.healthTimer.update();
 }
