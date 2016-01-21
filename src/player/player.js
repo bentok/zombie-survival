@@ -6,6 +6,6 @@ class Player{
                      // I could pass the game object to the constructor.
     this.health = 100;
     this.maxHealth = 100;
-    this.healthTimer = new HealthTimer();
+    this.healthTimer = new HealthTimer(this);
   }
 }
