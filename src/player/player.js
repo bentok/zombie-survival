@@ -8,4 +8,9 @@ class Player{
     this.maxHealth = 100;
     this.healthTimer = new HealthTimer(this);
   }
+
+  addHealth(amount){
+    this.health = (this.health + amount <= 100) ? this.health += amount : 100;
+  }
+
 }
