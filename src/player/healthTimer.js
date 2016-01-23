@@ -3,7 +3,7 @@
 class HealthTimer {
 
   constructor(player){
-    this.game = game; // This is gathering the parent game object and relying on JS traversing.
+    this.game = game; // This is gathering the parent game object. (relying on JS traversing)
                      // I could pass the game object to the constructor.
 
     this.timer = this.game.time.create(false);
@@ -27,18 +27,17 @@ class HealthTimer {
     this.increment = 100;
 
     this.render();
+
+    /* Setup the update loop  */
+    this.timer.loop(this.increment, this.updateCounter, this);
   }
 
+  /*
+    Render the Health Bar
+  */
   render(){
-
-    drawBackground.call(this);
-    drawBar.call(this);
-    setFixed.call(this);
-
-    this.timer.loop(this.increment, this.updateCounter, this);
-
-
-    function drawBackground(){
+    /*  draw the health bar background  */
+    ( () => {
       let back = this.game.add.bitmapData(this.config.width, this.config.height);
       back.ctx.fillStyle = this.config.bg.color;
       back.ctx.beginPath();
@@ -47,9 +46,11 @@ class HealthTimer {
 
       this.bgSprite = this.game.add.sprite(this.config.x, this.config.y, back);
       this.bgSprite.anchor.set(0);
-    }
+    })();
 
-    function drawBar(){
+    /*  Draw the health bar  */
+
+    ( () => {
       let bar = this.game.add.bitmapData(this.config.width, this.config.height);
       bar.ctx.fillStyle = this.config.bar.color;
       bar.ctx.beginPath();
@@ -58,12 +59,13 @@ class HealthTimer {
 
       this.barSprite = this.game.add.sprite(this.config.x + 5 , this.config.y + this.bgSprite.height/4, bar);
       this.barSprite.anchor.set(0);
-    };
+    })();
 
-    function setFixed(){
+    /*  Set fixed camera  */
+    ( () => {
       this.bgSprite.fixedToCamera = true;
       this.barSprite.fixedToCamera =true;
-    };
+    })();
 
   }
 
@@ -100,4 +102,4 @@ class HealthTimer {
     }
   }
 
-} //emd HealthTimer class
+} //end HealthTimer class
