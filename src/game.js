@@ -11,8 +11,7 @@ function preload() {
 function create() {
   // Initialize arcade physics
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  character.loadPlayer();
-  character.loadPlayerControls();
+  character.render();
   character.healthTimer.start();
 
   var healthTest = new TestButtons(character);

@@ -9,27 +9,22 @@ class Player{
     this.maxHealth = 100;
     this.healthTimer = new HealthTimer(this);
     
-    // Load Player method to be called in "create" phase
-    this.loadPlayer = () => {
-      this.playerSprite = this.game.add.sprite(game.world.width *0.5, game.world.height - 160, 'playerSprite');
-    }
+  }
+  
+  render() {
+    this.playerSprite = this.game.add.sprite(game.world.width *0.5, game.world.height - 160, 'playerSprite');
     
     // Loads Phaser presets for arrow key input
-    this.loadPlayerControls = () => {
-      this.keys = this.game.input.keyboard.createCursorKeys();
+    this.keys = this.game.input.keyboard.createCursorKeys();
+  }
+  
+  keyboardInput() {
+    if (this.keys.left.isDown) {
+      this.playerSprite.position.x =  this.playerSprite.position.x - 5;
     }
-    
-    // Runs in loop and listens for keypress. 
-    // TODO: Movements themselves need to be in separate module
-    this.keyboardInput = () => {
-      if (character.keys.left.isDown) {
-        this.playerSprite.position.x =  this.playerSprite.position.x - 5;
-      }
-      if (character.keys.right.isDown) {
-        this.playerSprite.position.x = this.playerSprite.position.x + 5;
-      }
+    if (this.keys.right.isDown) {
+      this.playerSprite.position.x = this.playerSprite.position.x + 5;
     }
-    
   }
 
   addHealth(amount){
