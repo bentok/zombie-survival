@@ -7,29 +7,47 @@ class TestButtons {
       this.character = character || {};
   }
 
+  /* Add button 'cheap constructo'r for test buttons in UI  */
+  addButton(width, height, positionX, positionY, text, color, onClick){
+    let button = this.game.add.bitmapData(width, height);
+    button.ctx.fillStyle = '#FFF';
+    button.ctx.beginPath();
+    button.ctx.rect(0, 0, width, height);
+    button.ctx.fill();
+
+    let style = { font: "12px Arial", fill: color, align: "center" };
+    let buttonText = game.make.text(0,0, text, style);
+
+    button.draw(buttonText, 20, 5, 25, 20);
+
+    let newButton = game.add.button(positionX, positionY, button, onClick, this);
+  }
+
   drawHealthButtons(){
 
     /* +10 Health button */
     ( () => {
 
-      let button = this.game.add.bitmapData(75, 25);
-      button.ctx.fillStyle = '#FFF';
-      button.ctx.beginPath();
-      button.ctx.rect(0, 0, 75, 25);
-      button.ctx.fill();
-
-      var addHealth = game.add.button(10, 10, button, actionOnClick, this);
-
-      var style = { font: "12px Arial", fill: "#ff0044", align: "center" };
-      var text = game.make.text(0,0, "+ 10", style);
-
-      button.draw(text, 20, 5, 30, 20);
+      this.addButton(75, 25, 10, 10, "+ 10", "#009111", actionOnClick);
 
       function actionOnClick(){
         this.character.addHealth(10);
       }
 
     })();
+
+    /* -10 Health button */
+    ( () => {
+
+      this.addButton(75, 25, 95, 10, "- 10", "#AB1111", actionOnClick);
+
+      function actionOnClick(){
+        this.character.subtractHealth(10);
+      }
+
+    })();
+
+
   }
 
 }

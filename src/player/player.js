@@ -13,4 +13,8 @@ class Player{
     this.health = (this.health + amount <= 100) ? this.health += amount : 100;
   }
 
+  subtractHealth(amount){
+    this.health = (this.health - amount >= 0) ? this.health -= amount : 0;
+  }
+
 }
