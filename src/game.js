@@ -9,6 +9,9 @@ function preload() {
 }
 
 function create() {
+  // Initialize arcade physics
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+  character.render();
   character.healthTimer.start();
 
   var healthTest = new TestButtons(character);
@@ -16,4 +19,5 @@ function create() {
 }
 
 function update() {
+   character.keyboardInput();
 }
