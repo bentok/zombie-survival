@@ -9,9 +9,13 @@ function preload() {
 }
 
 function create() {
+  // Initialize arcade physics
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+  character.loadPlayer();
+  character.loadPlayerControls();
   character.healthTimer.start();
 }
 
 function update() {
-  
+   character.keyboardInput();
 }
