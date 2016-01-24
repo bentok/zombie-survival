@@ -10,7 +10,7 @@ class Player{
   }
 
   addHealth(amount){
-    this.health = (this.health + amount <= 100) ? this.health += amount : 100;
+    this.health = (this.health + amount <= this.maxHealth) ? this.health += amount : this.maxHealth;
   }
 
   subtractHealth(amount){
