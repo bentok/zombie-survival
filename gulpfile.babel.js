@@ -13,7 +13,7 @@ gulp.task('build', ['less', 'transpile']);
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
-  gulp.watch('src/js/app.js', ['transpile']);
+  gulp.watch('src/js/**/*.js', ['transpile']);
 });
 
 // Task for transpiling es2015 to es6 with Babel
