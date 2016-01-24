@@ -10,6 +10,9 @@ function preload() {
 
 function create() {
   character.healthTimer.start();
+
+  var healthTest = new TestButtons(character);
+  healthTest.drawHealthButtons();
 }
 
 function update() {
