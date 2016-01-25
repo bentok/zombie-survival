@@ -16,6 +16,7 @@ class Player{
   }
   
   render() {
+    // Add sprite to render then add individual animations with indexes of animation frames
     this.playerSprite = this.game.add.sprite(game.world.width *0.5, game.world.height - 160, 'playerSprite');
     this.playerSprite.animations.add('idleRight', [12]);
     this.playerSprite.animations.add('idleLeft', [13]);
