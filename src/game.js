@@ -19,5 +19,5 @@ function create() {
 }
 
 function update() {
-   character.keyboardInput();
+   character.update();
 }
