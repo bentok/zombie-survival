@@ -5,14 +5,24 @@ class Zombie {
   constructor(){
     this.game = game;
     this.health = 25;
-    this.speed =3;
+    this.speed =2;
 
     game.physics.enable(this, Phaser.Physics.ARCADE);
 
     this.render();
 
-    // this.moveLeft(200);
+    this.update();
 
+  }
+
+  update(dir){
+    if(dir === 'left'){
+      this.moveLeft(200);
+      this.motion.onComplete.add(()=>{ this.update('right') }, this);
+    } else {
+      this.moveRight(200);
+      this.motion.onComplete.add(()=>{ this.update('left') }, this);
+    }
   }
 
   render(){
