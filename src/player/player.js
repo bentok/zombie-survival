@@ -41,21 +41,23 @@ class Player{
   
   // Update phase
   update() {
+    var movement = new Movement();
     // Keyboard controls
     if (this.keys.left.isDown) {
-      this.playerSprite.body.velocity.set(this.speed * -10, 0);
-      this.playerSprite.animations.play('runLeft');
+      if (this.keys.left.shiftKey) {
+        // Example of passing in increased speed
+        movement.moveLeft(this.playerSprite, 55, 'runLeft');
+      } else {
+        movement.moveLeft(this.playerSprite, this.speed, 'runLeft');
+      }
       this.direction = 'left';
     } else if (this.keys.right.isDown) {
-      this.playerSprite.body.velocity.set(this.speed * 10, 0);
-      this.playerSprite.animations.play('runRight');
+      movement.moveRight(this.playerSprite, this.speed, 'runRight');
       this.direction = 'right';
     } else if (this.direction === 'right') {
-      this.playerSprite.animations.play('idleRight');
-      this.playerSprite.body.velocity.set(0, 0);
+      movement.idle(this.playerSprite, this.speed, 'idleRight');
     } else {
-      this.playerSprite.animations.play('idleLeft');
-      this.playerSprite.body.velocity.set(0, 0);
+      movement.idle(this.playerSprite, this.speed, 'idleLeft');
     }
     
   }
