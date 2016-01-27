@@ -4,6 +4,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 var character;
 
 function preload() {
+  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.pageAlignHorizontally = true;
+  game.scale.pageAlignVertically = true;
+  
   game.stage.backgroundColor = '#2d2d2d';
   character = new Player();
 }
@@ -19,5 +23,5 @@ function create() {
 }
 
 function update() {
-   character.keyboardInput();
+   character.update();
 }
