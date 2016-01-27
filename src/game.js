@@ -1,8 +1,5 @@
 "use strict";
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
-var character;
-var enemy;
 var world;
 
 function preload() {
@@ -11,21 +8,17 @@ function preload() {
   game.scale.pageAlignVertically = true;
 
   game.stage.backgroundColor = '#2d2d2d';
-  world = new World();
-  character = new Player();
 
+  game.enemyLayer = game.add.group();
+  game.playerLayer = game.add.group();
+  game.world.bringToTop(game.playerLayer);
+
+  world = new World();
 }
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
-  character.render();
-
-
-  character.healthTimer.start();
-
-  var healthTest = new TestButtons(character);
-  healthTest.drawHealthButtons();
 
   // var graphics = game.add.graphics(0,0);
   // graphics.beginFill(0x000000);
@@ -37,20 +30,8 @@ function create() {
   // sky.alpha = 0.5;
 
   // game.add.sprite(0, 0, sky);
-
-
-
 }
 
 function update() {
-world.collisions();
-   character.update();
-// game.physics.arcade.collide(enemy.sprite, world.groundSprite, ()=>{}, null, this);
-  // enemy.sprite.body.velocity.setTo(0, 0);
-
-  // enemy.sprite.position.x -= 2;
-
-
-
-
+  world.update();
 }
