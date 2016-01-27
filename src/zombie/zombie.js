@@ -2,12 +2,10 @@
 
 class Zombie {
 
-  constructor(){
+  constructor({ speed = 2, health = 25 } = {}){
     this.game = game;
-    this.health = 25;
-    this.speed =2;
-
-    game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.health = health;
+    this.speed = speed;
 
     this.render();
 
@@ -35,8 +33,14 @@ class Zombie {
       zombie.ctx.rect(0, 0, 25, 100);
       zombie.ctx.fill();
 
+
       this.sprite = this.game.add.sprite(this.game.world.width * 0.5 + 50, this.game.world.height - 150, zombie);
+
     }
+    //Add zombie graphic to physcics.
+    game.physics.enable([ this.sprite ], Phaser.Physics.ARCADE);
+    this.sprite.body.bounce.set(1);
+    this.sprite.body.collideWorldBounds = true; // temp stop from falling TODO:remove when bottom created.
 
   }
 
