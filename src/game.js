@@ -6,6 +6,10 @@ var enemy;
 var world;
 
 function preload() {
+  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.pageAlignHorizontally = true;
+  game.scale.pageAlignVertically = true;
+
   game.stage.backgroundColor = '#2d2d2d';
   world = new World();
   character = new Player();
@@ -15,6 +19,7 @@ function preload() {
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
+  character.render();
 
 
   character.healthTimer.start();
@@ -39,6 +44,7 @@ function create() {
 
 function update() {
 world.collisions();
+   character.update();
 // game.physics.arcade.collide(enemy.sprite, world.groundSprite, ()=>{}, null, this);
   // enemy.sprite.body.velocity.setTo(0, 0);
 
