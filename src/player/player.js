@@ -49,8 +49,6 @@ class Player{
       this.move.runLeft();
     } else if (this.keys.right.isDown) {
       this.move.runRight();
-    } else if (this.direction === 'right') {
-      this.move.idle();
     } else {
       this.move.idle();
     }
