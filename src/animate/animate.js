@@ -1,30 +1,21 @@
 "use strict";
 
-/* 
+/*
 *  The Animate class requires a standard naming convention for animation names.
+*  Not anymore ;)
 */
 
 class Animate {
-  
+
   constructor(obj) {
     this.game = game;
     this.character = obj;
   }
-  
-  runRight() {
-    character.sprite.animations.play('runRight');
+
+  register(name, animation){
+    this[name] = () => {
+      this.character.sprite.animations.play(animation.name);
+    }
   }
-  
-  runLeft() {
-    character.sprite.animations.play('runLeft');
-  }
-  
-  idleRight() {
-    character.sprite.animations.play('idleRight');
-  }
-  
-  idleLeft() {
-    character.sprite.animations.play('idleLeft');
-  }
-  
+
 }
