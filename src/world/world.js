@@ -9,6 +9,8 @@ class World{
 
     this.enemies = [];
     this.character = character;
+
+    this.save();
   }
 
   setup(){
@@ -18,12 +20,12 @@ class World{
     this.character.render();
     this.character.healthTimer.start();
 
-    this.addEnemy({speed: 1});
-    this.addEnemy({speed: 2});
-    this.addEnemy({speed: 1.5});
+    // this.addEnemy({speed: 1});
+    // this.addEnemy({speed: 2});
+    // this.addEnemy({speed: 1.5});
 
-    let healthTest = new TestButtons(this.character);
-    healthTest.drawHealthButtons();
+    let gameTest = new TestButtons(this.character);
+    gameTest.drawTestButtons();
 
   }
 
@@ -48,6 +50,7 @@ class World{
   }
 
   addEnemy(params = {}){
+    console.log('enemy added');
     let newEnemy = new Zombie(params);
     this.enemies.push(newEnemy);
     newEnemy.render();
@@ -68,4 +71,17 @@ class World{
     this.character.update();
   }
 
+
+  save(){
+    const player = this.character;
+    const localStorage = window.localStorage;
+    localStorage.setItem("player", JSON.stringify({ health: player.health, maxHealth: player.maxHealth, speed: player.speed, location: player.location }));
+    console.log(player, localStorage);
+  }
+
+  load(){
+    const player = JSON.parse(localStorage.player);
+    this.character = Object.assign(this.character, player);
+    this.character.location = this.character.currentLocation;
+  }
 }

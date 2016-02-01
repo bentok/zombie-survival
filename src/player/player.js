@@ -8,6 +8,10 @@ class Player{
     this.health = health;
     this.maxHealth = maxHealth;
     this.speed = speed;
+    this.currentLocation = {
+      x: 0,
+      y: game.world.height - 170
+    };
     this.healthTimer = new HealthTimer(this);
     this.direction = 'right';
 
@@ -17,7 +21,7 @@ class Player{
   // Create phase
   render() {
     // Add sprite to render then add individual animations with indexes of animation frames
-    this.sprite = this.game.playerLayer.create(this.game.world.width * 0.5, this.game.world.height - 170, 'player');
+    this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
     // Applies arcade physics to player, and collision with world bounds
     this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
     this.sprite.body.collideWorldBounds = true;
@@ -60,6 +64,21 @@ class Player{
 
   subtractHealth(amount){
     this.health = (this.health - amount >= 0) ? this.health -= amount : 0;
+  }
+
+  set location ({x = 0, y = 0} = {}){
+    this.sprite.position.x = this.currentLocation.x = x;
+    this.sprite.position.y = this.currentLocation.y = y;
+    console.log("player.set location", x, y, this.currentLocation);
+  }
+
+  get location (){
+    if( this.sprite ){
+      return {
+        x: this.sprite.position.x,
+        y: this.sprite.position.y,
+      };
+    }
   }
 
 }

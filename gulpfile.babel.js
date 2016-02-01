@@ -7,13 +7,13 @@ var gulp  = require('gulp'),
     eslint = require('gulp-eslint'),
     babel = require("gulp-babel");
 
-gulp.task('default', ['watch', 'server']);
+gulp.task('default', ['build', 'watch', 'server']);
 gulp.task('build', ['less', 'transpile']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
-  gulp.watch('src/js/**/*.js', ['transpile']);
+  gulp.watch('src/**/*.js', ['transpile']);
 });
 
 // Task for transpiling es2015 to es6 with Babel
@@ -33,7 +33,7 @@ gulp.task('less', () => {
 
 // Serve and live reload at localhost:8000
 gulp.task('server', () => {
-  gulp.src('')
+  gulp.src('.')
     .pipe(server({
       livereload: true,
       directoryListing: true,

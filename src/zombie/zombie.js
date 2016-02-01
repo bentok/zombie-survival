@@ -29,7 +29,6 @@ class Zombie {
   }
 
   update(){
-    console.log(this.move);
     this.move.runRight();
   }
 
