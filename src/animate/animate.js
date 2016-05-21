@@ -1,11 +1,8 @@
 "use strict";
 
-/*
-*  The Animate class requires a standard naming convention for animation names.
-*  Not anymore ;)
-*/
+import { game } from '../game';
 
-class Animate {
+export class Animate {
 
   constructor(obj) {
     this.game = game;

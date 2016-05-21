@@ -1,7 +1,13 @@
 "use strict";
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var world;
-var player;
+
+import { Player } from './player/player';
+import { Sprites } from './sprites/sprites';
+import { World } from './world/world';
+
+export const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+let world;
+let player;
 
 function preload() {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -23,17 +29,6 @@ function preload() {
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
-
-  // var graphics = game.add.graphics(0,0);
-  // graphics.beginFill(0x000000);
-  // var sky = graphics.drawRect(0, 50, game.world.width, game.world.height - 80);
-  // graphics.endFill();
-  //
-  // console.log(sky);
-  //
-  // sky.alpha = 0.5;
-
-  // game.add.sprite(0, 0, sky);
 }
 
 function update() {

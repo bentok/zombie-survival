@@ -1,6 +1,8 @@
 "use strict";
 
-class HealthTimer {
+import { game } from '../game';
+
+export class HealthTimer {
 
   constructor(player){
     this.game = game; // This is gathering the parent game object. (relying on JS traversing)

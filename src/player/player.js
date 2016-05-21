@@ -1,6 +1,10 @@
 "use strict";
 
-class Player{
+import { game } from '../game';
+import { HealthTimer } from './healthTimer';
+import { Move } from '../movement/movement';
+
+export class Player {
   constructor({ health = 100, maxHealth = 100, speed = 25 } = {}){
     this.game = game; // This is gathering the parent game object and relying on JS traversing.
                       // I could pass the game object to the constructor.

@@ -1,6 +1,8 @@
 "use strict";
 
-class Sprites{
+import { game } from '../game';
+
+export class Sprites {
   constructor(){
     this.game = game; // This is gathering the parent game object and relying on JS traversing.
                       // I could pass the game object to the constructor.

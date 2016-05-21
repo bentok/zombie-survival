@@ -5,15 +5,17 @@ var gulp  = require('gulp'),
     less = require('gulp-less'),
     server = require('gulp-server-livereload'),
     eslint = require('gulp-eslint'),
-    babel = require("gulp-babel");
+    babel = require("gulp-babel"),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream');
 
 gulp.task('default', ['build', 'watch', 'server']);
-gulp.task('build', ['less', 'transpile']);
+gulp.task('build', ['less', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
-  gulp.watch('src/**/*.js', ['transpile']);
+  gulp.watch('src/**/*.js', ['browserify']);
 });
 
 // Task for transpiling es2015 to es6 with Babel
@@ -39,6 +41,23 @@ gulp.task('server', () => {
       directoryListing: true,
       open: true
     }));
+});
+
+gulp.task('browserify', ['transpile'], function() {
+    return browserify({ entries: [
+      'dist/js/animate/animate.js',
+      'dist/js/movement/movement.js',
+      'dist/js/player/healthTimer.js',
+      'dist/js/player/player.js',
+      'dist/js/sprites/sprites.js',
+      'dist/js/world/world.js',
+      'dist/js/zombie/zombie.js',
+      'dist/js/game.js',
+      'dist/js/test.js'
+    ]})
+    .bundle()
+    .pipe(source('main.bundle.js'))
+    .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('lint', function () {

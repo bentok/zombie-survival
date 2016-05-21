@@ -7,7 +7,10 @@
 *  name is not found, the object moves without animating.
 */
 
-class Move {
+import { game } from '../game';
+import { Animate } from '../animate/animate';
+
+export class Move {
 
   constructor(obj) {
     this.game = game;

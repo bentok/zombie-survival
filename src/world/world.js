@@ -1,8 +1,13 @@
 "use strict";
 
-class World{
+import { game } from '../game';
+import { Player } from '../player/player';
+import { TestButtons } from '../test';
+import { Zombie } from '../zombie/zombie';
 
-  constructor({character = new Player()} = {}){
+export class World {
+
+  constructor({ character = new Player() } = {}) {
     this.game = game;
     this.level = 1;
     this.gravity = 200;
@@ -13,7 +18,7 @@ class World{
     this.save();
   }
 
-  setup(){
+  setup() {
     this.setGravity(this.gravity);
     this.makeGround();
 
@@ -29,12 +34,12 @@ class World{
 
   }
 
-  setGravity(newGravity){
+  setGravity(newGravity) {
     this.gravity = newGravity;
     this.game.physics.arcade.gravity.y = newGravity;
   }
 
-  makeGround(){
+  makeGround() {
     let ground = this.game.add.bitmapData(game.world.width, 5);
     ground.ctx.fillStyle = '#360';
     ground.ctx.beginPath();
@@ -49,7 +54,7 @@ class World{
     this.sprite.body.immovable = true;
   }
 
-  addEnemy(params = {}){
+  addEnemy(params = {}) {
     console.log('enemy added');
     let newEnemy = new Zombie(params);
     this.enemies.push(newEnemy);
@@ -57,29 +62,29 @@ class World{
   }
 
 
-  update(){
-    for(let enemy of this.enemies){
-      this.game.physics.arcade.collide(enemy.sprite, this.sprite, ()=>{}, null, this);
-      this.game.physics.arcade.collide(enemy.sprite, this.character.sprite, ()=>{}, null, this);
+  update() {
+    for (let enemy of this.enemies) {
+      this.game.physics.arcade.collide(enemy.sprite, this.sprite, () => { }, null, this);
+      this.game.physics.arcade.collide(enemy.sprite, this.character.sprite, () => { }, null, this);
       enemy.update();
-      for(let other of this.enemies){
-        this.game.physics.arcade.collide(enemy.sprite, other.sprite, ()=>{}, null, this);
+      for (let other of this.enemies) {
+        this.game.physics.arcade.collide(enemy.sprite, other.sprite, () => { }, null, this);
       }
     }
-    this.game.physics.arcade.collide(this.character.sprite, this.sprite, ()=>{}, null, this);
+    this.game.physics.arcade.collide(this.character.sprite, this.sprite, () => { }, null, this);
 
     this.character.update();
   }
 
 
-  save(){
+  save() {
     const player = this.character;
     const localStorage = window.localStorage;
     localStorage.setItem("player", JSON.stringify({ health: player.health, maxHealth: player.maxHealth, speed: player.speed, location: player.location }));
     console.log(player, localStorage);
   }
 
-  load(){
+  load() {
     const player = JSON.parse(localStorage.player);
     this.character = Object.assign(this.character, player);
     this.character.location = this.character.currentLocation;

@@ -1,11 +1,14 @@
 "use strict";
 
-class TestButtons {
+import { game } from './game';
+import { World } from './world/world';
+
+export class TestButtons {
 
   constructor(character){
       this.game = game;
       this.character = character || {};
-      this.world = world;
+      this.world = new World();
   }
 
   /* Add button cheap constructor for test buttons in UI  */

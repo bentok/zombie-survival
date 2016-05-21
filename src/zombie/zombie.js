@@ -1,6 +1,9 @@
 "use strict";
 
-class Zombie {
+import { game } from '../game';
+import { Move } from '../movement/movement';
+
+export class Zombie {
 
   constructor({ speed = 2, health = 25 } = {}){
     this.game = game;
