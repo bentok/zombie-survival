@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 *  The Move class assumes that the spritesheet is given the name of "sprite".
 *  It also assumes animations have a common naming convention (such as "runRight"),
@@ -12,22 +10,22 @@ import { Animate } from '../animate/animate';
 
 export class Move {
 
-  constructor(obj) {
+  constructor (obj) {
     this.game = game;
     this.character = obj;
     this.animate = new Animate(this.character);
   }
 
-  register(name = '', animation = undefined, direction = '', moving = false){
-    if(!name){
-      throw new Error("Method name required!");
+  register (name = '', animation = undefined, direction = '', moving = false) {
+    if (!name) {
+      throw new Error('Method name required!');
     }
-    if(animation){
+    if (animation) {
       this.animate.register(name, animation);
     }
     this[name] = () => {
-      if(moving){
-        if(direction === 'left'){
+      if (moving) {
+        if (direction === 'left') {
           this.character.sprite.body.velocity.set(this.character.speed * -10, 0);
           this.character.direction = 'left';
         } else {
@@ -37,10 +35,10 @@ export class Move {
       } else {
         this.character.sprite.body.velocity.set(0, 0);
       }
-      if(animation){
+      if (animation) {
         this.animate[name]();
       }
-    }
+    };
   }
 
 }

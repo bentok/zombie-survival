@@ -1,15 +1,13 @@
-"use strict";
-
 import { Player } from './player/player';
 import { Sprites } from './sprites/sprites';
 import { World } from './world/world';
 
-export const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+export const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload, create, update });
 
 let world;
 let player;
 
-function preload() {
+function preload () {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.pageAlignHorizontally = true;
   game.scale.pageAlignVertically = true;
@@ -20,17 +18,17 @@ function preload() {
   game.playerLayer = game.add.group();
   game.world.bringToTop(game.playerLayer);
 
-  player = new Player({speed: 25});
-  world = new World({character: player});
-  new Sprites().load()
+  player = new Player({ speed: 25 });
+  world = new World({ character: player });
+  new Sprites().load();
 
 }
 
-function create() {
+function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
 }
 
-function update() {
+function update () {
   world.update();
 }

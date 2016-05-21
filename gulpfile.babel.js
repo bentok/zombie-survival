@@ -10,12 +10,12 @@ var gulp  = require('gulp'),
     source = require('vinyl-source-stream');
 
 gulp.task('default', ['build', 'watch', 'server']);
-gulp.task('build', ['less', 'browserify']);
+gulp.task('build', ['less', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
   gulp.watch('src/**/*.less', ['less']);
-  gulp.watch('src/**/*.js', ['browserify']);
+  gulp.watch('src/**/*.js', ['lint', 'browserify']);
 });
 
 // Task for transpiling es2015 to es6 with Babel
@@ -61,7 +61,7 @@ gulp.task('browserify', ['transpile'], function() {
 });
 
 gulp.task('lint', function () {
-    return gulp.src(['src/**/*.js','!node_modules/**'])
+    return gulp.src(['src/**/*.js','!node_modules/**', '!src/vendor/**'])
     // eslint() attaches the lint output to the "eslint" property
     // of the file object so it can be used by other modules.
     .pipe(eslint())
