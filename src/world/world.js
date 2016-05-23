@@ -3,9 +3,14 @@ import { Player } from '../player/player';
 import { TestButtons } from '../test';
 import { Zombie } from '../zombie/zombie';
 
+let world;
+
 export class World {
 
   constructor ({ character = new Player() } = {}) {
+    if (!world) {
+      world = this;
+    }
     this.game = game;
     this.level = 1;
     this.gravity = 200;
@@ -14,6 +19,8 @@ export class World {
     this.character = character;
 
     this.save();
+
+    return world;
   }
 
   setup () {
@@ -23,9 +30,9 @@ export class World {
     this.character.render();
     this.character.healthTimer.start();
 
-    // this.addEnemy({speed: 1});
-    // this.addEnemy({speed: 2});
-    // this.addEnemy({speed: 1.5});
+    // this.addEnemy({ speed: 1 });
+    // this.addEnemy({ speed: 2 });
+    // this.addEnemy({ speed: 1.5 });
 
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
@@ -53,7 +60,6 @@ export class World {
   }
 
   addEnemy (params = {}) {
-    console.log('enemy added');
     const newEnemy = new Zombie(params);
     this.enemies.push(newEnemy);
     newEnemy.render();
