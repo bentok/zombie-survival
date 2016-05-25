@@ -45,10 +45,14 @@ export class World {
   }
 
   makeGround () {
-    const ground = this.game.add.bitmapData(game.world.width, 5);
-    ground.ctx.fillStyle = '#360';
+    const ground = this.game.add.bitmapData(game.world.width, 40);
+    ground.ctx.fillStyle = '#476A34';
     ground.ctx.beginPath();
-    ground.ctx.rect(0, 0, game.world.width, 5);
+    ground.ctx.rect(0, 20, game.world.width, 20);
+    ground.ctx.fill();
+    ground.ctx.fillStyle = '#687E5A';
+    ground.ctx.beginPath();
+    ground.ctx.rect(0, 0, game.world.width, 20);
     ground.ctx.fill();
 
     this.sprite = this.game.add.sprite(0, game.world.height - 35, ground);
