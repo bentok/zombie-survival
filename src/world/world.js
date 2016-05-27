@@ -26,6 +26,7 @@ export class World {
   setup () {
     this.setGravity(this.gravity);
     this.makeGround();
+    this.makeSky();
 
     this.character.render();
     this.character.healthTimer.start();
@@ -57,6 +58,31 @@ export class World {
 
     this.sprite.body.allowGravity = false;
     this.sprite.body.immovable = true;
+  }
+  
+  makeSky () {
+    const sky = this.game.add.bitmapData(game.world.width, game.world.height - 30);
+    const colors = [
+      '#7ec0ee',
+      '#71acd6',
+      '#6499be',
+      '#5886a6',
+      '#4b738e',
+      '#3f6077',
+      '#324c5f',
+      '#253947',
+      '#19262f',
+      '#0c1317',
+      '#000000',
+    ];
+    const color = Math.floor(Math.random() * colors.length + 1);
+    
+    sky.ctx.fillStyle = colors[color];
+    sky.ctx.beginPath();
+    sky.ctx.rect(0, 0, game.world.width, game.world.height);
+    sky.ctx.fill();
+    
+    this.sky = this.game.skyLayer.create(0, 0, sky);
   }
 
   addEnemy (params = {}) {
