@@ -17,6 +17,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-server-livereload": "^1.5.4",
     "gulp-util": "^3.0.7",
+    "phaser": "^2.4.8",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
