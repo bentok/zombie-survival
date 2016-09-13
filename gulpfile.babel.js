@@ -51,15 +51,7 @@ gulp.task('copyImages', () => {
 
 gulp.task('browserify', ['transpile'], function() {
     return browserify({ entries: [
-      'dist/js/animate/animate.js',
-      'dist/js/movement/movement.js',
-      'dist/js/player/healthTimer.js',
-      'dist/js/player/player.js',
-      'dist/js/sprites/sprites.js',
-      'dist/js/world/world.js',
-      'dist/js/zombie/zombie.js',
-      'dist/js/game.js',
-      'dist/js/test.js'
+      'dist/js/game.js'
     ]})
     .bundle()
     .pipe(source('main.bundle.js'))
