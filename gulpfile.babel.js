@@ -9,8 +9,8 @@ var gulp  = require('gulp'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream');
 
-gulp.task('default', ['build', 'watch', 'server']);
-gulp.task('build', ['less', 'lint', 'browserify']);
+gulp.task('default', ['build', 'copyImages', 'watch', 'server']);
+gulp.task('build', ['less', 'copyImages', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
@@ -41,6 +41,12 @@ gulp.task('server', () => {
       directoryListing: true,
       open: false
     }));
+});
+
+// Copy images to dist
+gulp.task('copyImages', () => {
+   return gulp.src('src/images/*.*')
+   .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('browserify', ['transpile'], function() {
