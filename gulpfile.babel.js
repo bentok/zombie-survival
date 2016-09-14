@@ -37,9 +37,14 @@ gulp.task('less', () => {
 gulp.task('server', () => {
   gulp.src('.')
     .pipe(server({
-      livereload: true,
+      livereload: {
+        enable: true,
+        filter: function(filePath, cb) {
+          cb( (/src/.test(filePath)) );
+        }
+      },
       directoryListing: true,
-      open: false
+      open: false,
     }));
 });
 
