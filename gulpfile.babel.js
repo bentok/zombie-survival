@@ -7,7 +7,8 @@ var gulp  = require('gulp'),
     eslint = require('gulp-eslint'),
     babel = require("gulp-babel"),
     browserify = require('browserify'),
-    source = require('vinyl-source-stream');
+    source = require('vinyl-source-stream'),
+    gulpDoxx = require('gulp-doxx');
 
 gulp.task('default', ['build', 'copyImages', 'watch', 'server']);
 gulp.task('build', ['less', 'copyImages', 'lint', 'browserify']);
@@ -74,4 +75,13 @@ gulp.task('lint', function () {
     // To have the process exit with an error code (1) on
     // lint error, return the stream and pipe to failAfterError last.
     .pipe(eslint.failAfterError());
+});
+
+gulp.task('docs', function() {
+  gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], {base: '.'})
+    .pipe(gulpDoxx({
+      title: 'zombie',
+      urlPrefix: '/docs'
+    }))
+    .pipe(gulp.dest('docs'));
 });
