@@ -8,10 +8,10 @@ export class HealthTimer {
     this.player = player || {};
 
     this.config = {
-      width: 780,
+      width: window.innerWidth - 20,
       height: 12,
       x: 10,
-      y: 580,
+      y: window.innerHeight - 20,
       bg: {
         color: '#404040'
       },
