@@ -24,7 +24,9 @@ export class TestButtons {
 
     const newButton = game.add.button(positionX, positionY, button, onClick, this);
   }
-
+/**
+ * Add test buttons to the UI for testing.
+ */
   drawTestButtons () {
 
     /* +10 Health button */
