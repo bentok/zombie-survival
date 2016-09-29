@@ -1,5 +1,6 @@
 import { game } from '../game';
 import { Player } from '../player/player';
+import { Sky } from './sky';
 import { TestButtons } from '../test';
 import { Zombie } from '../zombie/zombie';
 
@@ -12,6 +13,7 @@ export class World {
       world = this;
     }
     this.game = game;
+    this.sky = new Sky();
     this.level = 1;
     this.gravity = 200;
 
@@ -25,8 +27,8 @@ export class World {
 
   setup () {
     this.setGravity(this.gravity);
+    this.sky.create();
     this.makeGround();
-    this.makeSky();
 
     this.character.render();
     this.character.healthTimer.start();
@@ -64,25 +66,6 @@ export class World {
     this.sprite.body.immovable = true;
   }
 
-  makeSky () {
-    const now = new Date();
-    const hour = now.getHours();
-    const sky = this.game.add.bitmapData(game.world.width, game.world.height - 30);
-    const colors = [
-      '#000000', '#0c1317', '#19262f', '#253947', '#324c5f', '#3f6077',
-      '#3f6077', '#4b738e', '#5886a6', '#6499be', '#71acd6', '#7ec0ee',
-      '#7ec0ee', '#71acd6', '#6499be', '#5886a6', '#4b738e', '#3f6077',
-      '#324c5f', '#324c5f', '#253947', '#19262f', '#0c1317', '#000000',
-    ];
-
-    sky.ctx.fillStyle = colors[hour];
-    sky.ctx.beginPath();
-    sky.ctx.rect(0, 0, game.world.width, game.world.height);
-    sky.ctx.fill();
-
-    this.sky = this.game.skyLayer.create(0, 0, sky);
-  }
-
   addEnemy (params = {}) {
     const newEnemy = new Zombie(params);
     this.enemies.push(newEnemy);
@@ -109,7 +92,6 @@ export class World {
     const player = this.character;
     const localStorage = window.localStorage;
     localStorage.setItem('player', JSON.stringify({ health: player.health, maxHealth: player.maxHealth, speed: player.speed, location: player.location }));
-    console.log(player, localStorage);
   }
 
   load () {

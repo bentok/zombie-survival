@@ -93,7 +93,6 @@ export class Player {
   set location ({ x = 0, y = 0 } = {}) {
     this.sprite.position.x = this.currentLocation.x = x;
     this.sprite.position.y = this.currentLocation.y = y;
-    console.log('player.set location', x, y, this.currentLocation);
   }
   /**
    * Get the location of the character.
