@@ -1,6 +1,6 @@
-import { game } from '../game';
-import { HealthTimer } from './healthTimer';
-import { Move } from '../movement/movement';
+// import { game } from '../game';
+// import { HealthTimer } from './healthTimer';
+// import { Move } from '../movement/movement';
 
 /**
  * Player
@@ -13,7 +13,7 @@ export class Player {
    * @param  {Number} maxHealth Maximum possible health for the character
    * @param  {Number} speed Walking speed for character
    */
-  constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
+  constructor ({ health = 100, maxHealth = 110, speed = 25 } = {}) {
     this.game = game;
     this.health = health;
     this.maxHealth = maxHealth;
@@ -33,17 +33,17 @@ export class Player {
  */
   render () {
     // Add sprite to render then add individual animations with indexes of animation frames
-    this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
+    // this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
     // Applies arcade physics to player, and collision with world bounds
-    this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
-    this.sprite.body.collideWorldBounds = true;
-    this.sprite.checkWorldBounds = true;
+    // this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
+    // this.sprite.body.collideWorldBounds = true;
+    // this.sprite.checkWorldBounds = true;
 
     // Add animations
-    const idleRight = this.sprite.animations.add('idleRight', [12]);
-    const idleLeft = this.sprite.animations.add('idleLeft', [13]);
-    const runRight = this.sprite.animations.add('runRight', [0, 1, 2, 3, 4, 5], 13, true);
-    const runLeft = this.sprite.animations.add('runLeft', [6, 7, 8, 9, 10, 11], 13, true);
+    // const idleRight = this.sprite.animations.add('idleRight', [12]);
+    // const idleLeft = this.sprite.animations.add('idleLeft', [13]);
+    // const runRight = this.sprite.animations.add('runRight', [0, 1, 2, 3, 4, 5], 13, true);
+    // const runLeft = this.sprite.animations.add('runLeft', [6, 7, 8, 9, 10, 11], 13, true);
     // Register animations with move/anim controllers. (<function Name>, [animation, direction, moving])
     this.move.register('idleRight',   idleRight,  'right',  false);
     this.move.register('idleLeft',    idleLeft,   'left',   false);
@@ -51,7 +51,7 @@ export class Player {
     this.move.register('runLeft',     runLeft,    'left',   true);
 
     // Loads Phaser presets for arrow key input
-    this.keys = this.game.input.keyboard.createCursorKeys();
+    // this.keys = this.game.input.keyboard.createCursorKeys();
   }
 
   /**
@@ -84,6 +84,10 @@ export class Player {
    */
   subtractHealth (amount) {
     this.health = this.health - amount >= 0 ? this.health -= amount : 0;
+  }
+
+  doubleHealth () {
+    this.health*=2;
   }
   /**
    * Set the location of the character.
