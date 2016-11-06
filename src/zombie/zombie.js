@@ -12,11 +12,12 @@ export class Zombie {
    * @param  {Number} speed  The speed the zombie moves.
    * @param  {Number} health  The total health the Zombie will have.
    */
-  constructor ({ speed = 2, health = 25 } = {}) {
+  constructor ({ speed = 2, health = 25, character = {} } = {}) {
     this.game = game;
     this.health = health;
     this.speed = speed;
     this.move = new Move(this);
+    this.character = character;
   }
 
 
@@ -65,7 +66,9 @@ export class Zombie {
    * Updates animation on Gameloop
    */
   update () {
-    this.move.runLeft();
+    // TODO: Make this account for x position overlap when character is on a different y coordinate than zombies
+    const walkTowardPlayer = this.character.sprite.body.x > this.sprite.body.x ? this.move.runRight : this.move.runLeft;
+    walkTowardPlayer();
   }
 
 }

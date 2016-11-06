@@ -26,6 +26,7 @@ export class Player {
     this.direction = 'right';
 
     this.move = new Move(this);
+    this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
 /**
@@ -36,6 +37,9 @@ export class Player {
     this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
     // Applies arcade physics to player, and collision with world bounds
     this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
+    // TODO: Remove later. Global gravity does not seem to be applying so setting it here
+    this.sprite.body.gravity.y = 20000;
+    this.sprite.body.bounce.y = 0.2;
     this.sprite.body.collideWorldBounds = true;
     this.sprite.checkWorldBounds = true;
 
@@ -63,12 +67,17 @@ export class Player {
       this.move.runLeft();
     } else if (this.keys.right.isDown) {
       this.move.runRight();
+    } else if (this.direction === 'left') {
+      this.move.idleLeft();
     } else {
-      if (this.direction === 'left') {
-        this.move.idleLeft();
-      } else {
-        this.move.idleRight();
-      }
+      this.move.idleRight();
+    }
+    // TODO: Move jump to movement.js 
+    if (this.jumpButton.isDown && this.sprite.body.wasTouching.down) {
+      this.jumpTimer = this.game.time.now + 250;
+    }
+    if (this.jumpTimer > this.game.time.now) {
+      this.sprite.body.velocity.y -= 800;
     }
   }
   /**

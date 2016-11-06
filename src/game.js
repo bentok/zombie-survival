@@ -21,8 +21,9 @@ function preload () {
   game.stage.backgroundColor = '#2d2d2d';
 
   game.skyLayer = game.add.group();
-  game.enemyLayer = game.add.group();
   game.playerLayer = game.add.group();
+  game.platformLayer = game.add.group();
+  game.enemyLayer = game.add.group();
   game.world.bringToTop(game.playerLayer);
 
   player = new Player({ speed: 25 });
