@@ -1,5 +1,6 @@
 import { game } from '../game';
 import { Player } from '../player/player';
+import { Sky } from './sky';
 import { TestButtons } from '../test';
 import { Zombie } from '../zombie/zombie';
 
@@ -12,6 +13,7 @@ export class World {
       world = this;
     }
     this.game = game;
+    this.sky = new Sky();
     this.level = 1;
     this.gravity = 200;
 
@@ -25,8 +27,8 @@ export class World {
 
   setup () {
     this.setGravity(this.gravity);
+    this.sky.create();
     this.makeGround();
-    this.makeSky();
 
     this.character.render();
     this.character.healthTimer.start();
@@ -63,31 +65,6 @@ export class World {
     this.sprite.body.allowGravity = false;
     this.sprite.body.immovable = true;
   }
-  
-  makeSky () {
-    const sky = this.game.add.bitmapData(game.world.width, game.world.height - 30);
-    const colors = [
-      '#7ec0ee',
-      '#71acd6',
-      '#6499be',
-      '#5886a6',
-      '#4b738e',
-      '#3f6077',
-      '#324c5f',
-      '#253947',
-      '#19262f',
-      '#0c1317',
-      '#000000',
-    ];
-    const color = Math.floor(Math.random() * colors.length + 1);
-    
-    sky.ctx.fillStyle = colors[color];
-    sky.ctx.beginPath();
-    sky.ctx.rect(0, 0, game.world.width, game.world.height);
-    sky.ctx.fill();
-    
-    this.sky = this.game.skyLayer.create(0, 0, sky);
-  }
 
   addEnemy (params = {}) {
     const newEnemy = new Zombie(params);
@@ -115,7 +92,6 @@ export class World {
     const player = this.character;
     const localStorage = window.localStorage;
     localStorage.setItem('player', JSON.stringify({ health: player.health, maxHealth: player.maxHealth, speed: player.speed, location: player.location }));
-    console.log(player, localStorage);
   }
 
   load () {

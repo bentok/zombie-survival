@@ -1,3 +1,6 @@
+import { game } from '../game';
+import { Animate } from '../animate/animate';
+
 /*
 *  The Move class assumes that the spritesheet is given the name of "sprite".
 *  It also assumes animations have a common naming convention (such as "runRight"),
@@ -5,18 +8,26 @@
 *  name is not found, the object moves without animating.
 */
 
-import { game } from '../game';
-import { Animate } from '../animate/animate';
-
+/**
+ * @class Move
+ */
 export class Move {
-
+  /**
+   * @param  {Object} obj NAy objectthat will need animations registered to it.
+   */
   constructor (obj) {
     this.game = game;
     this.character = obj;
     this.animate = new Animate(this.character);
   }
-
-  register (name = '', animation = undefined, direction = '', moving = false) {
+/**
+ * Register the sprite animation to the object.
+ * @param  {String} name The name of the animation.
+ * @param  {Object} animation The animation object to register the animation too.
+ * @param  {String} direction The direction the animation velocity should be set to.
+ * @param  {Boolean} moving Flag to determine if the objust should be moving.
+ */
+  register (name = '', animation = {}, direction = '', moving = false) {
     if (!name) {
       throw new Error('Method name required!');
     }

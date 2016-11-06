@@ -2,9 +2,19 @@ import { game } from '../game';
 import { HealthTimer } from './healthTimer';
 import { Move } from '../movement/movement';
 
+/**
+ * Player
+ * @class Player
+ */
 export class Player {
+
+  /**
+   * @param  {Number} health Current health of the character
+   * @param  {Number} maxHealth Maximum possible health for the character
+   * @param  {Number} speed Walking speed for character
+   */
   constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
-    this.game = game; 
+    this.game = game;
     this.health = health;
     this.maxHealth = maxHealth;
     this.speed = speed;
@@ -18,7 +28,9 @@ export class Player {
     this.move = new Move(this);
   }
 
-  // Create phase
+/**
+ * Render event in the Phaser cycle.
+ */
   render () {
     // Add sprite to render then add individual animations with indexes of animation frames
     this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
@@ -42,7 +54,9 @@ export class Player {
     this.keys = this.game.input.keyboard.createCursorKeys();
   }
 
-  // Update phase
+  /**
+   * Update event in Phaser cycle
+   */
   update () {
     // Keyboard controls
     if (this.keys.left.isDown) {
@@ -57,21 +71,33 @@ export class Player {
       }
     }
   }
-
+  /**
+   * Add health to the characters current health.
+   * @param {Number} amount The amount of health to add to the characters current health
+   */
   addHealth (amount) {
     this.health = this.health + amount <= this.maxHealth ? this.health += amount : this.maxHealth;
   }
-
+  /**
+   * Subtract health from the characters current health.
+   * @param  {Number} amount Amount of health to subtract from the character
+   */
   subtractHealth (amount) {
     this.health = this.health - amount >= 0 ? this.health -= amount : 0;
   }
-
+  /**
+   * Set the location of the character.
+   * @param  {Number} x The x scale for the location of the character
+   * @param  {Number} y The y scale for the position of the character
+   */
   set location ({ x = 0, y = 0 } = {}) {
     this.sprite.position.x = this.currentLocation.x = x;
     this.sprite.position.y = this.currentLocation.y = y;
-    console.log('player.set location', x, y, this.currentLocation);
   }
-
+  /**
+   * Get the location of the character.
+   * @return {Object} {} X and Y coordinates of the character
+   */
   get location () {
     if (this.sprite) {
       return {
