@@ -8,7 +8,7 @@
   "rules": {
     "no-extra-parens": [2, "all"],
     "no-unexpected-multiline": 2,
-    "valid-jsdoc": 2,
+    "valid-jsdoc": [2, { "requireReturn": false }],
     "consistent-return": 0,
     "dot-location": [2, "property"],
     "dot-notation": 2,

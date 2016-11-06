@@ -2,11 +2,17 @@ import { Player } from './player/player';
 import { Sprites } from './sprites/sprites';
 import { World } from './world/world';
 
-export const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload, create, update });
+/**
+ * Bootstraps the game and execute Phaser lifecycle hooks
+ */
+export const game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload, create, update });
 
 let world;
 let player;
 
+/**
+ * preload
+ */
 function preload () {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.pageAlignHorizontally = true;
@@ -24,12 +30,17 @@ function preload () {
   new Sprites().load();
 
 }
-
+/**
+ * create
+ */
 function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
 }
 
+/**
+ * update
+ */
 function update () {
   world.update();
 }
