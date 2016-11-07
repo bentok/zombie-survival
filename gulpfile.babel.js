@@ -1,14 +1,11 @@
-'use strict';
-
-var gulp  = require('gulp'),
-    gutil = require('gulp-util'),
-    less = require('gulp-less'),
-    server = require('gulp-server-livereload'),
-    eslint = require('gulp-eslint'),
-    babel = require("gulp-babel"),
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    gulpDoxx = require('gulp-doxx');
+const gulp = require('gulp');
+const less = require('gulp-less');
+const server = require('gulp-server-livereload');
+const eslint = require('gulp-eslint');
+const babel = require('gulp-babel');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const gulpDoxx = require('gulp-doxx');
 
 gulp.task('default', ['build', 'copyImages', 'watch', 'server']);
 gulp.task('build', ['less', 'copyImages', 'lint', 'browserify']);
@@ -20,18 +17,14 @@ gulp.task('watch', () => {
 });
 
 // Task for transpiling es2015 to es6 with Babel
-gulp.task('transpile', () => {
-  return gulp.src(['src/**/*.js', '!src/vendor/**/*'])
+gulp.task('transpile', () => gulp.src(['src/**/*.js', '!src/vendor/**/*'])
   .pipe(babel())
-  .pipe(gulp.dest('dist/js'));
-});
+  .pipe(gulp.dest('dist/js')));
 
 // Compile less
-gulp.task('less', () => {
-  return gulp.src('src/**/*.less')
+gulp.task('less', () => gulp.src('src/**/*.less')
     .pipe(less())
-    .pipe(gulp.dest('dist'));
-});
+    .pipe(gulp.dest('dist')));
 
 
 // Serve and live reload at localhost:8000
@@ -40,32 +33,28 @@ gulp.task('server', () => {
     .pipe(server({
       livereload: {
         enable: true,
-        filter: function(filePath, cb) {
-          cb( (/src/.test(filePath)) );
-        }
+        filter: (filePath, cb) => cb(/src/.test(filePath))
       },
       directoryListing: true,
-      open: false,
+      open: false
     }));
 });
 
 // Copy images to dist
-gulp.task('copyImages', () => {
-   return gulp.src('src/images/*.*')
-   .pipe(gulp.dest('dist/images'));
-});
+gulp.task('copyImages', () => gulp.src('src/images/*.*')
+   .pipe(gulp.dest('dist/images')));
 
-gulp.task('browserify', ['transpile'], function() {
-    return browserify({ entries: [
-      'dist/js/game.js'
-    ]})
+gulp.task('browserify', ['transpile'], function () {
+  return browserify({ entries: [
+    'dist/js/game.js'
+  ] })
     .bundle()
     .pipe(source('main.bundle.js'))
     .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('lint', function () {
-    return gulp.src(['src/**/*.js','!node_modules/**', '!src/vendor/**'])
+  return gulp.src(['src/**/*.js', '!node_modules/**', '!src/vendor/**'])
     // eslint() attaches the lint output to the "eslint" property
     // of the file object so it can be used by other modules.
     .pipe(eslint())
@@ -77,8 +66,8 @@ gulp.task('lint', function () {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('docs', function() {
-  gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], {base: '.'})
+gulp.task('docs', function () {
+  gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], { base: '.' })
     .pipe(gulpDoxx({
       title: 'zombie',
       urlPrefix: '/docs'
