@@ -26,6 +26,7 @@ export class Player {
     this.direction = 'right';
 
     this.move = new Move(this);
+    this.fallVelocity = 0;
     this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
@@ -37,8 +38,9 @@ export class Player {
     this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
     // Applies arcade physics to player, and collision with world bounds
     this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
     // TODO: Remove later. Global gravity does not seem to be applying so setting it here
-    this.sprite.body.gravity.y = 20000;
+    this.sprite.body.gravity.y = 500;
     this.sprite.body.bounce.y = 0.2;
     this.sprite.body.collideWorldBounds = true;
     this.sprite.checkWorldBounds = true;
@@ -63,6 +65,8 @@ export class Player {
    */
   update () {
     // Keyboard controls
+    // check if the player has a collider under it
+    let standing = this.sprite.body.blocked.down || this.sprite.body.touching.down;
     if (this.keys.left.isDown) {
       this.move.runLeft();
     } else if (this.keys.right.isDown) {
@@ -72,14 +76,37 @@ export class Player {
     } else {
       this.move.idleRight();
     }
-    // TODO: Move jump to movement.js 
-    if (this.jumpButton.isDown && this.sprite.body.wasTouching.down) {
-      this.jumpTimer = this.game.time.now + 250;
+    // TODO: Move jump to movement.js
+    if (this.jumpButton.isDown ) {
+      if (this.jumpTimer > this.game.time.now) {
+        this.sprite.body.velocity.set(this.sprite.body.velocity.x, this.speed * -25);
+      } else if (standing) {
+        this.jumpTimer = this.game.time.now + 200;
+      }
     }
-    if (this.jumpTimer > this.game.time.now) {
-      this.sprite.body.velocity.y -= 800;
+
+    if (!standing ) {
+      // if no collider and jump duration expired the player should fall
+      if ( this.jumpTimer <= this.game.time.now ) {
+        this.falling();
+        // if no collider and during jump duration but not holding jump the player should start falling
+      } else if (!this.jumpButton.isDown) {
+        this.falling();
+      }
+    } else {
+      // player on a collider
+      this.fallVelocity = 0;
     }
   }
+
+/**
+ * Steadily increasing velocity downward.
+ */
+  falling () {
+    this.fallVelocity += 10;
+    this.sprite.body.velocity.y = this.fallVelocity;
+  }
+
   /**
    * Add health to the characters current health.
    * @param {Number} amount The amount of health to add to the characters current health
