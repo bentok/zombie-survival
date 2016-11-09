@@ -28,14 +28,8 @@ export class World {
   setup () {
     this.setGravity(this.gravity);
     this.sky.create();
-    this.makePlatform({
-      width: 100,
-      height: 100
-    });
-    this.makePlatform({
-      width: 200,
-      height: 200
-    });
+    this.makeShelter();
+    this.makeTable();
     this.makeGround();
 
     this.character.render();
@@ -70,14 +64,8 @@ export class World {
     this.sprite.body.immovable = true;
   }
 
-  makePlatform ({ width = 100, height = 100 } = {}) {
-    const platform = this.game.add.bitmapData(width, height);
-    platform.ctx.fillStyle = '#4f2412';
-    platform.ctx.beginPath();
-    platform.ctx.rect(0, 0, width, height);
-    platform.ctx.fill();
-
-    const platformSprite = this.game.add.sprite(200 + width, game.world.height - height - 25, platform);
+  makeShelter () {
+    const platformSprite = this.game.add.sprite(300, game.world.height - 300, 'shelter');
     this.game.platformLayer.add(platformSprite);
 
     this.game.physics.enable(platformSprite, Phaser.Physics.ARCADE);
@@ -91,6 +79,23 @@ export class World {
     platformSprite.body.allowGravity = true;
     platformSprite.body.moves = false;
     platformSprite.body.immovable = false;
+  }
+
+  makeTable () {
+    const tableSprite = this.game.add.sprite(200, game.world.height - 100, 'table');
+    this.game.platformLayer.add(tableSprite);
+
+    this.game.physics.enable(tableSprite, Phaser.Physics.ARCADE);
+    tableSprite.body.gravity.y = 20000;
+    tableSprite.body.collideWorldBounds = true;
+    tableSprite.body.checkWorldBounds = true;
+    tableSprite.body.checkCollision.up = true;
+    tableSprite.body.checkCollision.right = false;
+    tableSprite.body.checkCollision.down = false;
+    tableSprite.body.checkCollision.left = false;
+    tableSprite.body.allowGravity = true;
+    tableSprite.body.moves = false;
+    tableSprite.body.immovable = false;
   }
 
   addEnemy (params = {}) {

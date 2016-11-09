@@ -20,6 +20,9 @@ export class Sprites {
     // Load images - arguments(name, path)
     this.game.load.image('sun', './dist/images/sun.png');
     this.game.load.image('moon', './dist/images/moon.png');
+    this.game.load.image('shelter', './dist/images/picnic-shelter.png');
+    this.game.load.image('table', './dist/images/picnic-table.png');
+
   }
 
 }
