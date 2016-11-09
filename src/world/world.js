@@ -28,14 +28,12 @@ export class World {
   setup () {
     this.setGravity(this.gravity);
     this.sky.create();
+    this.makeShelter();
+    this.makeTable();
     this.makeGround();
 
     this.character.render();
     this.character.healthTimer.start();
-
-    // this.addEnemy({ speed: 1 });
-    // this.addEnemy({ speed: 2 });
-    // this.addEnemy({ speed: 1.5 });
 
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
@@ -66,6 +64,40 @@ export class World {
     this.sprite.body.immovable = true;
   }
 
+  makeShelter () {
+    const platformSprite = this.game.add.sprite(300, game.world.height - 300, 'shelter');
+    this.game.platformLayer.add(platformSprite);
+
+    this.game.physics.enable(platformSprite, Phaser.Physics.ARCADE);
+    platformSprite.body.gravity.y = 20000;
+    platformSprite.body.collideWorldBounds = true;
+    platformSprite.body.checkWorldBounds = true;
+    platformSprite.body.checkCollision.up = true;
+    platformSprite.body.checkCollision.right = false;
+    platformSprite.body.checkCollision.down = false;
+    platformSprite.body.checkCollision.left = false;
+    platformSprite.body.allowGravity = true;
+    platformSprite.body.moves = false;
+    platformSprite.body.immovable = false;
+  }
+
+  makeTable () {
+    const tableSprite = this.game.add.sprite(200, game.world.height - 100, 'table');
+    this.game.platformLayer.add(tableSprite);
+
+    this.game.physics.enable(tableSprite, Phaser.Physics.ARCADE);
+    tableSprite.body.gravity.y = 20000;
+    tableSprite.body.collideWorldBounds = true;
+    tableSprite.body.checkWorldBounds = true;
+    tableSprite.body.checkCollision.up = true;
+    tableSprite.body.checkCollision.right = false;
+    tableSprite.body.checkCollision.down = false;
+    tableSprite.body.checkCollision.left = false;
+    tableSprite.body.allowGravity = true;
+    tableSprite.body.moves = false;
+    tableSprite.body.immovable = false;
+  }
+
   addEnemy (params = {}) {
     const newEnemy = new Zombie(params);
     this.enemies.push(newEnemy);
@@ -75,15 +107,16 @@ export class World {
 
   update () {
     for (const enemy of this.enemies) {
-      this.game.physics.arcade.collide(enemy.sprite, this.sprite, () => { }, null, this);
-      this.game.physics.arcade.collide(enemy.sprite, this.character.sprite, () => { }, null, this);
+      this.game.physics.arcade.collide(enemy.sprite, this.sprite);
+      this.game.physics.arcade.collide(enemy.sprite, this.character.sprite);
       enemy.update();
       for (const other of this.enemies) {
-        this.game.physics.arcade.collide(enemy.sprite, other.sprite, () => { }, null, this);
+        this.game.physics.arcade.collide(enemy.sprite, other.sprite);
       }
     }
-    this.game.physics.arcade.collide(this.character.sprite, this.sprite, () => { }, null, this);
-
+    this.game.physics.arcade.collide(this.character.sprite, this.sprite);
+    this.game.physics.arcade.collide(this.character.sprite, this.game.platformLayer);
+    this.game.physics.arcade.collide(this.sprite, this.game.platformLayer);
     this.character.update();
   }
 

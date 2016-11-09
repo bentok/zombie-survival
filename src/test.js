@@ -70,7 +70,7 @@ export class TestButtons {
       this.addButton(75, 25, 350, 10, '+enemy', '#000', actionOnClick);
 
       function actionOnClick () {
-        this.world.addEnemy({ speed: 1.5 });
+        this.world.addEnemy({ speed: 1.5, character: this.character });
       }
     }
 

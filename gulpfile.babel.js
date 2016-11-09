@@ -44,13 +44,13 @@ gulp.task('server', () => {
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
    .pipe(gulp.dest('dist/images')));
 
-gulp.task('browserify', ['transpile'], function () {
+gulp.task('browserify', ['transpile'], () => {
   return browserify({ entries: [
     'dist/js/game.js'
-  ] })
-    .bundle()
-    .pipe(source('main.bundle.js'))
-    .pipe(gulp.dest('dist/js'));
+  ]})
+  .bundle()
+  .pipe(source('main.bundle.js'))
+  .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('lint', function () {
