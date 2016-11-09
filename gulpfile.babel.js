@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const less = require('gulp-less');
 const server = require('gulp-server-livereload');
 const eslint = require('gulp-eslint');
-const babel = require('gulp-babel');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const gulpDoxx = require('gulp-doxx');
@@ -16,15 +15,10 @@ gulp.task('watch', () => {
   gulp.watch('src/**/*.js', ['lint', 'browserify']);
 });
 
-// Task for transpiling es2015 to es6 with Babel
-gulp.task('transpile', () => gulp.src(['src/**/*.js', '!src/vendor/**/*'])
-  .pipe(babel())
-  .pipe(gulp.dest('dist/js')));
-
 // Compile less
 gulp.task('less', () => gulp.src('src/**/*.less')
-    .pipe(less())
-    .pipe(gulp.dest('dist')));
+  .pipe(less())
+  .pipe(gulp.dest('dist')));
 
 
 // Serve and live reload at localhost:8000
@@ -42,12 +36,18 @@ gulp.task('server', () => {
 
 // Copy images to dist
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
-   .pipe(gulp.dest('dist/images')));
+  .pipe(gulp.dest('dist/images')));
 
-gulp.task('browserify', ['transpile'], () => {
-  return browserify({ entries: [
-    'dist/js/game.js'
-  ]})
+// Applies transforms to Javascript and bundles it
+gulp.task('browserify', () => {
+  return browserify({ 
+    entries: [
+      'src/game.js'
+    ]
+  })
+  .transform('babelify', {
+    'presets': ['es2015']
+  })
   .bundle()
   .pipe(source('main.bundle.js'))
   .pipe(gulp.dest('dist/js'));
