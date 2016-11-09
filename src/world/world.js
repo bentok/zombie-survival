@@ -38,6 +38,10 @@ export class World {
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
 
+    // Add Phisics to world and apply to all objects
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    // this.game.world.enableBody = true;
+
   }
 
   setGravity (newGravity) {
