@@ -4,7 +4,7 @@ import { game } from '../game';
 /**
  * Creates sky, sun and moon sprites
  */
- 
+
 export class Sky extends Phaser.State {
 
   constructor () {
@@ -17,7 +17,6 @@ export class Sky extends Phaser.State {
    * Render sky, sun and moon
    */
   create () {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = '#000';
     this.dayCycle = new DayCycle(50000);
 
@@ -42,5 +41,5 @@ export class Sky extends Phaser.State {
     this.dayCycle.initSun(this.sunSprite);
     this.dayCycle.initMoon(this.moonSprite);
   }
- 
+
 }
