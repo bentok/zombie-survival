@@ -3,6 +3,7 @@ import { Player } from '../player/player';
 import { Sky } from './sky';
 import { TestButtons } from '../test';
 import { Zombie } from '../zombie/zombie';
+import { LayerManager } from '../layerManager/layerManager';
 
 let world;
 
@@ -19,10 +20,9 @@ export class World {
 
     this.enemies = [];
     this.character = character;
+    this.layerManager = new LayerManager();
 
     this.save();
-
-    return world;
   }
 
   setup () {
@@ -30,6 +30,8 @@ export class World {
     this.makeShelter();
     this.makeTable();
     this.makeGround();
+
+    this.layerManager.setup();
 
     this.character.render();
     this.character.healthTimer.start();
