@@ -30,13 +30,6 @@ export class Zombie {
      */
     this.sprite = this.game.enemyLayer.create(this.game.world.width * 0.5 + 50, this.game.world.height - 170, 'zombie');
 
-    /*
-      Add zombie graphic to physcics engine.
-     */
-    game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
-    this.sprite.body.bounce.set(0.2);
-    this.sprite.body.collideWorldBounds = true;
-
     const addedAnimations = this.addAnimations();
     /*
       Register animations with move/anim controllers. (<function Name>, [animation, direction, moving])

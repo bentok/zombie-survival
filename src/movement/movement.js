@@ -37,14 +37,14 @@ export class Move {
     this[name] = () => {
       if (moving) {
         if (direction === 'left') {
-          this.character.sprite.body.velocity.set(this.character.speed * -10, 0);
+          // this.character.sprite.body.velocity.set(this.character.speed * -10, 0);
           this.character.direction = 'left';
         } else {
-          this.character.sprite.body.velocity.set(this.character.speed * 10, 0);
+          // this.character.sprite.body.velocity.set(this.character.speed * 10, 0);
           this.character.direction = 'right';
         }
       } else {
-        this.character.sprite.body.velocity.set(0, 0);
+        // this.character.sprite.body.velocity.set(0, 0);
       }
       if (animation) {
         this.animate[name]();

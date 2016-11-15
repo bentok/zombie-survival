@@ -35,7 +35,7 @@ function preload () {
  * create
  */
 function create () {
-  game.physics.startSystem(Phaser.Physics.ARCADE);
+  // game.physics.startSystem(Phaser.Physics.ARCADE);
   world.setup();
 }
 
