@@ -1,5 +1,6 @@
 import { game } from '../game';
-import { HealthTimer } from './healthTimer';
+import { HealthBar } from './healthBar';
+import { HealthTimer } from './HealthTimer';
 import { Move } from '../movement/movement';
 
 /**
@@ -22,7 +23,8 @@ export class Player {
       x: 0,
       y: game.world.height - 170
     };
-    this.healthTimer = new HealthTimer(this);
+    this.healthBar = new HealthBar({ character: this });
+    this.healthTimer = new HealthTimer({ player: this });
     this.direction = 'right';
 
     this.move = new Move(this);
@@ -34,8 +36,10 @@ export class Player {
  * Render event in the Phaser cycle.
  */
   render () {
+    this.healthTimer.start();
     // Add sprite to render then add individual animations with indexes of animation frames
     this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
+    this.healthBar.render();
     // Applies arcade physics to player, and collision with world bounds
     // this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
     // TODO: Remove later. Global gravity does not seem to be applying so setting it here

@@ -32,7 +32,6 @@ export class World {
     this.makeGround();
 
     this.character.render();
-    this.character.healthTimer.start();
 
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
