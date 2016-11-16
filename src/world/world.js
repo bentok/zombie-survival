@@ -34,7 +34,6 @@ export class World {
     this.layerManager.setup();
 
     this.character.render();
-    this.character.healthTimer.start();
 
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
