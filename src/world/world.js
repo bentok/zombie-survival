@@ -3,7 +3,6 @@ import { Player } from '../player/player';
 import { Sky } from './sky';
 import { TestButtons } from '../test';
 import { Zombie } from '../zombie/zombie';
-import { LayerManager } from '../layerManager/layerManager';
 
 let world;
 
@@ -20,7 +19,6 @@ export class World {
 
     this.enemies = [];
     this.character = character;
-    this.layerManager = new LayerManager();
 
     this.save();
   }
@@ -30,8 +28,6 @@ export class World {
     this.makeShelter();
     this.makeTable();
     this.makeGround();
-
-    this.layerManager.setup();
 
     this.character.render();
 
@@ -61,7 +57,7 @@ export class World {
 
   makeShelter () {
     const platformSprite = this.game.add.sprite(300, game.world.height - 300, 'shelter');
-    this.game.platformLayer.add(platformSprite);
+    this.game.layerManager.layers.get('landLayer').add(platformSprite);
 
     // this.game.physics.enable(platformSprite, Phaser.Physics.ARCADE);
     //
@@ -79,7 +75,7 @@ export class World {
 
   makeTable () {
     const tableSprite = this.game.add.sprite(200, game.world.height - 100, 'table');
-    this.game.platformLayer.add(tableSprite);
+    this.game.layerManager.layers.get('landLayer').add(tableSprite);
 
     // this.game.physics.enable(tableSprite, Phaser.Physics.ARCADE);
     //

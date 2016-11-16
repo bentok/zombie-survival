@@ -1,6 +1,7 @@
 import { Player } from './player/player';
 import { Sprites } from './sprites/sprites';
 import { World } from './world/world';
+import { LayerManager } from './layerManager/layerManager';
 
 /**
  * Bootstraps the game and execute Phaser lifecycle hooks
@@ -20,16 +21,12 @@ function preload () {
 
   game.stage.backgroundColor = '#2d2d2d';
 
-  game.skyLayer = game.add.group();
-  game.playerLayer = game.add.group();
-  game.platformLayer = game.add.group();
-  game.enemyLayer = game.add.group();
-  game.world.bringToTop(game.playerLayer);
+  game.layerManager = new LayerManager();
+  game.layerManager.setup();
 
   player = new Player({ speed: 25 });
   world = new World({ character: player });
   new Sprites().load();
-
 }
 /**
  * create

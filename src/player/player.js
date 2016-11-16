@@ -38,7 +38,7 @@ export class Player {
   render () {
     this.healthTimer.start();
     // Add sprite to render then add individual animations with indexes of animation frames
-    this.sprite = this.game.playerLayer.create(this.currentLocation.x, this.currentLocation.y, 'player');
+    this.sprite = this.game.layerManager.layers.get('playerLayer').create(this.currentLocation.x, this.currentLocation.y, 'player');
     this.healthBar.render();
     // Applies arcade physics to player, and collision with world bounds
     // this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
