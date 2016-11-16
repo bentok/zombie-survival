@@ -7,6 +7,7 @@ import { game } from '../game';
 const layerRegistry = [
   'environment',
   'land',
+  'enemy',
   'player',
   'ui',
 ];

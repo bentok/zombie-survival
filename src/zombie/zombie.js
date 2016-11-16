@@ -28,7 +28,7 @@ export class Zombie {
     /*
       Add the Sprite to the Game object.
      */
-    this.sprite = this.game.enemyLayer.create(this.game.world.width * 0.5 + 50, this.game.world.height - 170, 'zombie');
+    this.sprite = this.game.layerManager.layers.get('enemyLayer').create(this.game.world.width * 0.5 + 50, this.game.world.height - 170, 'zombie');
 
     const addedAnimations = this.addAnimations();
     /*

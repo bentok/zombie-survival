@@ -27,9 +27,9 @@ export class Sky extends Phaser.State {
     sky.ctx.fill();
 
     // Load assets to as sprites
-    this.skySprite = this.game.skyLayer.create(0, 0, sky);
-    this.sunSprite = this.game.skyLayer.create(50, -250, 'sun');
-    this.moonSprite = this.game.skyLayer.create(this.game.width - this.game.width / 4, this.game.height + 500, 'moon');
+    this.skySprite = this.game.layerManager.layers.get('environmentLayer').create(0, 0, sky);
+    this.sunSprite = this.game.layerManager.layers.get('environmentLayer').create(50, -250, 'sun');
+    this.moonSprite = this.game.layerManager.layers.get('environmentLayer').create(this.game.width - this.game.width / 4, this.game.height + 500, 'moon');
 
     // Extendable array of sky shades for tweening
     const backgroundSprites = [
