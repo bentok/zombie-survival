@@ -7,7 +7,7 @@ const source = require('vinyl-source-stream');
 const gulpDoxx = require('gulp-doxx');
 
 gulp.task('default', ['build', 'copyImages', 'watch', 'server']);
-gulp.task('build', ['less', 'copyImages', 'lint', 'browserify']);
+gulp.task('build', ['less', 'copyImages', 'copyVendorAssets', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
@@ -37,6 +37,12 @@ gulp.task('server', () => {
 // Copy images to dist
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
   .pipe(gulp.dest('dist/images')));
+
+  gulp.task('copyVendorAssets', () => {
+  return gulp.src([
+    'node_modules/phaser/build/phaser.min.js',
+  ]).pipe(gulp.dest('dist/vendor'));
+});
 
 // Applies transforms to Javascript and bundles it
 gulp.task('browserify', () => {
