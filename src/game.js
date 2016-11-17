@@ -3,42 +3,48 @@ import { Sprites } from './sprites/sprites';
 import { World } from './world/world';
 import { LayerManager } from './layerManager/layerManager';
 
-/**
- * Bootstraps the game and execute Phaser lifecycle hooks
- */
-export const game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload, create, update });
+class Main {
 
-let world;
-let player;
+  constructor () {
+    /**
+     * Bootstraps the game and execute Phaser lifecycle hooks
+     */
+    this.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload: this.preload, create: this.create, update: this.update });
+  }
 
-/**
- * preload
- */
-function preload () {
-  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-  game.scale.pageAlignHorizontally = true;
-  game.scale.pageAlignVertically = true;
+  /**
+   * Preload
+   */
+  preload () {
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.game.scale.pageAlignHorizontally = true;
+    this.game.scale.pageAlignVertically = true;
 
-  game.stage.backgroundColor = '#2d2d2d';
+    this.game.stage.backgroundColor = '#2d2d2d';
 
-  game.layerManager = new LayerManager();
-  game.layerManager.setup();
+    this.game.layerManager = new LayerManager();
+    this.game.layerManager.setup();
 
-  player = new Player({ speed: 25 });
-  world = new World({ character: player });
-  new Sprites().load();
+    this.player = new Player({ speed: 25 });
+    this.world = new World({ character: this.player });
+    new Sprites().load();
+  }
+  /**
+   * Create
+   */
+  create () {
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.world.setup();
+  }
+
+  /**
+   * Update
+   */
+  update () {
+    this.world.update();
+  }
 }
-/**
- * create
- */
-function create () {
-  // game.physics.startSystem(Phaser.Physics.ARCADE);
-  world.setup();
-}
 
-/**
- * update
- */
-function update () {
-  world.update();
-}
+export const game = new Main().game;
+
+
