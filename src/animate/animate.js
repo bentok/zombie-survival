@@ -21,7 +21,7 @@ export class Animate {
    */
   register (name, animation) {
     this[name] = () => {
-      this.character.sprite.animations.play(animation.name);
+      this.character.animations.play(animation.name);
     };
   }
 

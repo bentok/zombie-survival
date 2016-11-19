@@ -29,8 +29,6 @@ export class World {
     this.makeTable();
     this.makeGround();
 
-    this.character.render();
-
     const gameTest = new TestButtons(this.character);
     gameTest.drawTestButtons();
 
@@ -110,7 +108,6 @@ export class World {
     // this.game.physics.arcade.collide(this.character.sprite, this.sprite);
     // this.game.physics.arcade.collide(this.character.sprite, this.game.platformLayer);
     // this.game.physics.arcade.collide(this.sprite, this.game.platformLayer);
-    this.character.update();
   }
 
 

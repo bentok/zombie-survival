@@ -7,7 +7,7 @@ import { Move } from '../movement/movement';
  * Player
  * @class Player
  */
-export class Player {
+export class Player extends Phaser.Sprite {
 
   /**
    * @param  {Number} health Current health of the character
@@ -15,85 +15,85 @@ export class Player {
    * @param  {Number} speed Walking speed for character
    */
   constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
-    this.game = game;
+    super(game, 50, game.world.height - 170, 'player');
+    this.anchor.setTo(0.5, 0);
+    this.animations.add('run', [0, 1, 2, 3, 4, 5], 13, true);
+    game.add.existing(this);
+
     this.health = health;
     this.maxHealth = maxHealth;
     this.speed = speed;
-    this.currentLocation = {
-      x: 0,
-      y: game.world.height - 170
-    };
-    this.healthBar = new HealthBar({ character: this });
-    this.healthTimer = new HealthTimer({ player: this });
-    this.direction = 'right';
-
-    this.move = new Move(this);
     this.fallVelocity = 0;
+    this.direction = 'right';
+    
+    this.controlsSetup();
+  }
+
+  /**
+   * Setup sprite body settings
+   */
+  bodySetup () {
+    game.physics.enable([this], Phaser.Physics.ARCADE);
+    this.body.gravity.y = 20000;
+    this.body.bounce.y = 0.2;
+    this.body.collideWorldBounds = true;
+    this.checkWorldBounds = true;
+  }
+
+  /**
+   * Setup controls
+   */
+  controlsSetup () {
+    this.keys = this.game.input.keyboard.createCursorKeys();
     this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
-/**
- * Render event in the Phaser cycle.
- */
+  /**
+   * Render event in the Phaser cycle.
+   */
   render () {
-    this.healthTimer.start();
-    // Add sprite to render then add individual animations with indexes of animation frames
-    this.sprite = this.game.layerManager.layers.get('playerLayer').create(this.currentLocation.x, this.currentLocation.y, 'player');
+    this.bodySetup();
+    this.healthBar = new HealthBar({ character: this });
+    this.healthTimer = new HealthTimer({ player: this });
+    // TODO: Convert HealthBar to extend Phaser.Sprite and remove this render call
     this.healthBar.render();
-    // Applies arcade physics to player, and collision with world bounds
-    // this.game.physics.enable([this.sprite], Phaser.Physics.ARCADE);
-    // TODO: Remove later. Global gravity does not seem to be applying so setting it here
-    // this.sprite.body.gravity.y = 20000;
-    // this.sprite.body.bounce.y = 0.2;
-    // this.sprite.body.collideWorldBounds = true;
-    // this.sprite.checkWorldBounds = true;
-
-    // Add animations
-    const idleRight = this.sprite.animations.add('idleRight', [12]);
-    const idleLeft = this.sprite.animations.add('idleLeft', [13]);
-    const runRight = this.sprite.animations.add('runRight', [0, 1, 2, 3, 4, 5], 13, true);
-    const runLeft = this.sprite.animations.add('runLeft', [6, 7, 8, 9, 10, 11], 13, true);
-    // Register animations with move/anim controllers. (<function Name>, [animation, direction, moving])
-    this.move.register('idleRight',   idleRight,  'right',  false);
-    this.move.register('idleLeft',    idleLeft,   'left',   false);
-    this.move.register('runRight',    runRight,   'right',  true);
-    this.move.register('runLeft',     runLeft,    'left',   true);
-
-    // Loads Phaser presets for arrow key input
-    this.keys = this.game.input.keyboard.createCursorKeys();
+    this.healthTimer.start();
   }
 
   /**
    * Update event in Phaser cycle
    */
   update () {
-    // Keyboard controls
-    // check if the player has a collider under it
-    // let standing = this.sprite.body.blocked.down || this.sprite.body.touching.down;
     if (this.keys.left.isDown) {
-      this.move.runLeft();
+      this.direction = 'left';
+      this.animations.play('run');
+      if (this.scale.x === 1) {
+        this.scale.x = -1;
+      }
     } else if (this.keys.right.isDown) {
-      this.move.runRight();
-    } else if (this.direction === 'left') {
-      this.move.idleLeft();
+      this.direction = 'right';
+      this.animations.play('run');
+      if (this.scale.x === -1) {
+        this.scale.x = 1;
+      }
     } else {
-      this.move.idleRight();
+      this.animations.frame = 12;
     }
-    // TODO: Move jump to movement.js
+    
     if (this.jumpButton.isDown) {
       this.jumpTimer = this.game.time.now + 250;
     }
     if (this.jumpTimer > this.game.time.now) {
-      // this.sprite.body.velocity.y -= 800;
+      // this.body.velocity.y -= 800;
     }
   }
 
-/**
- * Steadily increasing velocity downward.
- */
+  /**
+   * Steadily increasing velocity downward.
+   */
   falling () {
     this.fallVelocity += 10;
-    this.sprite.body.velocity.y = this.fallVelocity;
+    this.body.velocity.y = this.fallVelocity;
   }
 
   /**
@@ -116,8 +116,8 @@ export class Player {
    * @param  {Number} y The y scale for the position of the character
    */
   set location ({ x = 0, y = 0 } = {}) {
-    this.sprite.position.x = this.currentLocation.x = x;
-    this.sprite.position.y = this.currentLocation.y = y;
+    this.position.x = this.currentLocation.x = x;
+    this.position.y = this.currentLocation.y = y;
   }
   /**
    * Get the location of the character.
@@ -126,8 +126,8 @@ export class Player {
   get location () {
     if (this.sprite) {
       return {
-        x: this.sprite.position.x,
-        y: this.sprite.position.y,
+        x: this.position.x,
+        y: this.position.y,
       };
     }
   }
