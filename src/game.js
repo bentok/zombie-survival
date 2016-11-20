@@ -25,14 +25,14 @@ class Main {
     this.game.layerManager = new LayerManager();
     this.game.layerManager.setup();
 
-    this.player = new Player({ speed: 25 });
-    this.world = new World({ character: this.player });
     new Sprites().load();
   }
   /**
    * Create
    */
   create () {
+    this.player = new Player({ speed: 25 });
+    this.world = new World({ character: this.player });
     // this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.world.setup();
   }
