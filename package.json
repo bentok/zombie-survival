@@ -24,6 +24,9 @@
   "dependencies": {
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
-    "gulp-less": "^3.0.5"
+    "envify": "^3.4.1",
+    "gulp-less": "^3.0.5",
+    "gutil": "^1.6.4",
+    "watchify": "^3.7.0"
   }
 }
