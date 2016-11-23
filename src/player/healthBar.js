@@ -9,7 +9,7 @@ export class HealthBar {
   /**
    *  @param {Class} character The character Object parent of the Health Timer.
    */
-  constructor ({ character = {} } = {}) {
+  constructor ({ game = {}, character = {} } = {}) {
     this.game = game;
     this.character = character;
 

@@ -1,4 +1,3 @@
-import { game } from '../game';
 import { Player } from '../player/player';
 import { Sky } from './sky';
 import { TestButtons } from '../test';
@@ -8,12 +7,12 @@ let world;
 
 export class World {
 
-  constructor ({ character = new Player() } = {}) {
+  constructor ({ game = {}, character = new Player() } = {}) {
     if (!world) {
       world = this;
     }
     this.game = game;
-    this.sky = new Sky();
+    this.sky = new Sky({ game: this.game });
     this.level = 1;
     this.gravity = 200;
 
@@ -29,7 +28,7 @@ export class World {
     this.makeTable();
     this.makeGround();
 
-    const gameTest = new TestButtons(this.character);
+    const gameTest = new TestButtons({ game: this.game, character: this.character } = {});
     gameTest.drawTestButtons();
 
     // Add Phisics to world and apply to all objects
@@ -39,22 +38,22 @@ export class World {
   }
 
   makeGround () {
-    const ground = this.game.add.bitmapData(game.world.width, 40);
+    const ground = this.game.add.bitmapData(this.game.world.width, 40);
     ground.ctx.fillStyle = '#476A34';
     ground.ctx.beginPath();
-    ground.ctx.rect(0, 20, game.world.width, 20);
+    ground.ctx.rect(0, 20, this.game.world.width, 20);
     ground.ctx.fill();
     ground.ctx.fillStyle = '#687E5A';
     ground.ctx.beginPath();
-    ground.ctx.rect(0, 0, game.world.width, 20);
+    ground.ctx.rect(0, 0, this.game.world.width, 20);
     ground.ctx.fill();
 
-    this.sprite = this.game.add.sprite(0, game.world.height - 35, ground);
+    this.sprite = this.game.add.sprite(0, this.game.world.height - 35, ground);
 
   }
 
   makeShelter () {
-    const platformSprite = this.game.add.sprite(300, game.world.height - 300, 'shelter');
+    const platformSprite = this.game.add.sprite(300, this.game.world.height - 300, 'shelter');
     this.game.layerManager.layers.get('landLayer').add(platformSprite);
 
     // this.game.physics.enable(platformSprite, Phaser.Physics.ARCADE);
@@ -72,7 +71,7 @@ export class World {
   }
 
   makeTable () {
-    const tableSprite = this.game.add.sprite(200, game.world.height - 100, 'table');
+    const tableSprite = this.game.add.sprite(200, this.game.world.height - 100, 'table');
     this.game.layerManager.layers.get('landLayer').add(tableSprite);
 
     // this.game.physics.enable(tableSprite, Phaser.Physics.ARCADE);

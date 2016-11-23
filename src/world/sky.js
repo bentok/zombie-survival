@@ -7,7 +7,7 @@ import { game } from '../game';
 
 export class Sky extends Phaser.State {
 
-  constructor () {
+  constructor ({ game = {} } = {}) {
     // Must execture super before defining properties in constructor
     super();
     this.game = game;
@@ -18,7 +18,7 @@ export class Sky extends Phaser.State {
    */
   create () {
     this.game.stage.backgroundColor = '#000';
-    this.dayCycle = new DayCycle(50000);
+    this.dayCycle = new DayCycle({ game: this.game, dayLength: 50000 });
 
     // Define sky canvas
     const sky = this.game.add.bitmapData(this.game.width, this.game.height);

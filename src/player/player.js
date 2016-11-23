@@ -1,4 +1,3 @@
-import { game } from '../game';
 import { HealthBar } from './healthBar';
 import { HealthTimer } from './HealthTimer';
 import { Move } from '../movement/movement';
@@ -14,8 +13,8 @@ export class Player extends Phaser.Sprite {
    * @param  {Number} maxHealth Maximum possible health for the character
    * @param  {Number} speed Walking speed for character
    */
-  constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
-    super(game, 50, game.world.height - 170, 'player');
+  constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
+    super(game, 50, window.innerHeight - 170, 'player');
     this.anchor.setTo(0.5, 0);
     this.animations.add('run', [0, 1, 2, 3, 4, 5], 13, true);
     game.add.existing(this);
@@ -27,13 +26,14 @@ export class Player extends Phaser.Sprite {
     this.direction = 'right';
     
     this.controlsSetup();
+    this.render();
   }
 
   /**
    * Setup sprite body settings
    */
   bodySetup () {
-    game.physics.enable([this], Phaser.Physics.ARCADE);
+    this.game.physics.enable([this], Phaser.Physics.ARCADE);
     this.body.gravity.y = 20000;
     this.body.bounce.y = 0.2;
     this.body.collideWorldBounds = true;
@@ -45,7 +45,7 @@ export class Player extends Phaser.Sprite {
    */
   controlsSetup () {
     this.keys = this.game.input.keyboard.createCursorKeys();
-    this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
   /**
@@ -53,8 +53,8 @@ export class Player extends Phaser.Sprite {
    */
   render () {
     this.bodySetup();
-    this.healthBar = new HealthBar({ character: this });
-    this.healthTimer = new HealthTimer({ player: this });
+    this.healthBar = new HealthBar({ game: this.game, character: this });
+    this.healthTimer = new HealthTimer({ game: this.game, player: this });
     // TODO: Convert HealthBar to extend Phaser.Sprite and remove this render call
     this.healthBar.render();
     this.healthTimer.start();

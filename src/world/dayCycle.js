@@ -8,7 +8,7 @@ export class DayCycle {
   /**
    * @param {Number} dayLength Length of day in milliseconds
    */
-  constructor (dayLength) {
+  constructor ({ game = {}, dayLength = 0 } = {}) {
     this.game = game;
     this.dayLength = dayLength;
   }

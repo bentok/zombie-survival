@@ -5,7 +5,7 @@ import { game } from '../game';
  */
 export class Sprites {
   
-  constructor () {
+  constructor ({ game = {} } = {}) {
     this.game = game;
   }
 

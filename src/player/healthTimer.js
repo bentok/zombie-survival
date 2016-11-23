@@ -1,5 +1,3 @@
-import { game } from '../game';
-
 /**
  * Health timer creates a loop that constantantly decreases player's health. It calls health bar's
  * update function so health bar will continue to monitor health decreases from other events.
@@ -10,7 +8,7 @@ export class HealthTimer {
   /**
    * @param {Class} player Any player with decreasing health over time
    */
-  constructor ({ player = {} } = {}) {
+  constructor ({ game = {}, player = {} } = {}) {
     this.game = game;
     this.player = player;
     this.timer = this.game.time.create(false);
