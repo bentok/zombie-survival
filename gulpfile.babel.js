@@ -79,8 +79,7 @@ gulp.task('lint', function () {
 gulp.task('docs', function () {
   gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], { base: '.' })
     .pipe(gulpDoxx({
-      title: 'zombie',
-      urlPrefix: '/docs'
+      title: 'zombie'
     }))
     .pipe(gulp.dest('docs'));
 });

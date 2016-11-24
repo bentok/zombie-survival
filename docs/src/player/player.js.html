@@ -71,20 +71,11 @@
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li><a href="/docs/index.html">Main</a></li>
-            <li><a href="/docs/src/game.js.html">src/game.js</a></li>
-            <li><a href="/docs/src/test.js.html">src/test.js</a></li>
-            <li><a href="/docs/src/animate/animate.js.html">src/animate/animate.js</a></li>
-            <li><a href="/docs/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li><a href="/docs/src/movement/movement.js.html">src/movement/movement.js</a></li>
-            <li><a href="/docs/src/player/healthBar.js.html">src/player/healthBar.js</a></li>
-            <li><a href="/docs/src/player/healthTimer.js.html">src/player/healthTimer.js</a></li>
-            <li class="active"><a href="/docs/src/player/player.js.html">src/player/player.js</a></li>
-            <li><a href="/docs/src/sprites/sprites.js.html">src/sprites/sprites.js</a></li>
-            <li><a href="/docs/src/world/dayCycle.js.html">src/world/dayCycle.js</a></li>
-            <li><a href="/docs/src/world/sky.js.html">src/world/sky.js</a></li>
-            <li><a href="/docs/src/world/world.js.html">src/world/world.js</a></li>
-            <li><a href="/docs/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
+            <li><a href="index.html">Main</a></li>
+            <li><a href="src/game.js.html">src/game.js</a></li>
+            <li><a href="src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
+            <li class="active"><a href="src/player/player.js.html">src/player/player.js</a></li>
+            <li><a href="src/states/zone1.js.html">src/states/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -101,14 +92,6 @@
               <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
               </li>
               <li><a href="#falling"><i class="alert alert-info"></i><span>falling</span></a>
-              </li>
-              <li><a href="#addHealth"><i class="alert alert-info"></i><span>addHealth</span></a>
-              </li>
-              <li><a href="#subtractHealth"><i class="alert alert-info"></i><span>subtractHealth</span></a>
-              </li>
-              <li><a href="#location"><i class="alert alert-success"></i><span>location</span></a>
-              </li>
-              <li><a href="#location"><i class="alert alert-success"></i><span>location</span></a>
               </li>
             </ul>
           </div>
@@ -157,8 +140,8 @@
             </tbody>
           </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
-  super(game, 50, game.world.height - 170, 'player');
+          <pre><code class="language-javascript">constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
+  super(game, 50, window.innerHeight - 170, 'player');
   this.anchor.setTo(0.5, 0);
   this.animations.add('run', [0, 1, 2, 3, 4, 5], 13, true);
   game.add.existing(this);
@@ -170,6 +153,7 @@
   this.direction = 'right';
   
   this.controlsSetup();
+  this.render();
 }</code></pre>
           <section id="bodySetup">
             <h1>bodySetup</h1>
@@ -180,7 +164,7 @@
           </section>
           <div class="description"><p>Setup sprite body settings</p> </div>
           <pre><code class="language-javascript">bodySetup () {
-  game.physics.enable([this], Phaser.Physics.ARCADE);
+  this.game.physics.enable([this], Phaser.Physics.ARCADE);
   this.body.gravity.y = 20000;
   this.body.bounce.y = 0.2;
   this.body.collideWorldBounds = true;
@@ -196,7 +180,7 @@
           <div class="description"><p>Setup controls</p> </div>
           <pre><code class="language-javascript">controlsSetup () {
   this.keys = this.game.input.keyboard.createCursorKeys();
-  this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }</code></pre>
           <section id="render">
             <h1>render</h1>
@@ -208,11 +192,6 @@
           <div class="description"><p>Render event in the Phaser cycle.</p> </div>
           <pre><code class="language-javascript">render () {
   this.bodySetup();
-  this.healthBar = new HealthBar({ character: this });
-  this.healthTimer = new HealthTimer({ player: this });
-  // TODO: Convert HealthBar to extend Phaser.Sprite and remove this render call
-  this.healthBar.render();
-  this.healthTimer.start();
 }</code></pre>
           <section id="update">
             <h1>update</h1>
@@ -257,109 +236,6 @@
           <pre><code class="language-javascript">falling () {
   this.fallVelocity += 10;
   this.body.velocity.y = this.fallVelocity;
-}</code></pre>
-          <section id="addHealth">
-            <h1>addHealth</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>Player.prototype.addHealth()</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>amount</td>
-                <td>Number</td>
-                <td><p>The amount of health to add to the characters current health</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Add health to the characters current health.</p> </div>
-          <pre><code class="language-javascript">addHealth (amount) {
-  this.health = this.health + amount &lt;= this.maxHealth ? this.health += amount : this.maxHealth;
-}</code></pre>
-          <section id="subtractHealth">
-            <h1>subtractHealth</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>Player.prototype.subtractHealth()</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>amount</td>
-                <td>Number</td>
-                <td><p>Amount of health to subtract from the character</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Subtract health from the characters current health.</p> </div>
-          <pre><code class="language-javascript">subtractHealth (amount) {
-  this.health = this.health - amount &gt;= 0 ? this.health -= amount : 0;
-}</code></pre>
-          <section id="location">
-            <h1>location</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>Player.prototype.location</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>x</td>
-                <td>Number</td>
-                <td><p>The x scale for the location of the character</p></td>
-              </tr>
-              <tr>
-                <td>y</td>
-                <td>Number</td>
-                <td><p>The y scale for the position of the character</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Set the location of the character.</p> </div>
-          <pre><code class="language-javascript">set location ({ x = 0, y = 0 } = {}) {
-  this.position.x = this.currentLocation.x = x;
-  this.position.y = this.currentLocation.y = y;
-}</code></pre>
-          <section id="location">
-            <h1>location</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>Player.prototype.location</span>
-            </p>
-          </section>
-          <div class="description"><p>Get the location of the character.</p> </div>
-          <pre><code class="language-javascript">get location () {
-  if (this.sprite) {
-    return {
-      x: this.position.x,
-      y: this.position.y,
-    };
-  }
 }
 
 }</code></pre>

@@ -71,32 +71,17 @@
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li><a href="/docs/index.html">Main</a></li>
-            <li><a href="/docs/src/game.js.html">src/game.js</a></li>
-            <li><a href="/docs/src/test.js.html">src/test.js</a></li>
-            <li><a href="/docs/src/animate/animate.js.html">src/animate/animate.js</a></li>
-            <li><a href="/docs/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li><a href="/docs/src/movement/movement.js.html">src/movement/movement.js</a></li>
-            <li><a href="/docs/src/player/healthBar.js.html">src/player/healthBar.js</a></li>
-            <li><a href="/docs/src/player/healthTimer.js.html">src/player/healthTimer.js</a></li>
-            <li><a href="/docs/src/player/player.js.html">src/player/player.js</a></li>
-            <li><a href="/docs/src/sprites/sprites.js.html">src/sprites/sprites.js</a></li>
-            <li><a href="/docs/src/world/dayCycle.js.html">src/world/dayCycle.js</a></li>
-            <li><a href="/docs/src/world/sky.js.html">src/world/sky.js</a></li>
-            <li><a href="/docs/src/world/world.js.html">src/world/world.js</a></li>
-            <li class="active"><a href="/docs/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
+            <li><a href="index.html">Main</a></li>
+            <li><a href="src/game.js.html">src/game.js</a></li>
+            <li><a href="src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
+            <li><a href="src/player/player.js.html">src/player/player.js</a></li>
+            <li class="active"><a href="src/states/zone1.js.html">src/states/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
-              <li><a href="#Zombie"><i class="alert alert-success"></i><span>Zombie</span></a>
+              <li><a href="#preload"><i class="alert alert-info"></i><span>preload</span></a>
               </li>
-              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
-              </li>
-              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
-              </li>
-              <li><a href="#sprite"><i class="alert alert-success"></i><span>sprite</span></a>
-              </li>
-              <li><a href="#addAnimations"><i class="alert alert-info"></i><span>addAnimations</span></a>
+              <li><a href="#create"><i class="alert alert-info"></i><span>create</span></a>
               </li>
               <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
               </li>
@@ -104,93 +89,35 @@
           </div>
         </div>
         <div class="span9">
-          <section id="Zombie">
-            <h1>Zombie</h1>
+          <section id="preload">
+            <h1>preload</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">class</div><span>new Zombie()</span>
+              <div class="label label-info radius ctx-type">method</div><span>preload()</span>
             </p>
           </section>
-          <div class="description"><p>The Zombie Object</p> </div>
-          <pre><code class="language-javascript">export class Zombie {</code></pre>
-          <section id="constructor">
-            <h1>constructor</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">constructor</div><span>Zombie.prototype.constructor()</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>speed</td>
-                <td>Number</td>
-                <td><p>The speed the zombie moves.</p></td>
-              </tr>
-              <tr>
-                <td>health</td>
-                <td>Number</td>
-                <td><p>The total health the Zombie will have.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"> </div>
-          <pre><code class="language-javascript">constructor ({ speed = 2, health = 25, character = {} } = {}) {
-  this.game = game;
-  this.health = health;
-  this.speed = speed;
-  this.move = new Move(this);
-  this.character = character;
+          <div class="description"><p>Preload</p> </div>
+          <pre><code class="language-javascript">preload () {
+  // Load sprites and manage layers
+  this.game.load.spritesheet('player', './dist/images/player-sprite-sheet.png', 81, 135, 14);
+  this.game.layerManager = new LayerManager({ game: this.game });
+  this.game.layerManager.setup();
+  
+  // Set game scale
+  this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  this.game.scale.pageAlignHorizontally = true;
+  this.game.scale.pageAlignVertically = true;
 }</code></pre>
-          <section id="render">
-            <h1>render</h1>
+          <section id="create">
+            <h1>create</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.render()</span>
+              <div class="label label-info radius ctx-type">method</div><span>create()</span>
             </p>
           </section>
-          <div class="description"><p>Render the Zombie</p> </div>
-          <pre><code class="language-javascript">render () {</code></pre>
-          <section id="sprite">
-            <h1>sprite</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">property</div><span>this.sprite</span>
-            </p>
-          </section>
-          <div class="description"><p>Add the Sprite to the Game object.</p> </div>
-          <pre><code class="language-javascript">this.sprite = this.game.layerManager.layers.get('enemyLayer').create(this.game.world.width * 0.5 + 50, this.game.world.height - 170, 'zombie');
-
-const addedAnimations = this.addAnimations();</code></pre>
-          <div class="description"><p>Register animations with move/anim controllers. (<function Name>, [animation, direction, moving])</p> </div>
-          <pre><code class="language-javascript">this.move.register('idleRight', addedAnimations.idleRight, 'right', false);
-this.move.register('idleLeft', addedAnimations.idleLeft, 'left', false);
-this.move.register('runRight', addedAnimations.runRight, 'right', true);
-this.move.register('runLeft', addedAnimations.runLeft, 'left', true);
-
-  }</code></pre>
-          <section id="addAnimations">
-            <h1>addAnimations</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>addAnimations()</span>
-            </p>
-          </section>
-          <div class="description"><p>Adds animations.</p> </div>
-          <pre><code class="language-javascript">addAnimations () {
-  return {
-    idleRight: this.sprite.animations.add('idleRight', [2]),
-    idleLeft: this.sprite.animations.add('idleLeft', [4]),
-    runRight: this.sprite.animations.add('runRight', [0, 1, 2, 3], 5, true),
-    runLeft: this.sprite.animations.add('runLeft', [4, 5, 6, 7], 5, true)
-  };
+          <div class="description"><p>Create</p> </div>
+          <pre><code class="language-javascript">create () {
+  this.player = new Player({ game: this.game, speed: 25 });
 }</code></pre>
           <section id="update">
             <h1>update</h1>
@@ -199,11 +126,9 @@ this.move.register('runLeft', addedAnimations.runLeft, 'left', true);
               <div class="label label-info radius ctx-type">method</div><span>update()</span>
             </p>
           </section>
-          <div class="description"><p>Updates animation on Gameloop</p> </div>
+          <div class="description"><p>Update</p> </div>
           <pre><code class="language-javascript">update () {
-  // TODO: Make this account for x position overlap when character is on a different y coordinate than zombies
-  const walkTowardPlayer = this.character.sprite.body.x &gt; this.sprite.body.x ? this.move.runRight : this.move.runLeft;
-  walkTowardPlayer();
+  this.world.update();
 }
 
 }</code></pre>
