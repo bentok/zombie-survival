@@ -1,7 +1,3 @@
-import { HealthBar } from './healthBar';
-import { HealthTimer } from './HealthTimer';
-import { Move } from '../movement/movement';
-
 /**
  * Player
  * @class Player
@@ -53,11 +49,6 @@ export class Player extends Phaser.Sprite {
    */
   render () {
     this.bodySetup();
-    this.healthBar = new HealthBar({ game: this.game, character: this });
-    this.healthTimer = new HealthTimer({ game: this.game, player: this });
-    // TODO: Convert HealthBar to extend Phaser.Sprite and remove this render call
-    this.healthBar.render();
-    this.healthTimer.start();
   }
 
   /**
@@ -94,42 +85,6 @@ export class Player extends Phaser.Sprite {
   falling () {
     this.fallVelocity += 10;
     this.body.velocity.y = this.fallVelocity;
-  }
-
-  /**
-   * Add health to the characters current health.
-   * @param {Number} amount The amount of health to add to the characters current health
-   */
-  addHealth (amount) {
-    this.health = this.health + amount <= this.maxHealth ? this.health += amount : this.maxHealth;
-  }
-  /**
-   * Subtract health from the characters current health.
-   * @param  {Number} amount Amount of health to subtract from the character
-   */
-  subtractHealth (amount) {
-    this.health = this.health - amount >= 0 ? this.health -= amount : 0;
-  }
-  /**
-   * Set the location of the character.
-   * @param  {Number} x The x scale for the location of the character
-   * @param  {Number} y The y scale for the position of the character
-   */
-  set location ({ x = 0, y = 0 } = {}) {
-    this.position.x = this.currentLocation.x = x;
-    this.position.y = this.currentLocation.y = y;
-  }
-  /**
-   * Get the location of the character.
-   * @return {Object} {} X and Y coordinates of the character
-   */
-  get location () {
-    if (this.sprite) {
-      return {
-        x: this.position.x,
-        y: this.position.y,
-      };
-    }
   }
 
 }
