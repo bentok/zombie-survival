@@ -1,5 +1,3 @@
-import { game } from '../game';
-
 /**
  * Layers added here will be Loaded by order of index.
  * @type {Array}
@@ -17,7 +15,7 @@ const layerRegistry = [
  *  @type {Class}
  */
 export class LayerManager {
-  constructor () {
+  constructor ({ game = {} } = {}) {
     this.game = game;
     this.layerRegistry = layerRegistry;
     this.layers = new Map();

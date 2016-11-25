@@ -41,9 +41,9 @@ gulp.task('server', () => {
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
   .pipe(gulp.dest('dist/images')));
 
-  gulp.task('copyVendorAssets', () => {
+gulp.task('copyVendorAssets', () => {
   return gulp.src([
-    'node_modules/phaser/build/phaser.min.js',
+    'node_modules/phaser/build/phaser.js',
   ]).pipe(gulp.dest('dist/vendor'));
 });
 
@@ -79,8 +79,7 @@ gulp.task('lint', function () {
 gulp.task('docs', function () {
   gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], { base: '.' })
     .pipe(gulpDoxx({
-      title: 'zombie',
-      urlPrefix: '/docs'
+      title: 'zombie'
     }))
     .pipe(gulp.dest('docs'));
 });

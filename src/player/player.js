@@ -1,8 +1,3 @@
-import { game } from '../game';
-import { HealthBar } from './healthBar';
-import { HealthTimer } from './HealthTimer';
-import { Move } from '../movement/movement';
-
 /**
  * Player
  * @class Player
@@ -14,8 +9,8 @@ export class Player extends Phaser.Sprite {
    * @param  {Number} maxHealth Maximum possible health for the character
    * @param  {Number} speed Walking speed for character
    */
-  constructor ({ health = 100, maxHealth = 100, speed = 25 } = {}) {
-    super(game, 50, game.world.height - 170, 'player');
+  constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
+    super(game, 50, window.innerHeight - 170, 'player');
     this.anchor.setTo(0.5, 0);
     this.animations.add('run', [0, 1, 2, 3, 4, 5], 13, true);
     game.add.existing(this);
@@ -27,13 +22,14 @@ export class Player extends Phaser.Sprite {
     this.direction = 'right';
     
     this.controlsSetup();
+    this.render();
   }
 
   /**
    * Setup sprite body settings
    */
   bodySetup () {
-    game.physics.enable([this], Phaser.Physics.ARCADE);
+    this.game.physics.enable([this], Phaser.Physics.ARCADE);
     this.body.gravity.y = 20000;
     this.body.bounce.y = 0.2;
     this.body.collideWorldBounds = true;
@@ -45,7 +41,7 @@ export class Player extends Phaser.Sprite {
    */
   controlsSetup () {
     this.keys = this.game.input.keyboard.createCursorKeys();
-    this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   }
 
   /**
@@ -53,11 +49,6 @@ export class Player extends Phaser.Sprite {
    */
   render () {
     this.bodySetup();
-    this.healthBar = new HealthBar({ character: this });
-    this.healthTimer = new HealthTimer({ player: this });
-    // TODO: Convert HealthBar to extend Phaser.Sprite and remove this render call
-    this.healthBar.render();
-    this.healthTimer.start();
   }
 
   /**
@@ -94,42 +85,6 @@ export class Player extends Phaser.Sprite {
   falling () {
     this.fallVelocity += 10;
     this.body.velocity.y = this.fallVelocity;
-  }
-
-  /**
-   * Add health to the characters current health.
-   * @param {Number} amount The amount of health to add to the characters current health
-   */
-  addHealth (amount) {
-    this.health = this.health + amount <= this.maxHealth ? this.health += amount : this.maxHealth;
-  }
-  /**
-   * Subtract health from the characters current health.
-   * @param  {Number} amount Amount of health to subtract from the character
-   */
-  subtractHealth (amount) {
-    this.health = this.health - amount >= 0 ? this.health -= amount : 0;
-  }
-  /**
-   * Set the location of the character.
-   * @param  {Number} x The x scale for the location of the character
-   * @param  {Number} y The y scale for the position of the character
-   */
-  set location ({ x = 0, y = 0 } = {}) {
-    this.position.x = this.currentLocation.x = x;
-    this.position.y = this.currentLocation.y = y;
-  }
-  /**
-   * Get the location of the character.
-   * @return {Object} {} X and Y coordinates of the character
-   */
-  get location () {
-    if (this.sprite) {
-      return {
-        x: this.position.x,
-        y: this.position.y,
-      };
-    }
   }
 
 }

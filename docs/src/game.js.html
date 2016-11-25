@@ -71,93 +71,36 @@
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li><a href="/docs/index.html">Main</a></li>
-            <li class="active"><a href="/docs/src/game.js.html">src/game.js</a></li>
-            <li><a href="/docs/src/test.js.html">src/test.js</a></li>
-            <li><a href="/docs/src/animate/animate.js.html">src/animate/animate.js</a></li>
-            <li><a href="/docs/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li><a href="/docs/src/movement/movement.js.html">src/movement/movement.js</a></li>
-            <li><a href="/docs/src/player/healthBar.js.html">src/player/healthBar.js</a></li>
-            <li><a href="/docs/src/player/healthTimer.js.html">src/player/healthTimer.js</a></li>
-            <li><a href="/docs/src/player/player.js.html">src/player/player.js</a></li>
-            <li><a href="/docs/src/sprites/sprites.js.html">src/sprites/sprites.js</a></li>
-            <li><a href="/docs/src/world/dayCycle.js.html">src/world/dayCycle.js</a></li>
-            <li><a href="/docs/src/world/sky.js.html">src/world/sky.js</a></li>
-            <li><a href="/docs/src/world/world.js.html">src/world/world.js</a></li>
-            <li><a href="/docs/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="src/game.js.html">src/game.js</a></li>
+            <li><a href="src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
+            <li><a href="src/player/player.js.html">src/player/player.js</a></li>
+            <li><a href="src/states/zone1.js.html">src/states/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
-              <li><a href="#game"><i class="alert alert-success"></i><span>game</span></a>
-              </li>
-              <li><a href="#preload"><i class="alert alert-info"></i><span>preload</span></a>
-              </li>
-              <li><a href="#create"><i class="alert alert-info"></i><span>create</span></a>
-              </li>
-              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+              <li><a href="#super"><i class="alert alert-info"></i><span>super</span></a>
               </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <section id="game">
-            <h1>game</h1>
+          <section id="super">
+            <h1>super</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">property</div><span>this.game</span>
+              <div class="label label-info radius ctx-type">method</div><span>super()</span>
             </p>
           </section>
           <div class="description"><p>Bootstraps the game and execute Phaser lifecycle hooks</p> </div>
-          <pre><code class="language-javascript">this.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload: this.preload, create: this.create, update: this.update });
-  }</code></pre>
-          <section id="preload">
-            <h1>preload</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>preload()</span>
-            </p>
-          </section>
-          <div class="description"><p>Preload</p> </div>
-          <pre><code class="language-javascript">preload () {
-  this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-  this.game.scale.pageAlignHorizontally = true;
-  this.game.scale.pageAlignVertically = true;
+          <pre><code class="language-javascript">super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
+this.state.add('Zone1', zone1, false);
+this.state.start('Zone1');
+  }
 
-  this.game.stage.backgroundColor = '#2d2d2d';
-
-  this.game.layerManager = new LayerManager();
-  this.game.layerManager.setup();
-
-  new Sprites().load();
-}</code></pre>
-          <section id="create">
-            <h1>create</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>create()</span>
-            </p>
-          </section>
-          <div class="description"><p>Create</p> </div>
-          <pre><code class="language-javascript">create () {
-  this.player = new Player({ speed: 25 });
-  this.world = new World({ character: this.player });
-  // this.game.physics.startSystem(Phaser.Physics.ARCADE);
-  this.world.setup();
-}</code></pre>
-          <section id="update">
-            <h1>update</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>update()</span>
-            </p>
-          </section>
-          <div class="description"><p>Update</p> </div>
-          <pre><code class="language-javascript">update () {
-  this.world.update();
-}
 }
 
-export const game = new Main().game;</code></pre>
+export const game = new Game().game;</code></pre>
         </div>
       </div>
     </div>
