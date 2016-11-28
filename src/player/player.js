@@ -17,26 +17,25 @@ export class Player extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0);
     this.scale.setTo(this.config.scale, this.config.scale);
     this.animations.add('run', [1, 2, 3, 4, 5], 13, true);
-    game.add.existing(this);
 
     this.health = health;
     this.maxHealth = maxHealth;
     this.speed = speed;
-    this.fallVelocity = 0;
     this.direction = 'right';
-    
+
     this.controlsSetup();
     this.render();
+
+    game.add.existing(this);
   }
 
   /**
    * Setup sprite body settings
    */
   bodySetup () {
-    this.game.physics.enable([this], Phaser.Physics.ARCADE);
-    this.body.gravity.y = 20000;
-    this.body.bounce.y = 0.2;
-    this.body.collideWorldBounds = true;
+    // this.fixedRotation = true;
+    // this.damping = 0.2;
+    // this.collideWorldBounds = true;
     this.checkWorldBounds = true;
   }
 
@@ -46,6 +45,7 @@ export class Player extends Phaser.Sprite {
   controlsSetup () {
     this.keys = this.game.input.keyboard.createCursorKeys();
     this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.jumpTimer = 0;
   }
 
   /**
@@ -65,30 +65,44 @@ export class Player extends Phaser.Sprite {
       if (this.scale.x === this.config.scale) {
         this.scale.x = -this.config.scale;
       }
+      this.body.velocity.x = -15 * this.speed;
     } else if (this.keys.right.isDown) {
       this.direction = 'right';
       this.animations.play('run');
       if (this.scale.x === -this.config.scale) {
         this.scale.x = this.config.scale;
       }
+      this.body.velocity.x = 15 * this.speed;
     } else {
       this.animations.frame = 0;
     }
-    
-    if (this.jumpButton.isDown) {
-      this.jumpTimer = this.game.time.now + 250;
-    }
-    if (this.jumpTimer > this.game.time.now) {
-      // this.body.velocity.y -= 800;
+    // TODO: Move jump to movement.js
+    if (this.jumpButton.isDown && this.game.time.now > this.jumpTimer && this.checkIfCanJump()) {
+      this.body.moveUp(375);
+      this.jumpTimer = this.game.time.now + 750;
     }
   }
 
-  /**
-   * Steadily increasing velocity downward.
-   */
-  falling () {
-    this.fallVelocity += 10;
-    this.body.velocity.y = this.fallVelocity;
+  checkIfCanJump () {
+    const yAxis = p2.vec2.fromValues(0, 1);
+    let result = false;
+    for (let i = 0; i < this.game.physics.p2.world.narrowphase.contactEquations.length; i++) {
+
+      const c = this.game.physics.p2.world.narrowphase.contactEquations[i];
+      if ( c.bodyA === this. body.data || c.bodyB === this. body.data) {
+
+        let d = p2.vec2.dot(c.normalA, yAxis);
+        if (c.bodyA === this. body.data) {
+          d *= -1;
+        }
+        if (d > 0.5) {
+          result = true;
+        }
+
+      }
+
+    }
+    return result;
   }
 
 }

@@ -39,7 +39,8 @@ gulp.task('server', () => {
 
 // Copy images to dist
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
-  .pipe(gulp.dest('dist/images')));
+  .pipe(gulp.dest('dist/images'))
+);
 
 gulp.task('copyVendorAssets', () => {
   return gulp.src([
@@ -52,7 +53,7 @@ const browserifyOpts = {
   debug: true
 };
 const opts = Object.assign({}, watchify.args, browserifyOpts);
-const bundler = watchify(browserify(opts)); 
+const bundler = watchify(browserify(opts));
 bundler.transform('babelify', {
   'presets': ['es2015']
 })

@@ -12,26 +12,28 @@ export class Zone1 extends Phaser.State {
     this.game.load.spritesheet('player', './dist/images/player-run.png', 450, 450, 6);
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
-    
+
     // Set game scale
     this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.game.scale.pageAlignHorizontally = true;
     this.game.scale.pageAlignVertically = true;
+
+    // Set Physics for Zone
+    this.physics.startSystem(Phaser.Physics.P2JS);
+    this.game.physics.p2.gravity.y = 1000;
   }
 
   /**
    * Create
    */
   create () {
-    this.player = new Player({ game: this.game, speed: 25 });
-    this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
-  }
 
-  /**
-   * Update
-   */
-  update () {
-    this.world.update();
+    // Setup Player
+    this.player = new Player({ game: this.game, speed: 25 });
+    this.game.layerManager.layers.get('playerLayer').add(this.player);
+    this.game.physics.p2.enable(this.game.layerManager.layers.get('playerLayer'), false, true);
+
+    this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
   }
 
 }
