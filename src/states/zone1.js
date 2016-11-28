@@ -1,5 +1,6 @@
 import { Player } from '../player/player';
 import { LayerManager } from '../layerManager/layerManager';
+import { HealthBarSprite } from '../healthBar/healthBar';
 
 export class Zone1 extends Phaser.State {
 
@@ -23,6 +24,7 @@ export class Zone1 extends Phaser.State {
    */
   create () {
     this.player = new Player({ game: this.game, speed: 25 });
+    this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
   }
 
   /**
