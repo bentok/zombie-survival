@@ -8,7 +8,7 @@ export class Zone1 extends Phaser.State {
    */
   preload () {
     // Load sprites and manage layers
-    this.game.load.spritesheet('player', './dist/images/player-sprite-sheet.png', 81, 135, 14);
+    this.game.load.spritesheet('player', './dist/images/player-run.png', 450, 450, 6);
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
     

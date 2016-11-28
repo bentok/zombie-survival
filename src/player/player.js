@@ -11,8 +11,12 @@ export class Player extends Phaser.Sprite {
    */
   constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
     super(game, 50, window.innerHeight - 170, 'player');
+    this.config = {
+      scale: 0.4,
+    };
     this.anchor.setTo(0.5, 0);
-    this.animations.add('run', [0, 1, 2, 3, 4, 5], 13, true);
+    this.scale.setTo(this.config.scale, this.config.scale);
+    this.animations.add('run', [1, 2, 3, 4, 5], 13, true);
     game.add.existing(this);
 
     this.health = health;
@@ -58,17 +62,17 @@ export class Player extends Phaser.Sprite {
     if (this.keys.left.isDown) {
       this.direction = 'left';
       this.animations.play('run');
-      if (this.scale.x === 1) {
-        this.scale.x = -1;
+      if (this.scale.x === this.config.scale) {
+        this.scale.x = -this.config.scale;
       }
     } else if (this.keys.right.isDown) {
       this.direction = 'right';
       this.animations.play('run');
-      if (this.scale.x === -1) {
-        this.scale.x = 1;
+      if (this.scale.x === -this.config.scale) {
+        this.scale.x = this.config.scale;
       }
     } else {
-      this.animations.frame = 12;
+      this.animations.frame = 0;
     }
     
     if (this.jumpButton.isDown) {
