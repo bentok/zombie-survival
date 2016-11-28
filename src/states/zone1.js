@@ -30,9 +30,6 @@ export class Zone1 extends Phaser.State {
 
     // Setup Player
     this.player = new Player({ game: this.game, speed: 25 });
-    this.game.layerManager.layers.get('playerLayer').add(this.player);
-    this.game.physics.p2.enable(this.game.layerManager.layers.get('playerLayer'), false, true);
-
     this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
   }
 

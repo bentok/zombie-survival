@@ -14,29 +14,21 @@ export class Player extends Phaser.Sprite {
     this.config = {
       scale: 0.4,
     };
-    this.anchor.setTo(0.5, 0);
-    this.scale.setTo(this.config.scale, this.config.scale);
-    this.animations.add('run', [1, 2, 3, 4, 5], 13, true);
 
     this.health = health;
     this.maxHealth = maxHealth;
     this.speed = speed;
     this.direction = 'right';
 
-    this.controlsSetup();
     this.render();
-
-    game.add.existing(this);
   }
 
   /**
    * Setup sprite body settings
    */
   bodySetup () {
-    // this.fixedRotation = true;
-    // this.damping = 0.2;
-    // this.collideWorldBounds = true;
-    this.checkWorldBounds = true;
+    this.body.fixedRotation = true;
+    this.body.damping = 0.2;
   }
 
   /**
@@ -52,6 +44,13 @@ export class Player extends Phaser.Sprite {
    * Render event in the Phaser cycle.
    */
   render () {
+    this.game.add.existing(this);
+    this.controlsSetup();
+    this.animations.add('run', [1, 2, 3, 4, 5], 13, true);
+    this.scale.setTo(this.config.scale, this.config.scale);
+    this.anchor.setTo(0.5, 0);
+    this.game.layerManager.layers.get('playerLayer').add(this);
+    this.game.physics.p2.enable(this.game.layerManager.layers.get('playerLayer'), false, true);
     this.bodySetup();
   }
 
