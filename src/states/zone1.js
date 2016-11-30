@@ -1,6 +1,7 @@
 import { Player } from '../player/player';
 import { LayerManager } from '../layerManager/layerManager';
 import { HealthBarSprite } from '../healthBar/healthBar';
+import { Zombie } from '../zombie/zombie';
 
 export class Zone1 extends Phaser.State {
 
@@ -10,6 +11,7 @@ export class Zone1 extends Phaser.State {
   preload () {
     // Load sprites and manage layers
     this.game.load.spritesheet('player', './dist/images/player-run.png', 450, 450, 6);
+    this.game.load.spritesheet('zombie', './dist/images/zombie.png', 450, 450, 3);
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
 
@@ -27,9 +29,8 @@ export class Zone1 extends Phaser.State {
    * Create
    */
   create () {
-
-    // Setup Player
     this.player = new Player({ game: this.game, speed: 25 });
+    this.zombie = new Zombie({ game: this.game, speed: 1, player: this.player });
     this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
   }
 
