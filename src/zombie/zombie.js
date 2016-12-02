@@ -1,4 +1,5 @@
 import { Spawn } from '../services/spawn';
+import { ZombieDetector } from './zombie-detection';
 
 /**
  * Spawn point coordinates
@@ -26,11 +27,13 @@ export class Zombie extends Phaser.Sprite {
     this.speed = speed;
     this.alerted = false;
     this.perception = perception;
-
+    this.direction = 'left';
     this.player = player;
     this.config = {
       scale: 0.4
     };
+
+    this.detector = {};
 
     this.render();
   }
@@ -41,6 +44,23 @@ export class Zombie extends Phaser.Sprite {
   bodySetup () {
     this.body.fixedRotation = true;
     this.body.damping = 0.2;
+  }
+
+  /**
+   * Detect contact
+   * @param  {Object} body The body on the contacted object
+   * @param  {Object} bodyB ?
+   * @param  {Object} shapeA ?
+   * @param  {Object} shapeB ?
+   * @param  {Function} equation ??
+   */
+  contact (body, bodyB, shapeA, shapeB, equation) {
+    if ( body ) {
+      if ( body.sprite.key === 'player' ) {
+        console.log('I see the player!');
+        this.alerted = true;
+      }
+    }
   }
 
   /**
@@ -60,9 +80,15 @@ export class Zombie extends Phaser.Sprite {
    * Phaser's game loop
    */
   update () {
+
     this.setPatrol();
+    this.game.debug.geom(this.getBounds());
+    this.game.debug.spriteInfo(this, 600, 200);
+
+    this.detector.update();
+
   }
-  
+
   /**
    * Sets the partol behavior of a zombie
    */
@@ -70,13 +96,15 @@ export class Zombie extends Phaser.Sprite {
     if (Math.abs(this.x - this.player.x) < this.perception) {
       this.behaviorDuration = this.game.time.now;
       this.alerted = true;
-    } 
-    
+    }
+
     if (this.alerted) {
       if (this.x > this.player.x) {
         this.shamble({ direction: 'left', speedModifier: 30 });
+        this.direction = 'left';
       } else {
         this.shamble({ direction: 'right', speedModifier: 30 });
+        this.direction = 'right';
       }
     } else {
       if (!this.behaviorDuration || this.behaviorDuration <= this.game.time.now) {
@@ -91,8 +119,10 @@ export class Zombie extends Phaser.Sprite {
         if (this.behavior === 1) {
           if (this.direction === 0) {
             this.shamble({ direction: 'left', speedModifier: 15 });
+            this.direction = 'left';
           } else {
             this.shamble({ direction: 'right', speedModifier: 15 });
+            this.direction = 'right';
           }
         } else {
           this.animations.frame = 0;
