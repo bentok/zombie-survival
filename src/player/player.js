@@ -10,7 +10,7 @@ export class Player extends Phaser.Sprite {
    * @param  {Number} speed Walking speed for character
    */
   constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
-    super(game, 50, window.innerHeight - 170, 'player');
+    super(game, 150, window.innerHeight - 170, 'player');
     this.config = {
       scale: 0.4,
     };
