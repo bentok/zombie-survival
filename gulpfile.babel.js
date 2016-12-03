@@ -9,8 +9,8 @@ const gutil = require('gutil');
 const source = require('vinyl-source-stream');
 const gulpDoxx = require('gulp-doxx');
 
-gulp.task('default', ['build', 'copyImages', 'watch', 'server']);
-gulp.task('build', ['less', 'copyImages', 'copyVendorAssets', 'lint', 'browserify']);
+gulp.task('default', ['build', 'copySprites', 'copyImages', 'watch', 'server']);
+gulp.task('build', ['less', 'copySprites', 'copyImages', 'copyVendorAssets', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
@@ -38,8 +38,14 @@ gulp.task('server', () => {
 });
 
 // Copy images to dist
+// TODO: remove this when we convert completely to atlases
 gulp.task('copyImages', () => gulp.src('src/images/*.*')
   .pipe(gulp.dest('dist/images'))
+);
+
+// Copy sprites to dist
+gulp.task('copySprites', () => gulp.src('src/atlases/**/*.*')
+  .pipe(gulp.dest('dist/atlases'))
 );
 
 gulp.task('copyVendorAssets', () => {
