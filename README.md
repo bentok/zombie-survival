@@ -1,13 +1,13 @@
 # zombie-survival
 JS game about survival in zombie apocalypse
 
-## ideas
+## core mechanics
 * rogue like
-* uses local storage
 * health decreases in real time, even when game is closed
 * health is regained by eating/drinking
-* exploration
-* zombies everywhere
-* weapons have very limited uses (encourage emergency use only)
-* encourage player to explore and find new safe havens instead of always returning to one
+* focus on exploration to find better safe areas, find more resources
+* weapons have very limited uses (emergency use only)
 * goal is to survive as long as possible in real days
+
+## contributions
+This game is not open source. All rights are reserved. If contributions are made and accepted, contributors will be mentioned in the credits to the best of the authors' abilities.
