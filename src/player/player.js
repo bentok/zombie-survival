@@ -12,7 +12,7 @@ export class Player extends Phaser.Sprite {
   constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25 } = {}) {
     super(game, 150, window.innerHeight - 170, 'player');
     this.config = {
-      scale: 0.4,
+      scale: 1,
     };
 
     this.health = health;
@@ -46,7 +46,7 @@ export class Player extends Phaser.Sprite {
   render () {
     this.game.add.existing(this);
     this.controlsSetup();
-    this.animations.add('run', [1, 2, 3, 4, 5], 13, true);
+    this.animations.add('run', Phaser.Animation.generateFrameNames('run', 1, 5), 15, true);
     this.scale.setTo(this.config.scale, this.config.scale);
     this.anchor.setTo(0.5, 0);
     this.game.layerManager.layers.get('playerLayer').add(this);
@@ -73,7 +73,7 @@ export class Player extends Phaser.Sprite {
       }
       this.body.velocity.x = 15 * this.speed;
     } else {
-      this.animations.frame = 0;
+      this.frameName = 'idle';
     }
     // TODO: Move jump to movement.js
     if (this.jumpButton.isDown && this.game.time.now > this.jumpTimer && this.checkIfCanJump()) {

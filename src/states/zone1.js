@@ -10,8 +10,8 @@ export class Zone1 extends Phaser.State {
    */
   preload () {
     // Load sprites and manage layers
-    this.game.load.spritesheet('player', './dist/images/player-run.png', 450, 450, 6);
-    this.game.load.spritesheet('zombie', './dist/images/zombie.png', 450, 450, 3);
+    this.game.load.atlas('player', './dist/atlases/player/player.png', './dist/atlases/player/player.json');
+    this.game.load.atlas('zombie', './dist/atlases/zombie/zombie.png', './dist/atlases/zombie/zombie.json');
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
     this.game.enemyManager = new EnemyManager({ game: this.game });

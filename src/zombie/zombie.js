@@ -30,7 +30,7 @@ export class Zombie extends Phaser.Sprite {
     this.direction = 'left';
     this.player = player;
     this.config = {
-      scale: 0.4
+      scale: 1
     };
 
     this.detector = {};
@@ -68,7 +68,7 @@ export class Zombie extends Phaser.Sprite {
    */
   render () {
     this.game.add.existing(this);
-    this.animations.add('shamble', [1, 2, 2], 2, true);
+    this.animations.add('shamble', Phaser.Animation.generateFrameNames('shamble', 1, 2), 2, true);
     this.scale.setTo(this.config.scale, this.config.scale);
     this.anchor.setTo(0.5, 0);
     this.game.layerManager.layers.get('enemyLayer').add(this);
@@ -125,7 +125,7 @@ export class Zombie extends Phaser.Sprite {
             this.direction = 'right';
           }
         } else {
-          this.animations.frame = 0;
+          this.frameName = 'idle';
         }
       }
     }
