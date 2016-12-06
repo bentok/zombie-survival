@@ -29,6 +29,8 @@ export class Player extends Phaser.Sprite {
   bodySetup () {
     this.body.fixedRotation = true;
     this.body.damping = 0.2;
+    this.body.clearShapes();
+    this.body.loadPolygon('player-polygon', 'player');
   }
 
   /**

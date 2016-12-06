@@ -9,8 +9,8 @@ const gutil = require('gutil');
 const source = require('vinyl-source-stream');
 const gulpDoxx = require('gulp-doxx');
 
-gulp.task('default', ['build', 'copySprites', 'copyImages', 'watch', 'server']);
-gulp.task('build', ['less', 'copySprites', 'copyImages', 'copyVendorAssets', 'lint', 'browserify']);
+gulp.task('default', ['build', 'copySprites', 'watch', 'server']);
+gulp.task('build', ['less', 'copySprites', 'copyVendorAssets', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
   // gulp.watch('src/**/*.js', ['lint']);
@@ -37,12 +37,6 @@ gulp.task('server', () => {
     }));
 });
 
-// Copy images to dist
-// TODO: remove this when we convert completely to atlases
-gulp.task('copyImages', () => gulp.src('src/images/*.*')
-  .pipe(gulp.dest('dist/images'))
-);
-
 // Copy sprites to dist
 gulp.task('copySprites', () => gulp.src('src/atlases/**/*.*')
   .pipe(gulp.dest('dist/atlases'))
@@ -63,9 +57,9 @@ const bundler = watchify(browserify(opts));
 bundler.transform('babelify', {
   'presets': ['es2015']
 })
-.transform({global: true}, envify({
+.transform({ global: true }, envify({
   NODE_ENV: 'development'
-}))
+}));
 gulp.task('browserify', bundle);
 bundler.on('update', bundle);
 bundler.on('log', gutil.log);
