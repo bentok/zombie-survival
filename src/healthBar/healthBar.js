@@ -86,7 +86,7 @@ export class HealthBarSprite extends Phaser.Sprite {
    * Tween health bar when there is a change in player's heatlh.
    */
   update () {
-    this.game.add.tween(this).to( { width: this.character.health / this.character.maxHealth * config.width }, config.animationDuration, Phaser.Easing.Linear.None, true);
+    this.game.add.tween(this).to( { width: this.character.state.health / this.character.state.maxHealth * config.width }, config.animationDuration, Phaser.Easing.Linear.None, true);
   }
 
 }

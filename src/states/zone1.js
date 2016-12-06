@@ -1,6 +1,5 @@
-import { Player } from '../player/player';
+import { PlayerManager } from '../player/player.manager';
 import { LayerManager } from '../layerManager/layerManager';
-import { HealthBarSprite } from '../healthBar/healthBar';
 import { EnemyManager } from '../enemyManager/enemyManager';
 
 export class Zone1 extends Phaser.State {
@@ -32,9 +31,8 @@ export class Zone1 extends Phaser.State {
    * Create
    */
   create () {
-    this.player = new Player({ game: this.game, speed: 25 });
-    this.healthBar = new HealthBarSprite({ game: this.game, character: this.player });
-    this.game.enemyManager.addZombie( { player: this.player } );
+    this.player = new PlayerManager({ game: this.game, speed: 25 });
+    this.game.enemyManager.addZombie( { player: this.player.sprite } );
   }
 
 }
