@@ -44,6 +44,8 @@ export class Zombie extends Phaser.Sprite {
   bodySetup () {
     this.body.fixedRotation = true;
     this.body.damping = 0.2;
+    this.body.clearShapes();
+    this.body.loadPolygon('zombie-polygon', 'zombie');
   }
 
   /**
