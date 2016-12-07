@@ -49,7 +49,7 @@
     "curly": [2, "all"],
     "eol-last": 2,
     "func-style": [2, "declaration"],
-    "indent": [2, 2],
+    "indent": [2, 2, { "SwitchCase": 1 }],
     "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
     "linebreak-style": [2, "unix"],
     "new-cap": 2,
