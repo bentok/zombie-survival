@@ -11,12 +11,14 @@ export class PlayerSprite extends Phaser.Sprite {
   /**
    * @param  {Object} game Reference to the state's game object
    */
-  constructor ({ game = {} } = {}) {
+  constructor ({ game = {}, speed = 25 } = {}) {
     super(game, 150, window.innerHeight - 170, 'player');
     this.config = {
       scale: 1,
+      speed
     };
-
+    this.jumpTimer = 0;
+    this.actions = {};
     this.render();
   }
 
@@ -44,47 +46,43 @@ export class PlayerSprite extends Phaser.Sprite {
   }
 
   /**
-   * Plays run animation, sets the player's scale to face left, and moves the player left
+   * Sets actions for the sprite to perform. Executed from other managers such as InputListener
    */
-  runLeft ({ speed }) {
-    this.animations.play('run');
-    if (this.scale.x === this.config.scale) {
-      this.scale.x = -this.config.scale;
+  setAction ({ move = 'idle', jump = false } = {}) {
+    this.actions.move = move;
+    this.actions.jump = jump;
+  }
+
+  /**
+   * Phaser's update lifecycle hook
+   */
+  update () {
+    // Listen for move (direction) separately from jump so both can be executed simultaneously
+    switch (this.actions.move) {
+      case 'right':
+        this.animations.play('run');
+        if (this.scale.x === -this.config.scale) {
+          this.scale.x = this.config.scale;
+        }
+        this.body.velocity.x = 15 * this.config.speed;
+        break;
+      case 'left':
+        this.animations.play('run');
+        if (this.scale.x === this.config.scale) {
+          this.scale.x = -this.config.scale;
+        }
+        this.body.velocity.x = -15 * this.config.speed;
+        break;
+      case 'idle':
+        this.frameName = 'idle';
+        break;
+      default:
+        this.frameName = 'idle';
     }
-    this.body.velocity.x = -15 * speed;
-  }
-
-  /**
-   * Plays run animation, sets the player's scale to face right, and moves the player right
-   */
-  runRight ({ speed }) {
-    this.animations.play('run');
-    if (this.scale.x === -this.config.scale) {
-      this.scale.x = this.config.scale;
+    if (this.actions.jump && this.game.time.now > this.jumpTimer) {
+      this.body.moveUp(375);
+      this.jumpTimer = this.game.time.now + 750;
     }
-    this.body.velocity.x = 15 * speed;
-  }
-
-  /**
-   * Sets the player's animation from to the idle stance
-   */
-  idle () {
-    this.frameName = 'idle';
-  }
-
-  /**
-   * Initiates jump
-   * TODO: Add jump animation
-   */
-  jump () {
-    this.body.moveUp(375);
-  }
-
-  /**
-   * Setup controls
-   */
-  controlsSetup () {
-    this.jumpTimer = 0;
   }
 
 }

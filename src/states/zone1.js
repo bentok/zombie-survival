@@ -31,7 +31,7 @@ export class Zone1 extends Phaser.State {
    * Create
    */
   create () {
-    this.player = new PlayerManager({ game: this.game, speed: 25 });
+    this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
   }
 

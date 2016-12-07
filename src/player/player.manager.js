@@ -28,7 +28,7 @@ export class PlayerManager {
     };
 
     this.game = game;
-    this.inputManager = new InputManager({ game });
+    this.inputManager = new InputManager({ game, player: this });
     this.sprite = new PlayerSprite({ game, speed });
     this.healthBar = new HealthBarSprite({ game, character: this });
   }
