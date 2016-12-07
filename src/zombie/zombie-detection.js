@@ -14,37 +14,32 @@ const config = {
 /**
  * Add sprite for detection
  */
-export class ZombieDetector extends Phaser.BitmapData {
+export class ZombieDetector {
   constructor ({ game = {}, zombie = {} } = {}) {
-    super(game, 'detector raycast', window.innerWidth, window.innerHeight);
     this.game = game;
-    this.context.fillStyle = 'rgb(255, 255, 255)';
-    this.context.strokeStyle = 'rgb(255, 255, 255)';
-    this.game.add.image(0, 0, this);
     this.detectionTimer = this.game.time.now;
+    this.zombie = zombie;
   }
 
   update () {
 
     this.game.layerManager.layers.get('playerLayer').forEach( (player) => {
-      this.game.layerManager.layers.get('enemyLayer').forEach( (enemy) => {
 
-        let line = -180;
-        let ray;
+      let line = -180;
+      let ray;
 
-        while ( line < 90 ) {
-          if ( enemy.direction === 'left' ) {
-            ray = new Phaser.Line(enemy.x, enemy.y - 75, enemy.x - enemy.perception, enemy.y + line);
-            enemy.alerted = this.intersectionCheck(ray, player) ? true : false;
-          } else {
-            ray = new Phaser.Line(enemy.x, enemy.y - 75, enemy.x + enemy.perception, enemy.y + line);
-            enemy.alerted = this.intersectionCheck(ray, player) ? true : false;
-          }
-          this.game.debug.geom(ray);
-          line = line + 15;
+      while ( line < 90 ) {
+        if ( this.zombie.direction === 'left' ) {
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x - this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
+        } else {
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x + this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
         }
+        // this.game.debug.geom(ray);
+        line = line + 15;
+      }
 
-      } );
     });
 
     this.dirty = true;

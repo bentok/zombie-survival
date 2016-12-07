@@ -48,24 +48,7 @@ export class Zombie extends Phaser.Sprite {
     this.body.loadPolygon('zombie-polygon', 'zombie');
   }
 
-  /**
-   * Detect contact
-   * @param  {Object} body The body on the contacted object
-   * @param  {Object} bodyB ?
-   * @param  {Object} shapeA ?
-   * @param  {Object} shapeB ?
-   * @param  {Function} equation ??
-   */
-  contact (body, bodyB, shapeA, shapeB, equation) {
-    if ( body ) {
-      if ( body.sprite.key === 'player' ) {
-        console.log('I see the player!');
-        this.alerted = true;
-      }
-    }
-  }
-
-  /**
+    /**
    * Render on constructor instantiation
    */
   render () {
@@ -82,31 +65,21 @@ export class Zombie extends Phaser.Sprite {
    * Phaser's game loop
    */
   update () {
-
+    this.detector.update();
     this.setPatrol();
     if ( this.alerted ) {
-      this.game.debug.geom(this.getBounds());
-      this.perception = 600;
+      this.perception = 400;
       this.speed = 60;
     } else {
       this.perception = 300;
       this.speed = 10;
     }
-    // this.game.debug.spriteInfo(this, 600, 200);
-
-    this.detector.update();
-
   }
 
   /**
    * Sets the partol behavior of a zombie
    */
   setPatrol () {
-    // if (Math.abs(this.x - this.player.x) < this.perception) {
-    //   this.behaviorDuration = this.game.time.now;
-    //   this.alerted = true;
-    // }
-
     if (this.alerted) {
       if (this.x > this.player.x) {
         this.shamble({ direction: 'left' });
