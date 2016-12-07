@@ -1,9 +1,9 @@
 /**
  * Player sprite is responsible for the visual aspects of the sprite such as laoding its image,
  * its physics body, animations, and its collision polygon
- * 
+ *
  * TODO: Consider whether to separate body into a new file to abstract physics from the sprite file.
- * 
+ *
  * @class PlayerSprite
  */
 export class PlayerSprite extends Phaser.Sprite {
@@ -19,6 +19,7 @@ export class PlayerSprite extends Phaser.Sprite {
     };
     this.jumpTimer = 0;
     this.actions = {};
+    this.detectionBounds = {};
     this.render();
   }
 
@@ -57,6 +58,8 @@ export class PlayerSprite extends Phaser.Sprite {
    * Phaser's update lifecycle hook
    */
   update () {
+
+    this.updateDetectionBounds();
     // Listen for move (direction) separately from jump so both can be executed simultaneously
     switch (this.actions.move) {
       case 'right':
@@ -83,6 +86,13 @@ export class PlayerSprite extends Phaser.Sprite {
       this.body.moveUp(375);
       this.jumpTimer = this.game.time.now + 750;
     }
+  }
+
+  updateDetectionBounds () {
+    this.detectionBounds.top = new Phaser.Line(this.x - this.width / 2, this.y - this.height / 2, this.x + this.width / 2, this.y - this.height / 2);
+    this.detectionBounds.bottom = new Phaser.Line(this.x - this.width / 2, this.y + this.height / 2, this.x + this.width / 2, this.y + this.height / 2);
+    this.detectionBounds.right = new Phaser.Line(this.x + this.width / 2, this.y - this.height / 2, this.x + this.width / 2, this.y + this.height / 2);
+    this.detectionBounds.left = new Phaser.Line(this.x - this.width / 2, this.y - this.height / 2, this.x - this.width / 2, this.y + this.height / 2);
   }
 
 }

@@ -48,24 +48,7 @@ export class Zombie extends Phaser.Sprite {
     this.body.loadPolygon('zombie-polygon', 'zombie');
   }
 
-  /**
-   * Detect contact
-   * @param  {Object} body The body on the contacted object
-   * @param  {Object} bodyB ?
-   * @param  {Object} shapeA ?
-   * @param  {Object} shapeB ?
-   * @param  {Function} equation ??
-   */
-  contact (body, bodyB, shapeA, shapeB, equation) {
-    if ( body ) {
-      if ( body.sprite.key === 'player' ) {
-        console.log('I see the player!');
-        this.alerted = true;
-      }
-    }
-  }
-
-  /**
+    /**
    * Render on constructor instantiation
    */
   render () {
@@ -82,30 +65,27 @@ export class Zombie extends Phaser.Sprite {
    * Phaser's game loop
    */
   update () {
-
-    this.setPatrol();
-    this.game.debug.geom(this.getBounds());
-    this.game.debug.spriteInfo(this, 600, 200);
-
     this.detector.update();
-
+    this.setPatrol();
+    if ( this.alerted ) {
+      this.perception = 400;
+      this.speed = 60;
+    } else {
+      this.perception = 300;
+      this.speed = 10;
+    }
   }
 
   /**
    * Sets the partol behavior of a zombie
    */
   setPatrol () {
-    if (Math.abs(this.x - this.player.x) < this.perception) {
-      this.behaviorDuration = this.game.time.now;
-      this.alerted = true;
-    }
-
     if (this.alerted) {
       if (this.x > this.player.x) {
-        this.shamble({ direction: 'left', speedModifier: 30 });
+        this.shamble({ direction: 'left' });
         this.direction = 'left';
       } else {
-        this.shamble({ direction: 'right', speedModifier: 30 });
+        this.shamble({ direction: 'right' });
         this.direction = 'right';
       }
     } else {
@@ -115,16 +95,14 @@ export class Zombie extends Phaser.Sprite {
         // Stand when 0, walk when 1
         this.behavior = Math.round(Math.random());
         // Walk left when 0, walk right when 1
-        this.direction = Math.round(Math.random());
+        this.direction = Math.round(Math.random()) === 0 ? 'left' : 'right';
       }
       if (this.behaviorDuration > this.game.time.now) {
         if (this.behavior === 1) {
-          if (this.direction === 0) {
-            this.shamble({ direction: 'left', speedModifier: 15 });
-            this.direction = 'left';
+          if (this.direction === 'left') {
+            this.shamble({ direction: 'left' });
           } else {
-            this.shamble({ direction: 'right', speedModifier: 15 });
-            this.direction = 'right';
+            this.shamble({ direction: 'right' });
           }
         } else {
           this.frameName = 'idle';
@@ -139,7 +117,7 @@ export class Zombie extends Phaser.Sprite {
    * @param {Number} speedModifier Multiplier on zombie's default speed attribute
    */
   shamble ({ direction = 'left', speedModifier = 15 } = {}) {
-    const velocity = direction === 'left' ? -speedModifier : speedModifier;
+    const velocity = direction === 'left' ? -this.speed : this.speed;
     const scale = direction === 'left' ? -this.config.scale : this.config.scale;
     this.animations.play('shamble');
     this.scale.x = scale;

@@ -14,33 +14,50 @@ const config = {
 /**
  * Add sprite for detection
  */
-export class ZombieDetector extends Phaser.BitmapData {
+export class ZombieDetector {
   constructor ({ game = {}, zombie = {} } = {}) {
-    super(game, 'detector raycast', window.innerWidth, window.innerHeight);
     this.game = game;
-    this.distance = zombie.perception;
-    this.context.fillStyle = 'rgb(255, 255, 255)';
-    this.context.strokeStyle = 'rgb(255, 255, 255)';
-    this.game.add.image(0, 0, this);
+    this.detectionTimer = this.game.time.now;
+    this.zombie = zombie;
   }
 
   update () {
-    this.context.clearRect(0, 0, this.game.width, this.game.height);
 
     this.game.layerManager.layers.get('playerLayer').forEach( (player) => {
-      this.game.layerManager.layers.get('enemyLayer').forEach( (enemy) => {
-        this.context.beginPath();
-        this.context.moveTo(enemy.x, enemy.y - 90);
-        if ( enemy.direction === 'left' ) {
-          this.context.lineTo(enemy.x - this.distance, enemy.y - 90);
+
+      let line = -180;
+      let ray;
+
+      while ( line < 90 ) {
+        if ( this.zombie.direction === 'left' ) {
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x - this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
         } else {
-          this.context.lineTo(enemy.x + this.distance, enemy.y - 90);
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x + this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
         }
-        this.context.stroke();
-      } );
+        // this.game.debug.geom(ray);
+        line = line + 15;
+      }
+
     });
 
     this.dirty = true;
+  }
+
+  intersectionCheck (ray, player) {
+    let intersection = false;
+    if ( ray.intersects(player.detectionBounds.right) ||
+          ray.intersects(player.detectionBounds.left) ||
+          ray.intersects(player.detectionBounds.top) ||
+          ray.intersects(player.detectionBounds.bottom) ) {
+      this.detectionTimer = this.game.time.now + 300;
+      intersection = true;
+    }
+    if ( this.detectionTimer > this.game.time.now ) {
+      intersection = true;
+    }
+    return intersection;
   }
 
 }
