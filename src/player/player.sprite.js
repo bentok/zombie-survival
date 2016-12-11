@@ -31,6 +31,11 @@ export class PlayerSprite extends Phaser.Sprite {
     this.body.damping = 0.2;
     this.body.clearShapes();
     this.body.loadPolygon('player-polygon', 'player');
+
+    // TODO: Make a new class to define the camera settings
+    this.game.camera.follow(this);
+    // this.camera = new Phaser.Camera(this.game, 1, 1, 1, 1, 1);
+    // this.camera.view = new Phaser.Rectangle(1, 1, 1, 1);
   }
 
   /**

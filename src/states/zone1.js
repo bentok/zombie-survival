@@ -1,6 +1,7 @@
 import { PlayerManager } from '../player/player.manager';
 import { LayerManager } from '../layerManager/layerManager';
 import { EnemyManager } from '../enemyManager/enemyManager';
+import { GrassSprite } from '../environment/grass.sprite';
 
 export class Zone1 extends Phaser.State {
 
@@ -33,6 +34,9 @@ export class Zone1 extends Phaser.State {
   create () {
     this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
+    this.ground = new GrassSprite({ game: this.game });
+    
+    this.game.world.setBounds(0, 0, 10000, 1000);
   }
 
 }
