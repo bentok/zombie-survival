@@ -2,6 +2,7 @@ import { PlayerManager } from '../player/player.manager';
 import { LayerManager } from '../layerManager/layerManager';
 import { EnemyManager } from '../enemyManager/enemyManager';
 import { GrassSprite } from '../environment/grass.sprite';
+import { WORLD_WIDTH } from '../states/zone1.config';
 
 export class Zone1 extends Phaser.State {
 
@@ -36,7 +37,14 @@ export class Zone1 extends Phaser.State {
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
     this.ground = new GrassSprite({ game: this.game });
     
-    this.game.world.setBounds(0, 0, 10000, 1000);
+    /**
+     * Phaser.World.setBounds(x, y, width, height )
+     * x — Top left most corner of the world..
+     * y — Top left most corner of the world.
+     * width — New width of the game world in pixels.
+     * height — New height of the game world in pixels.
+     */
+    this.game.world.setBounds(0, 0, WORLD_WIDTH, window.innerHeight);
   }
 
 }

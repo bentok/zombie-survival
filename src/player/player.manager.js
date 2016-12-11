@@ -31,6 +31,10 @@ export class PlayerManager {
     this.inputManager = new InputManager({ game, player: this });
     this.sprite = new PlayerSprite({ game, speed });
     this.healthBar = new HealthBarSprite({ game, character: this });
+    
+    // TODO: add a new class to configure camera by extending Phaser.Camera
+    this.game.camera.follow(this.sprite);
+    this.game.camera.setBoundsToWorld();
   }
 
 }
