@@ -80,6 +80,9 @@ export class HealthBarSprite extends Phaser.Sprite {
     this.healthBarBG = new HealthBarBGSprite({ game: this.game });
     this.game.layerManager.layers.get('uiLayer').add(this.healthBarBG);
     this.game.layerManager.layers.get('uiLayer').add(this);
+
+    this.fixedToCamera = true;
+    this.healthBarBG.fixedToCamera = true;
   }
 
   /**
