@@ -1,17 +1,9 @@
-<<<<<<< HEAD:src/states/zone1/zone1.js
 import { EnvironmentManager } from '../../environment/environment.manager';
-=======
-import { EnvironmentManager } from './environment.manager';
->>>>>>> Adds environment manager to build a zone based on imported configs:src/states/zone1/zone1.js
 import { PlayerManager } from '../../player/player.manager';
 import { LayerManager } from '../../layerManager/layerManager';
 import { EnemyManager } from '../../enemyManager/enemyManager';
 import { GrassSprite } from '../../environment/grass.sprite';
-<<<<<<< HEAD:src/states/zone1/zone1.js
 import { CONFIG } from './zone1.config';
-=======
-import { WORLD_WIDTH } from './zone1.config';
->>>>>>> Adds environment manager to build a zone based on imported configs:src/states/zone1/zone1.js
 
 export class Zone1 extends Phaser.State {
 

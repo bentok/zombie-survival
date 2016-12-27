@@ -9,10 +9,16 @@ export const TREES = new Set([
     { x: 4000, y: window.innerHeight - 40, scale: 1.75 }
 ]);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Environment manager dynamically adds zones to map
 
 export const CONFIG = {
   WORLD_WIDTH,
   TREES
 };
+<<<<<<< HEAD
 =======
 >>>>>>> Adds environment manager to build a zone based on imported configs
+=======
+>>>>>>> Environment manager dynamically adds zones to map
