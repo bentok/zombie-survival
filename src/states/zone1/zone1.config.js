@@ -8,8 +8,11 @@ export const TREES = new Set([
     { x: 2250, y: window.innerHeight - 40, scale: 1 },
     { x: 4000, y: window.innerHeight - 40, scale: 1.75 }
 ]);
+<<<<<<< HEAD
 
 export const CONFIG = {
   WORLD_WIDTH,
   TREES
 };
+=======
+>>>>>>> Adds environment manager to build a zone based on imported configs
