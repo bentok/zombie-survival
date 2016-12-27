@@ -1,9 +1,9 @@
-import { PlayerManager } from '../player/player.manager';
-import { LayerManager } from '../layerManager/layerManager';
-import { EnemyManager } from '../enemyManager/enemyManager';
-import { GrassSprite } from '../environment/grass.sprite';
-import { TreeSprite } from '../environment/tree.sprite';
-import { WORLD_WIDTH } from '../states/zone1.config';
+import { EnvironmentManager } from './environment.manager';
+import { PlayerManager } from '../../player/player.manager';
+import { LayerManager } from '../../layerManager/layerManager';
+import { EnemyManager } from '../../enemyManager/enemyManager';
+import { GrassSprite } from '../../environment/grass.sprite';
+import { WORLD_WIDTH } from './zone1.config';
 
 export class Zone1 extends Phaser.State {
 
@@ -38,19 +38,7 @@ export class Zone1 extends Phaser.State {
     this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
     this.ground = new GrassSprite({ game: this.game });
-    // TODO: Clean this up and abstract to environment manager
-    this.game.stage.backgroundColor = '#00bfff';
-    for (let i = 0; i < 10; i++) {
-      if (i === 0) {
-        this.trees = [];
-      }
-      this.trees.push(new TreeSprite({ 
-        game: this.game,
-        location: { x: Math.random() * (WORLD_WIDTH - 0) + 0, y: window.innerHeight - 40 },
-        scale: 1,
-      }));
-    }
-    
+    this.environment = new EnvironmentManager({ game: this.game });
     /**
      * Phaser.World.setBounds(x, y, width, height )
      * x — Top left most corner of the world..
