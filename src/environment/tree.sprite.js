@@ -6,6 +6,7 @@
 export class TreeSprite extends Phaser.Sprite {
 
   /**
+<<<<<<< HEAD
    * @param {Object} game Reference to the state's game object
    * @param {Object} location X and Y coordinates to render the sprite
    * @param {Number} scale Scale to render the sprite
@@ -20,6 +21,15 @@ export class TreeSprite extends Phaser.Sprite {
       stillFrameName,
       isAnimated,
       location,
+=======
+   * @param  {Object} game Reference to the state's game object
+   */
+  constructor ({ game = {}, location = {}, scale = 1 } = {}) {
+
+    super(game, location.x, location.y, 'trees');
+    this.config = {
+      scale: 1,
+>>>>>>> Adds trees
     };
     this.render();
   }
@@ -29,6 +39,7 @@ export class TreeSprite extends Phaser.Sprite {
    */
   render () {
     this.game.add.existing(this);
+<<<<<<< HEAD
     /**
      * Phaser.Animations.add(name, generateFrameNames, frameRate, loop )
      * name — Name ot assign the animation
@@ -50,6 +61,12 @@ export class TreeSprite extends Phaser.Sprite {
     } else {
       this.frameName = this.config.stillFrameName;
     }
+=======
+    this.frameName = 'tree1';
+    this.scale.setTo(this.config.scale, this.config.scale);
+    this.anchor.setTo(1, 1);
+    this.game.layerManager.layers.get('environmentLayer').add(this);
+>>>>>>> Adds trees
   }
 
 }

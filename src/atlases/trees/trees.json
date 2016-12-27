@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "frames": [{
         "filename": "oak1",
@@ -91,3 +92,6 @@
         "scale": 1
     }
 }
+=======
+{"frames":[{"filename":"oak1","frame":{"x":0,"y":0,"w":500,"h":500},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":500,"h":500},"sourceSize":{"w":500,"h":500}},{"filename":"oak2","frame":{"x":0,"y":501,"w":500,"h":500},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":500,"h":500},"sourceSize":{"w":500,"h":500}},{"filename":"oak3","frame":{"x":501,"y":0,"w":500,"h":500},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":500,"h":500},"sourceSize":{"w":500,"h":500}},{"filename":"oak4","frame":{"x":501,"y":501,"w":500,"h":500},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":500,"h":500},"sourceSize":{"w":500,"h":500}}],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"trees.png","size":{"w":1001,"h":1001},"scale":1}}
+>>>>>>> Adds trees
