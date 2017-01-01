@@ -1,4 +1,5 @@
 import { generateTiles } from '../../environment/tileGenerator';
+import { getTileMap } from './tileMap.config';
 
 /**
  * @type {String} WORLD_WIDTH Width of zone1's world container
@@ -15,32 +16,15 @@ export const TREES = new Set([
     { x: 4000, y: window.innerHeight - 72, scale: 1.75 }
 ]);
 
-const grassLightConfig = {
-  size: 32,
-  yLevel: 2,
-  range: new Map([
-    [ 1, [0, WORLD_WIDTH / 5] ],
-    [ 2, [WORLD_WIDTH / 2, WORLD_WIDTH] ]
-  ])
-};
-
-const grassDarkConfig = {
-  size: 32,
-  yLevel: 1,
-};
-
-const dirtConfig = {
-  size: 32,
-  yLevel: 0,
-};
+const tileLocations = getTileMap({ WORLD_WIDTH });
 
 /**
- * @type {Map} TILES Each key represents a tile to render with a value of an array of settings
+ * @type {Map} TILES Each key represents a tile to render with a value of an array of objects which represent the settings of each tile
  */
 export const TILES = new Map([
-  [ 'grassLight', generateTiles({ tileName: 'grass-light', config: grassLightConfig }) ],
-  [ 'grassDark', generateTiles({ tileName: 'grass-dark', config: grassDarkConfig }) ],
-  [ 'dirt', generateTiles({ tileName: 'dirt-brown', config: dirtConfig })]
+  [ 'grassLight', generateTiles({ tileName: 'grass-light', config: tileLocations.grassLight }) ],
+  [ 'grassDark', generateTiles({ tileName: 'grass-dark', config: tileLocations.grassDark }) ],
+  [ 'dirt', generateTiles({ tileName: 'dirt-brown', config: tileLocations.dirt })]
 ]);
 <<<<<<< HEAD
 <<<<<<< HEAD
