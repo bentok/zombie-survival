@@ -1,4 +1,4 @@
-import { WORLD_WIDTH } from '../states/zone1.config';
+import { WORLD_WIDTH } from '../states/zone1/zone1.config';
 
 /**
  * Sets up the canvas for grass ground layer

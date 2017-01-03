@@ -1,4 +1,4 @@
-import { Zone1 } from './states/zone1';
+import { Zone1 } from './states/zone1/zone1';
 
 const zone1 = new Zone1();
 

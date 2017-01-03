@@ -1,8 +1,9 @@
-import { PlayerManager } from '../player/player.manager';
-import { LayerManager } from '../layerManager/layerManager';
-import { EnemyManager } from '../enemyManager/enemyManager';
-import { GrassSprite } from '../environment/grass.sprite';
-import { WORLD_WIDTH } from '../states/zone1.config';
+import { EnvironmentManager } from '../../environment/environment.manager';
+import { PlayerManager } from '../../player/player.manager';
+import { LayerManager } from '../../layerManager/layerManager';
+import { EnemyManager } from '../../enemyManager/enemyManager';
+import { GrassSprite } from '../../environment/grass.sprite';
+import { CONFIG } from './zone1.config';
 
 export class Zone1 extends Phaser.State {
 
@@ -15,6 +16,7 @@ export class Zone1 extends Phaser.State {
     this.game.load.physics('player-polygon', './dist/atlases/player/player-polygon.json');
     this.game.load.atlas('zombie', './dist/atlases/zombie/zombie.png', './dist/atlases/zombie/zombie.json');
     this.game.load.physics('zombie-polygon', './dist/atlases/zombie/zombie-polygon.json');
+    this.game.load.atlas('trees', './dist/atlases/trees/trees.png', './dist/atlases/trees/trees.json');
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
     this.game.enemyManager = new EnemyManager({ game: this.game });
@@ -36,7 +38,7 @@ export class Zone1 extends Phaser.State {
     this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
     this.ground = new GrassSprite({ game: this.game });
-    
+    this.environment = new EnvironmentManager({ game: this.game, config: CONFIG });
     /**
      * Phaser.World.setBounds(x, y, width, height )
      * x — Top left most corner of the world..
@@ -44,7 +46,7 @@ export class Zone1 extends Phaser.State {
      * width — New width of the game world in pixels.
      * height — New height of the game world in pixels.
      */
-    this.game.world.setBounds(0, 0, WORLD_WIDTH, window.innerHeight);
+    this.game.world.setBounds(0, 0, CONFIG.WORLD_WIDTH, window.innerHeight);
   }
 
 }
