@@ -1,6 +1,6 @@
 import { LayerManager } from '../layerManager/layerManager';
 import { TreeSprite } from './tree.sprite';
-import { GrassSprite } from './grass.sprite';
+import { TileSprite } from './tile.sprite';
 
 /**
  * @class EnvironmentManager
@@ -43,11 +43,14 @@ export class EnvironmentManager {
     }
   }
 
+  /**
+   * Renders a zone's tiles based on a config file
+   */
   renderTiles () {
     if (this.config.TILES) {
       for (const [key, value] of this.config.TILES.entries()) {
         for (const tile of value) {
-          const tileToAdd = new GrassSprite({ 
+          const tileToAdd = new TileSprite({ 
             game: this.game,
             location: { x: tile.x, y: tile.y },
             scale: tile.scale,

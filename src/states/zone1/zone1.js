@@ -2,7 +2,6 @@ import { EnvironmentManager } from '../../environment/environment.manager';
 import { PlayerManager } from '../../player/player.manager';
 import { LayerManager } from '../../layerManager/layerManager';
 import { EnemyManager } from '../../enemyManager/enemyManager';
-// import { GrassSprite } from '../../environment/grass.sprite';
 import { CONFIG } from './zone1.config';
 
 export class Zone1 extends Phaser.State {

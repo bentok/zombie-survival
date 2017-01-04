@@ -1,19 +1,17 @@
 /**
- * Tree sprite is used for background trees and can load various types of trees from an atlas
+ * TileSprite is an individual tile rendered by the tile generator
  * 
- * @class TreeSprite
+ * @class TileSprite
  */
-export class GrassSprite extends Phaser.Sprite {
+export class TileSprite extends Phaser.Sprite {
 
   /**
    * @param {Object} game Reference to the state's game object
    * @param {Object} location X and Y coordinates to render the sprite
    * @param {Number} scale Scale to render the sprite
-   * @param {String} stillFrameName Name to render sprite when no animation is playing
-   * @param {Boolean} isAnimated Whether or not the sprite should be animated 
+   * @param {String} tileName Name of the tile to render
    */
   constructor ({ game = {}, location = {}, scale = 1, tileName = 'grass-light' } = {}) {
-
     super(game, location.x, location.y, 'ground');
     this.config = {
       scale,
@@ -37,13 +35,12 @@ export class GrassSprite extends Phaser.Sprite {
      */
     this.scale.setTo(this.config.scale, this.config.scale);
     this.anchor.setTo(0, 1);
-
     this.game.physics.p2.enable(this, false, true);
     this.body.kinematic = true;
   }
 
   /**
-   * Displays a still frame or an animation on update loop
+   * Sets the frame to the tile that needs to be displayed
    */
   update () {
     this.frameName = this.config.tileName;
