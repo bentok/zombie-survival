@@ -1,5 +1,6 @@
 import { LayerManager } from '../layerManager/layerManager';
-import { TreeSprite } from '../environment/tree.sprite';
+import { TreeSprite } from './tree.sprite';
+import { TileSprite } from './tile.sprite';
 
 /**
  * @class EnvironmentManager
@@ -22,13 +23,14 @@ export class EnvironmentManager {
    * Run when the class is initialized
    */
   init () {
-    this.generateTrees();
+    this.renderTrees();
+    this.renderTiles();
   }
 
   /**
    * Sets up the trees based on the settings provided in a given zone's config object
    */
-  generateTrees () {
+  renderTrees () {
     if (this.config.TREES) {
       for (const tree of this.config.TREES) {
         const treeToAdd = new TreeSprite({ 
@@ -37,6 +39,25 @@ export class EnvironmentManager {
           scale: tree.scale,
         });
         this.game.layerManager.layers.get('environmentLayer').add(treeToAdd);
+      }
+    }
+  }
+
+  /**
+   * Renders a zone's tiles based on a config file
+   */
+  renderTiles () {
+    if (this.config.TILES) {
+      for (const [key, value] of this.config.TILES.entries()) {
+        for (const tile of value) {
+          const tileToAdd = new TileSprite({ 
+            game: this.game,
+            location: { x: tile.x, y: tile.y },
+            scale: tile.scale,
+            tileName: tile.tileName,
+          });
+          this.game.layerManager.layers.get('environmentLayer').add(tileToAdd);
+        }
       }
     }
   }
