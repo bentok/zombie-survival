@@ -76,11 +76,11 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tile.sprite.js.html">src/environment/tile.sprite.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/environment/tileGenerator.js.html">src/environment/tileGenerator.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/environment/tileGenerator.js.html">src/environment/tileGenerator.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
@@ -92,28 +92,17 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
-              <li><a href="#PlayerManager"><i class="alert alert-success"></i><span>PlayerManager</span></a>
-              </li>
-              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              <li><a href="#generateTiles"><i class="alert alert-info"></i><span>generateTiles</span></a>
               </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <section id="PlayerManager">
-            <h1>PlayerManager</h1>
+          <section id="generateTiles">
+            <h1>generateTiles</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">class</div><span>new PlayerManager()</span>
-            </p>
-          </section>
-          <div class="description"><p>Player manager is responsible for managing the state of the player and any aspects that are not<br />directly related to the body of the sprite such as user input and various stats and configuration<br />settings</p> </div>
-          <pre><code class="language-javascript">export class PlayerManager {</code></pre>
-          <section id="constructor">
-            <h1>constructor</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">constructor</div><span>PlayerManager.prototype.constructor()</span>
+              <div class="label label-info radius ctx-type">function</div><span>generateTiles()</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -126,51 +115,33 @@
             </thead>
             <tbody>
               <tr>
-                <td>game</td>
-                <td>Object</td>
-                <td><p>Reference to the state&#39;s game object</p></td>
-              </tr>
-              <tr>
-                <td>health</td>
-                <td>Number</td>
-                <td><p>Current player health</p></td>
-              </tr>
-              <tr>
-                <td>maxHealth</td>
-                <td>Number</td>
-                <td><p>Maximum health the player can have</p></td>
-              </tr>
-              <tr>
-                <td>speed</td>
-                <td>Number</td>
-                <td><p>Base speed modifier for the player</p></td>
-              </tr>
-              <tr>
-                <td>direction</td>
+                <td>tileName</td>
                 <td>String</td>
-                <td><p>The direction the player should be facing</p></td>
+                <td><p>Name of the tile&#39;s reference in the atlas</p></td>
+              </tr>
+              <tr>
+                <td>config</td>
+                <td>Object</td>
+                <td><p>Config object specifying where to render the tiles in the world</p></td>
               </tr>
             </tbody>
           </table>
-          <div class="description"> </div>
-          <pre><code class="language-javascript">constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25, direction = 'right' } = {}) {
-  this.state = {
-    health,
-    maxHealth,
-    speed,
-    direction
-  };
-
-  this.game = game;
-  this.inputManager = new InputManager({ game, player: this });
-  this.sprite = new PlayerSprite({ game, speed });
-  this.healthBar = new HealthBarSprite({ game, character: this });
-  
-  // TODO: add a new class to configure camera by extending Phaser.Camera
-  this.game.camera.follow(this.sprite);
-  this.game.camera.setBoundsToWorld();
-}
-
+          <div class="description"><p>Generates the settings for rendering each light grass tile</p> </div>
+          <pre><code class="language-javascript">export function generateTiles ({ tileName = '', config = {} } = {}) {
+  const tiles = [];
+  // Value is the location object on each entry
+  for (const [key, value] of config.location.entries()) {
+    // Draw tiles from the beginning until the end of the range at intervals equal to the size of the tile
+    for (let i = value.range[0] / config.size; i &lt; value.range[1] / config.size; i++) {
+      tiles.push({
+        x: config.size * i,
+        y: window.innerHeight - config.size * value.yLevel,
+        scale: 1,
+        tileName,
+      });
+    }
+  }
+  return tiles;
 }</code></pre>
         </div>
       </div>
