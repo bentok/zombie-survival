@@ -72,13 +72,13 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
@@ -90,26 +90,156 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#InputManager"><i class="alert alert-success"></i><span>InputManager</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#onKeyDown"><i class="alert alert-info"></i><span>onKeyDown</span></a>
+              </li>
+              <li><a href="#broadcastAction"><i class="alert alert-info"></i><span>broadcastAction</span></a>
+              </li>
+              <li><a href="#checkIfCanJump"><i class="alert alert-info"></i><span>checkIfCanJump</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="InputManager">
+            <h1>InputManager</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new InputManager()</span>
+            </p>
+          </section>
+          <div class="description"><p>Defines game inputs and methods in various classes on event listeners</p> </div>
+          <pre><code class="language-javascript">export class InputManager extends Phaser.Input {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>InputManager.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>game</td>
+                <td>Object</td>
+                <td><p>Reference to Phaser game</p></td>
+              </tr>
+              <tr>
+                <td>player</td>
+                <td>Class</td>
+                <td><p>Reference to player</p></td>
+              </tr>
+            </tbody>
+          </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">constructor ({ game = {}, player = {} } = {}) {
+  super(game);
+  this.player = player;
+  this.keys = game.input.keyboard.createCursorKeys();
+  this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
-  }
-  
+  // Default control values
+  this.actions = {
+    run: 'idle',
+    jump: false
+  };
+  this.init();
 }
 
-const game = new Game();</code></pre>
+init () {
+  this.onKeyDown();
+}</code></pre>
+          <section id="onKeyDown">
+            <h1>onKeyDown</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>InputManager.prototype.onKeyDown()</span>
+            </p>
+          </section>
+          <div class="description"><p>Initializes listeners for keyboard input and executes the listener callbacks<br />Note: Listener callbacks are defined within the context of this method because the listener will<br />not accept a class method as a callback</p> </div>
+          <pre><code class="language-javascript">onKeyDown () {
+  // Listen for direction key presses
+  for (const key in this.keys) {
+    if (this.keys.hasOwnProperty(key)) {</code></pre>
+          <div class="description"><p>Arguments for the following functions<br />Phaser.Input.onDown.add(callback, context, priority, argument)</p> </div>
+          <pre><code class="language-javascript">this.keys[key].onDown.add(broadcastAction, this, 0, { move: key });
+this.keys[key].onUp.add(broadcastAction, this, 0, { move: 'idle' });
+      }
+    }
+    // Listen for jump button press
+    this.jumpButton.onDown.add(broadcastAction, this, 0, { jump: true });
+    this.jumpButton.onUp.add(broadcastAction, this, 0, { jump: false });</code></pre>
+          <section id="broadcastAction">
+            <h1>broadcastAction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>broadcastAction()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>event</td>
+                <td>Object</td>
+                <td><p>Phaser event</p></td>
+              </tr>
+              <tr>
+                <td>values</td>
+                <td>String</td>
+                <td><p>Values of actions to perform</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Fire action on relevant classes</p> </div>
+          <pre><code class="language-javascript">function broadcastAction (event, { move = this.actions.move, jump = this.actions.jump } = {}) {
+  this.actions.move = move;
+  this.actions.jump = jump;
+  this.player.sprite.setAction({ move: this.actions.move, jump: this.actions.jump });
+}
+  }</code></pre>
+          <section id="checkIfCanJump">
+            <h1>checkIfCanJump</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>checkIfCanJump()</span>
+            </p>
+          </section>
+          <div class="description"><p>Check if user can jump by looping over P2 bodies and trajectories</p> </div>
+          <pre><code class="language-javascript">checkIfCanJump () {
+  const yAxis = p2.vec2.fromValues(0, 1);
+  let result = false;
+  for (const c of this.game.physics.p2.world.narrowphase.contactEquations) {
+    if ( c.bodyA === this.player.sprite.body.data || c.bodyB === this.player.sprite.body.data) {
+      let d = p2.vec2.dot(c.normalA, yAxis);
+      if (c.bodyA === this.player.sprite.body.data) {
+        d *= -1;
+      }
+      if (d &gt; 0.5) {
+        result = true;
+      }
+    }
+  }
+  return result;
+}
+
+}</code></pre>
         </div>
       </div>
     </div>

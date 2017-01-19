@@ -72,10 +72,10 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
@@ -90,26 +90,52 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#GrassBitmap"><i class="alert alert-success"></i><span>GrassBitmap</span></a>
+              </li>
+              <li><a href="#GrassSprite"><i class="alert alert-success"></i><span>GrassSprite</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
-
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+          <section id="GrassBitmap">
+            <h1>GrassBitmap</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new GrassBitmap()</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets up the canvas for grass ground layer</p> </div>
+          <pre><code class="language-javascript">class GrassBitmap extends Phaser.BitmapData {
+  constructor ({ game = {} } = {}) {
+    super(game, 'grass', WORLD_WIDTH, 40);
+    this.ctx.fillStyle = '#476A34';
+    this.ctx.beginPath();
+    this.ctx.rect(0, 20, WORLD_WIDTH, 20);
+    this.ctx.fill();
+    this.ctx.fillStyle = '#687E5A';
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, WORLD_WIDTH, 20);
+    this.ctx.fill();
   }
-  
-}
-
-const game = new Game();</code></pre>
+}</code></pre>
+          <section id="GrassSprite">
+            <h1>GrassSprite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new GrassSprite()</span>
+            </p>
+          </section>
+          <div class="description"><p>Loads GrassBitmap into a sprite so physics can be applied</p> </div>
+          <pre><code class="language-javascript">export class GrassSprite extends Phaser.Sprite {
+  constructor ({ game = {} } = {}) {
+    super(game, WORLD_WIDTH / 2, game.world.height - 20, new GrassBitmap({ game }));
+    game.add.existing(this);
+    this.anchor.setTo(0, 0);
+    game.physics.p2.enable(this, false, true);
+    this.body.kinematic = true;
+  }
+}</code></pre>
         </div>
       </div>
     </div>

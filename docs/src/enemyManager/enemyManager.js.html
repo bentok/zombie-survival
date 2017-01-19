@@ -72,8 +72,8 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
@@ -90,26 +90,32 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#EnemyManager"><i class="alert alert-success"></i><span>EnemyManager</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
-
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+          <section id="EnemyManager">
+            <h1>EnemyManager</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new EnemyManager()</span>
+            </p>
+          </section>
+          <div class="description"><p>Manages the Enemies</p> </div>
+          <pre><code class="language-javascript">export class EnemyManager {
+  constructor ({ game = {} } = {}) {
+    this.game = game;
+    this.zombies = [];
   }
-  
-}
 
-const game = new Game();</code></pre>
+  addZombie ( { player = {} } ) {
+    const zombie = new Zombie({ game: this.game, speed: 1, player });
+    zombie.detector = new ZombieDetector( { game: this.game, zombie } );
+    this.zombies.push( zombie );
+  }
+}</code></pre>
         </div>
       </div>
     </div>

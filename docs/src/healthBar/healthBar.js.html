@@ -72,12 +72,12 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
@@ -90,26 +90,142 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#config"><i class="alert alert-success"></i><span>config</span></a>
+              </li>
+              <li><a href="#HealthBarBGCanvas"><i class="alert alert-success"></i><span>HealthBarBGCanvas</span></a>
+              </li>
+              <li><a href="#HealthBarBGSprite"><i class="alert alert-success"></i><span>HealthBarBGSprite</span></a>
+              </li>
+              <li><a href="#HealthBarCanvas"><i class="alert alert-success"></i><span>HealthBarCanvas</span></a>
+              </li>
+              <li><a href="#HealthBarSprite"><i class="alert alert-success"></i><span>HealthBarSprite</span></a>
+              </li>
+              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+              </li>
+              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
-
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+          <div class="description"><p>Sets up the bitmap canvases and sprites for the health bar and health bar background.</p> </div>
+          <section id="config">
+            <h1>config</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>config</span>
+            </p>
+          </section>
+          <div class="description"><p>Configuration of health bar.</p> </div>
+          <pre><code class="language-javascript">const config = {
+  width: 300,
+  height: 12,
+  x: 10,
+  y: 10,
+  bg: {
+    color: '#404040'
+  },
+  bar: {
+    color: '#AB1111'
+  },
+  animationDuration: 200
+};</code></pre>
+          <section id="HealthBarBGCanvas">
+            <h1>HealthBarBGCanvas</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new HealthBarBGCanvas()</span>
+            </p>
+          </section>
+          <div class="description"><p>Canvas drawing for health bar background.</p> </div>
+          <pre><code class="language-javascript">class HealthBarBGCanvas extends Phaser.BitmapData {
+  constructor ({ game = {} } = {}) {
+    super(game, 'health bar background', config.width, config.height);
+    this.ctx.fillStyle = config.bg.color;
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, config.width, config.height);
+    this.ctx.fill();
   }
-  
+}</code></pre>
+          <section id="HealthBarBGSprite">
+            <h1>HealthBarBGSprite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new HealthBarBGSprite()</span>
+            </p>
+          </section>
+          <div class="description"><p>Loads health bar background canvas as sprite.</p> </div>
+          <pre><code class="language-javascript">class HealthBarBGSprite extends Phaser.Sprite {
+  constructor ({ game = {} } = {}) {
+    super(game, config.x, config.y, new HealthBarBGCanvas({ game }));
+    game.add.existing(this);
+  }
+}</code></pre>
+          <section id="HealthBarCanvas">
+            <h1>HealthBarCanvas</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new HealthBarCanvas()</span>
+            </p>
+          </section>
+          <div class="description"><p>Canvas drawing for health bar.</p> </div>
+          <pre><code class="language-javascript">class HealthBarCanvas extends Phaser.BitmapData {
+  constructor ({ game = {} } = {}) {
+    super(game, 'health bar', config.width, config.height);
+    this.ctx.fillStyle = config.bar.color;
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, config.width - 10, config.height / 2);
+    this.ctx.fill();
+  }
+}</code></pre>
+          <section id="HealthBarSprite">
+            <h1>HealthBarSprite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new HealthBarSprite()</span>
+            </p>
+          </section>
+          <div class="description"><p>Loads health bar canvas as a sprite and render all healthbar assets.</p> </div>
+          <pre><code class="language-javascript">export class HealthBarSprite extends Phaser.Sprite {
+
+  constructor ({ game = {}, character = {} } = {}) {
+    super(game, config.x + 5, config.y + 3, new HealthBarCanvas({ game }));
+    game.add.existing(this);
+
+    this.character = character;
+    this.layerManager = new LayerManager();
+
+    this.render();
+  }</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>HealthBarSprite.prototype.render()</span>
+            </p>
+          </section>
+          <div class="description"><p>Render the healthbar background and load both sprites into the layer manager.</p> </div>
+          <pre><code class="language-javascript">render () {
+  this.healthBarBG = new HealthBarBGSprite({ game: this.game });
+  this.game.layerManager.layers.get('uiLayer').add(this.healthBarBG);
+  this.game.layerManager.layers.get('uiLayer').add(this);
+
+  this.fixedToCamera = true;
+  this.healthBarBG.fixedToCamera = true;
+}</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>HealthBarSprite.prototype.update()</span>
+            </p>
+          </section>
+          <div class="description"><p>Tween health bar when there is a change in player&#39;s heatlh.</p> </div>
+          <pre><code class="language-javascript">update () {
+  this.game.add.tween(this).to( { width: this.character.state.health / this.character.state.maxHealth * config.width }, config.animationDuration, Phaser.Easing.Linear.None, true);
 }
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

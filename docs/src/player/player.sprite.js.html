@@ -72,7 +72,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
@@ -81,7 +81,7 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/services/spawn.js.html">src/services/spawn.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
@@ -90,26 +90,156 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#PlayerSprite"><i class="alert alert-success"></i><span>PlayerSprite</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#bodySetup"><i class="alert alert-info"></i><span>bodySetup</span></a>
+              </li>
+              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+              </li>
+              <li><a href="#setAction"><i class="alert alert-info"></i><span>setAction</span></a>
+              </li>
+              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="PlayerSprite">
+            <h1>PlayerSprite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new PlayerSprite()</span>
+            </p>
+          </section>
+          <div class="description"><p>Player sprite is responsible for the visual aspects of the sprite such as laoding its image,<br />its physics body, animations, and its collision polygon</p><p>TODO: Consider whether to separate body into a new file to abstract physics from the sprite file.</p> </div>
+          <pre><code class="language-javascript">export class PlayerSprite extends Phaser.Sprite {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>PlayerSprite.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>game</td>
+                <td>Object</td>
+                <td><p>Reference to the state&#39;s game object</p></td>
+              </tr>
+            </tbody>
+          </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">constructor ({ game = {}, speed = 25 } = {}) {
+  super(game, 150, window.innerHeight - 170, 'player');
+  this.config = {
+    scale: 1,
+    speed
+  };
+  this.jumpTimer = 0;
+  this.actions = {};
+  this.detectionBounds = {};
+  this.render();
+}</code></pre>
+          <section id="bodySetup">
+            <h1>bodySetup</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>PlayerSprite.prototype.bodySetup()</span>
+            </p>
+          </section>
+          <div class="description"><p>Setup sprite body settings</p> </div>
+          <pre><code class="language-javascript">bodySetup () {
+  this.body.fixedRotation = true;
+  this.body.damping = 0.2;
+  this.body.clearShapes();
+  this.body.loadPolygon('player-polygon', 'player');
+}</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>PlayerSprite.prototype.render()</span>
+            </p>
+          </section>
+          <div class="description"><p>Render the sprite body</p> </div>
+          <pre><code class="language-javascript">render () {
+  this.game.add.existing(this);
+  this.animations.add('run', Phaser.Animation.generateFrameNames('run', 1, 5), 15, true);
+  this.scale.setTo(this.config.scale, this.config.scale);
+  this.anchor.setTo(0.5, 0);
+  this.game.layerManager.layers.get('playerLayer').add(this);
+  this.game.physics.p2.enable(this.game.layerManager.layers.get('playerLayer'), false, true);
+  this.bodySetup();
+}</code></pre>
+          <section id="setAction">
+            <h1>setAction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>PlayerSprite.prototype.setAction()</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets actions for the sprite to perform. Executed from other managers such as InputListener</p> </div>
+          <pre><code class="language-javascript">setAction ({ move = 'idle', jump = false } = {}) {
+  this.actions.move = move;
+  this.actions.jump = jump;
+}</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>PlayerSprite.prototype.update()</span>
+            </p>
+          </section>
+          <div class="description"><p>Phaser&#39;s update lifecycle hook</p> </div>
+          <pre><code class="language-javascript">update () {
 
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+  this.updateDetectionBounds();
+  // Listen for move (direction) separately from jump so both can be executed simultaneously
+  switch (this.actions.move) {
+    case 'right':
+      this.animations.play('run');
+      if (this.scale.x === -this.config.scale) {
+        this.scale.x = this.config.scale;
+      }
+      this.body.velocity.x = 15 * this.config.speed;
+      break;
+    case 'left':
+      this.animations.play('run');
+      if (this.scale.x === this.config.scale) {
+        this.scale.x = -this.config.scale;
+      }
+      this.body.velocity.x = -15 * this.config.speed;
+      break;
+    case 'idle':
+      this.frameName = 'idle';
+      break;
+    default:
+      this.frameName = 'idle';
   }
-  
+  if (this.actions.jump &amp;&amp; this.game.time.now &gt; this.jumpTimer) {
+    this.body.moveUp(375);
+    this.jumpTimer = this.game.time.now + 750;
+  }
 }
 
-const game = new Game();</code></pre>
+updateDetectionBounds () {
+  this.detectionBounds.top = new Phaser.Line(this.x - this.width / 2, this.y - this.height / 2, this.x + this.width / 2, this.y - this.height / 2);
+  this.detectionBounds.bottom = new Phaser.Line(this.x - this.width / 2, this.y + this.height / 2, this.x + this.width / 2, this.y + this.height / 2);
+  this.detectionBounds.right = new Phaser.Line(this.x + this.width / 2, this.y - this.height / 2, this.x + this.width / 2, this.y + this.height / 2);
+  this.detectionBounds.left = new Phaser.Line(this.x - this.width / 2, this.y - this.height / 2, this.x - this.width / 2, this.y + this.height / 2);
+}
+
+}</code></pre>
         </div>
       </div>
     </div>

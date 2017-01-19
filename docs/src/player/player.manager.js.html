@@ -72,7 +72,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
@@ -80,7 +80,7 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/services/spawn.js.html">src/services/spawn.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
@@ -90,26 +90,86 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#PlayerManager"><i class="alert alert-success"></i><span>PlayerManager</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="PlayerManager">
+            <h1>PlayerManager</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new PlayerManager()</span>
+            </p>
+          </section>
+          <div class="description"><p>Player manager is responsible for managing the state of the player and any aspects that are not<br />directly related to the body of the sprite such as user input and various stats and configuration<br />settings</p> </div>
+          <pre><code class="language-javascript">export class PlayerManager {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>PlayerManager.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>game</td>
+                <td>Object</td>
+                <td><p>Reference to the state&#39;s game object</p></td>
+              </tr>
+              <tr>
+                <td>health</td>
+                <td>Number</td>
+                <td><p>Current player health</p></td>
+              </tr>
+              <tr>
+                <td>maxHealth</td>
+                <td>Number</td>
+                <td><p>Maximum health the player can have</p></td>
+              </tr>
+              <tr>
+                <td>speed</td>
+                <td>Number</td>
+                <td><p>Base speed modifier for the player</p></td>
+              </tr>
+              <tr>
+                <td>direction</td>
+                <td>String</td>
+                <td><p>The direction the player should be facing</p></td>
+              </tr>
+            </tbody>
+          </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25, direction = 'right' } = {}) {
+  this.state = {
+    health,
+    maxHealth,
+    speed,
+    direction
+  };
 
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
-  }
+  this.game = game;
+  this.inputManager = new InputManager({ game, player: this });
+  this.sprite = new PlayerSprite({ game, speed });
+  this.healthBar = new HealthBarSprite({ game, character: this });
   
+  // TODO: add a new class to configure camera by extending Phaser.Camera
+  this.game.camera.follow(this.sprite);
+  this.game.camera.setBoundsToWorld();
 }
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

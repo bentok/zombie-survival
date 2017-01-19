@@ -72,7 +72,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
@@ -83,33 +83,89 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/services/spawn.js.html">src/services/spawn.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.config.js.html">src/states/zone1/zone1.config.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.js.html">src/states/zone1/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#config"><i class="alert alert-success"></i><span>config</span></a>
+              </li>
+              <li><a href="#ZombieDetector"><i class="alert alert-success"></i><span>ZombieDetector</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
-
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+          <div class="description"><p>Creates a new Zombie detection collider</p> </div>
+          <section id="config">
+            <h1>config</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>config</span>
+            </p>
+          </section>
+          <div class="description"><p>Configuration of Zombie detection collider.</p> </div>
+          <pre><code class="language-javascript">const config = {
+  width: 500,
+  height: 25
+};</code></pre>
+          <section id="ZombieDetector">
+            <h1>ZombieDetector</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new ZombieDetector()</span>
+            </p>
+          </section>
+          <div class="description"><p>Add sprite for detection</p> </div>
+          <pre><code class="language-javascript">export class ZombieDetector {
+  constructor ({ game = {}, zombie = {} } = {}) {
+    this.game = game;
+    this.detectionTimer = this.game.time.now;
+    this.zombie = zombie;
   }
-  
-}
 
-const game = new Game();</code></pre>
+  update () {
+
+    this.game.layerManager.layers.get('playerLayer').forEach( (player) =&gt; {
+
+      let line = -180;
+      let ray;
+
+      while ( line &lt; 90 ) {
+        if ( this.zombie.direction === 'left' ) {
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x - this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
+        } else {
+          ray = new Phaser.Line(this.zombie.x, this.zombie.y - 75, this.zombie.x + this.zombie.perception, this.zombie.y + line);
+          this.zombie.alerted = this.intersectionCheck(ray, player) ? true : false;
+        }
+        // this.game.debug.geom(ray);
+        line = line + 15;
+      }
+
+    });
+
+    this.dirty = true;
+  }
+
+  intersectionCheck (ray, player) {
+    let intersection = false;
+    if ( ray.intersects(player.detectionBounds.right) ||
+          ray.intersects(player.detectionBounds.left) ||
+          ray.intersects(player.detectionBounds.top) ||
+          ray.intersects(player.detectionBounds.bottom) ) {
+      this.detectionTimer = this.game.time.now + 300;
+      intersection = true;
+    }
+    if ( this.detectionTimer &gt; this.game.time.now ) {
+      intersection = true;
+    }
+    return intersection;
+  }
+
+}</code></pre>
         </div>
       </div>
     </div>
