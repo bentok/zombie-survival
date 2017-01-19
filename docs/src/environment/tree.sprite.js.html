@@ -72,11 +72,11 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
@@ -90,26 +90,114 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#TreeSprite"><i class="alert alert-success"></i><span>TreeSprite</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+              </li>
+              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="TreeSprite">
+            <h1>TreeSprite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new TreeSprite()</span>
+            </p>
+          </section>
+          <div class="description"><p>Tree sprite is used for background trees and can load various types of trees from an atlas</p> </div>
+          <pre><code class="language-javascript">export class TreeSprite extends Phaser.Sprite {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>TreeSprite.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>game</td>
+                <td>Object</td>
+                <td><p>Reference to the state&#39;s game object</p></td>
+              </tr>
+              <tr>
+                <td>location</td>
+                <td>Object</td>
+                <td><p>X and Y coordinates to render the sprite</p></td>
+              </tr>
+              <tr>
+                <td>scale</td>
+                <td>Number</td>
+                <td><p>Scale to render the sprite</p></td>
+              </tr>
+              <tr>
+                <td>stillFrameName</td>
+                <td>String</td>
+                <td><p>Name to render sprite when no animation is playing</p></td>
+              </tr>
+              <tr>
+                <td>isAnimated</td>
+                <td>Boolean</td>
+                <td><p>Whether or not the sprite should be animated</p></td>
+              </tr>
+            </tbody>
+          </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">constructor ({ game = {}, location = {}, scale = 1, stillFrameName = 'oak1', isAnimated = false } = {}) {
 
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+  super(game, location.x, location.y, 'trees');
+  this.config = {
+    scale,
+    stillFrameName,
+    isAnimated,
+    location,
+  };
+  this.render();
+}</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>TreeSprite.prototype.render()</span>
+            </p>
+          </section>
+          <div class="description"><p>Render the sprite</p> </div>
+          <pre><code class="language-javascript">render () {
+  this.game.add.existing(this);</code></pre>
+          <div class="description"><p>Phaser.Animations.add(name, generateFrameNames, frameRate, loop )<br />name — Name ot assign the animation<br />generateFrameNames — Phaser automatically will grab oak1 through oak3<br />frameRate — Frame rate to play animation<br />loop — Whether or not to loop the animation</p> </div>
+          <pre><code class="language-javascript">this.animations.add('sway', Phaser.Animation.generateFrameNames('oak', 1, 4), 1, true);
+this.scale.setTo(this.config.scale, this.config.scale);
+this.anchor.setTo(0, 1);
+  }</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>update()</span>
+            </p>
+          </section>
+          <div class="description"><p>Displays a still frame or an animation on update loop</p> </div>
+          <pre><code class="language-javascript">update () {
+  if (this.config.isAnimated) {
+    this.animations.play('sway');
+  } else {
+    this.frameName = this.config.stillFrameName;
   }
-  
 }
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

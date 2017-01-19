@@ -72,7 +72,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
@@ -86,30 +86,64 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.config.js.html">src/states/zone1/zone1.config.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.js.html">src/states/zone1/zone1.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.js.html">src/states/zone1/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#preload"><i class="alert alert-info"></i><span>preload</span></a>
+              </li>
+              <li><a href="#create"><i class="alert alert-info"></i><span>create</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <section id="preload">
+            <h1>preload</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>preload()</span>
+            </p>
+          </section>
+          <div class="description"><p>Preload</p> </div>
+          <pre><code class="language-javascript">preload () {
+  // Load sprites and manage layers
+  this.game.load.atlas('player', './dist/atlases/player/player.png', './dist/atlases/player/player.json');
+  this.game.load.physics('player-polygon', './dist/atlases/player/player-polygon.json');
+  this.game.load.atlas('zombie', './dist/atlases/zombie/zombie.png', './dist/atlases/zombie/zombie.json');
+  this.game.load.physics('zombie-polygon', './dist/atlases/zombie/zombie-polygon.json');
+  this.game.load.atlas('trees', './dist/atlases/trees/trees.png', './dist/atlases/trees/trees.json');
+  this.game.layerManager = new LayerManager({ game: this.game });
+  this.game.layerManager.setup();
+  this.game.enemyManager = new EnemyManager({ game: this.game });
 
-const zone1 = new Zone1();
+  // Set game scale
+  this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  this.game.scale.pageAlignHorizontally = true;
+  this.game.scale.pageAlignVertically = true;
 
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+  // Set Physics for Zone
+  this.physics.startSystem(Phaser.Physics.P2JS);
+  this.game.physics.p2.gravity.y = 1000;
+}</code></pre>
+          <section id="create">
+            <h1>create</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>create()</span>
+            </p>
+          </section>
+          <div class="description"><p>Create</p> </div>
+          <pre><code class="language-javascript">create () {
+  this.player = new PlayerManager({ game: this.game });
+  this.game.enemyManager.addZombie( { player: this.player.sprite } );
+  this.ground = new GrassSprite({ game: this.game });
+  this.environment = new EnvironmentManager({ game: this.game, config: CONFIG });</code></pre>
+          <div class="description"><p>Phaser.World.setBounds(x, y, width, height )<br />x — Top left most corner of the world..<br />y — Top left most corner of the world.<br />width — New width of the game world in pixels.<br />height — New height of the game world in pixels.</p> </div>
+          <pre><code class="language-javascript">this.game.world.setBounds(0, 0, CONFIG.WORLD_WIDTH, window.innerHeight);
   }
-  
-}
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

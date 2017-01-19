@@ -72,7 +72,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
@@ -84,32 +84,229 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/services/spawn.js.html">src/services/spawn.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.config.js.html">src/states/zone1/zone1.config.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/states/zone1/zone1.js.html">src/states/zone1/zone1.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#spawn"><i class="alert alert-success"></i><span>spawn</span></a>
+              </li>
+              <li><a href="#Zombie"><i class="alert alert-success"></i><span>Zombie</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#bodySetup"><i class="alert alert-info"></i><span>bodySetup</span></a>
+              </li>
+              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+              </li>
+              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
+              </li>
+              <li><a href="#setPatrol"><i class="alert alert-info"></i><span>setPatrol</span></a>
+              </li>
+              <li><a href="#shamble"><i class="alert alert-info"></i><span>shamble</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="spawn">
+            <h1>spawn</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>spawn</span>
+            </p>
+          </section>
+          <div class="description"><p>Spawn point coordinates</p> </div>
+          <pre><code class="language-javascript">const spawn = new Spawn();</code></pre>
+          <section id="Zombie">
+            <h1>Zombie</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new Zombie()</span>
+            </p>
+          </section>
+          <div class="description"><p>Zombie</p> </div>
+          <pre><code class="language-javascript">export class Zombie extends Phaser.Sprite {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>Zombie.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>health</td>
+                <td>Number</td>
+                <td><p>Current health of the zombie</p></td>
+              </tr>
+              <tr>
+                <td>maxHealth</td>
+                <td>Number</td>
+                <td><p>Maximum possible health for the zombie</p></td>
+              </tr>
+              <tr>
+                <td>speed</td>
+                <td>Number</td>
+                <td><p>Walking speed for zombie</p></td>
+              </tr>
+            </tbody>
+          </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">constructor ({ game = {}, health = 100, maxHealth = 100, speed = 10, player = {}, perception = 300 } = {}) {
+  super(game, spawn.location.x, spawn.location.y, 'zombie');
 
-const zone1 = new Zone1();
+  this.health = health;
+  this.maxHealth = maxHealth;
+  this.speed = speed;
+  this.alerted = false;
+  this.perception = perception;
+  this.direction = 'left';
+  this.player = player;
+  this.config = {
+    scale: 1
+  };
 
-class Game extends Phaser.Game {
+  this.detector = {};
 
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+  this.render();
+}</code></pre>
+          <section id="bodySetup">
+            <h1>bodySetup</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.bodySetup()</span>
+            </p>
+          </section>
+          <div class="description"><p>Setup sprite body settings</p> </div>
+          <pre><code class="language-javascript">bodySetup () {
+  this.body.fixedRotation = true;
+  this.body.damping = 0.2;
+  this.body.clearShapes();
+  this.body.loadPolygon('zombie-polygon', 'zombie');
+}</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.render()</span>
+            </p>
+          </section>
+          <div class="description"><p>Render on constructor instantiation</p> </div>
+          <pre><code class="language-javascript">render () {
+  this.game.add.existing(this);
+  this.animations.add('shamble', Phaser.Animation.generateFrameNames('shamble', 1, 2), 2, true);
+  this.scale.setTo(this.config.scale, this.config.scale);
+  this.anchor.setTo(0.5, 0);
+  this.game.layerManager.layers.get('enemyLayer').add(this);
+  this.game.physics.p2.enable(this.game.layerManager.layers.get('enemyLayer'), false, true);
+  this.bodySetup();
+}</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.update()</span>
+            </p>
+          </section>
+          <div class="description"><p>Phaser&#39;s game loop</p> </div>
+          <pre><code class="language-javascript">update () {
+  this.detector.update();
+  this.setPatrol();
+  if ( this.alerted ) {
+    this.perception = 400;
+    this.speed = 60;
+  } else {
+    this.perception = 300;
+    this.speed = 10;
   }
-  
+}</code></pre>
+          <section id="setPatrol">
+            <h1>setPatrol</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.setPatrol()</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets the partol behavior of a zombie</p> </div>
+          <pre><code class="language-javascript">setPatrol () {
+  if (this.alerted) {
+    if (this.x &gt; this.player.x) {
+      this.shamble({ direction: 'left' });
+      this.direction = 'left';
+    } else {
+      this.shamble({ direction: 'right' });
+      this.direction = 'right';
+    }
+  } else {
+    if (!this.behaviorDuration || this.behaviorDuration &lt;= this.game.time.now) {
+      // Set a duration for a new behavior
+      this.behaviorDuration = this.game.time.now + 5000;
+      // Stand when 0, walk when 1
+      this.behavior = Math.round(Math.random());
+      // Walk left when 0, walk right when 1
+      this.direction = Math.round(Math.random()) === 0 ? 'left' : 'right';
+    }
+    if (this.behaviorDuration &gt; this.game.time.now) {
+      if (this.behavior === 1) {
+        if (this.direction === 'left') {
+          this.shamble({ direction: 'left' });
+        } else {
+          this.shamble({ direction: 'right' });
+        }
+      } else {
+        this.frameName = 'idle';
+      }
+    }
+  }
+}</code></pre>
+          <section id="shamble">
+            <h1>shamble</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>Zombie.prototype.shamble()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>direction</td>
+                <td>String</td>
+                <td><p>Direction of animations</p></td>
+              </tr>
+              <tr>
+                <td>speedModifier</td>
+                <td>Number</td>
+                <td><p>Multiplier on zombie&#39;s default speed attribute</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Runs shamble animations</p> </div>
+          <pre><code class="language-javascript">shamble ({ direction = 'left', speedModifier = 15 } = {}) {
+  const velocity = direction === 'left' ? -this.speed : this.speed;
+  const scale = direction === 'left' ? -this.config.scale : this.config.scale;
+  this.animations.play('shamble');
+  this.scale.x = scale;
+  this.body.velocity.x = velocity;
 }
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

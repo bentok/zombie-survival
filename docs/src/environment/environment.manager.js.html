@@ -72,9 +72,9 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="http://bentok.github.io/zombie-survival/index.html">Main</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/enemyManager/enemyManager.js.html">src/enemyManager/enemyManager.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/grass.sprite.js.html">src/environment/grass.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
@@ -90,26 +90,90 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#EnvironmentManager"><i class="alert alert-success"></i><span>EnvironmentManager</span></a>
+              </li>
+              <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#init"><i class="alert alert-info"></i><span>init</span></a>
+              </li>
+              <li><a href="#generateTrees"><i class="alert alert-info"></i><span>generateTrees</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="EnvironmentManager">
+            <h1>EnvironmentManager</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>new EnvironmentManager()</span>
+            </p>
+          </section>
           <div class="description"> </div>
-          <pre><code class="language-javascript">import { Zone1 } from './states/zone1/zone1';
+          <pre><code class="language-javascript">export class EnvironmentManager {</code></pre>
+          <section id="constructor">
+            <h1>constructor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>EnvironmentManager.prototype.constructor()</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>game</td>
+                <td>Object</td>
+                <td><p>Reference to the state&#39;s game object</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"> </div>
+          <pre><code class="language-javascript">constructor ({ game = {}, config = {} } = {}) {
+  this.game = game;
+  this.config = config;
 
-const zone1 = new Zone1();
-
-class Game extends Phaser.Game {
-
-  constructor () {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, '', null);
-    this.state.add('Zone1', zone1, false);
-    this.state.start('Zone1');
+  this.init();
+}</code></pre>
+          <section id="init">
+            <h1>init</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>EnvironmentManager.prototype.init()</span>
+            </p>
+          </section>
+          <div class="description"><p>Run when the class is initialized</p> </div>
+          <pre><code class="language-javascript">init () {
+  this.generateTrees();
+}</code></pre>
+          <section id="generateTrees">
+            <h1>generateTrees</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>EnvironmentManager.prototype.generateTrees()</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets up the trees based on the settings provided in a given zone&#39;s config object</p> </div>
+          <pre><code class="language-javascript">generateTrees () {
+  if (this.config.TREES) {
+    for (const tree of this.config.TREES) {
+      const treeToAdd = new TreeSprite({ 
+        game: this.game,
+        location: { x: tree.x, y: tree.y },
+        scale: tree.scale,
+      });
+      this.game.layerManager.layers.get('environmentLayer').add(treeToAdd);
+    }
   }
-  
 }
 
-const game = new Game();</code></pre>
+}</code></pre>
         </div>
       </div>
     </div>

@@ -86,7 +86,8 @@ gulp.task('lint', function () {
 gulp.task('docs', function () {
   gulp.src(['src/**/*.js', '!src/vendor/*.js', 'README.md'], { base: '.' })
     .pipe(gulpDoxx({
-      title: 'zombie'
+      title: 'zombie',
+      urlPrefix: 'http://bentok.github.io/zombie-survival'
     }))
     .pipe(gulp.dest('docs'));
 });
