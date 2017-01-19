@@ -75,12 +75,12 @@
             <li><a href="http://bentok.github.io/zombie-survival/src/game.js.html">src/game.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/healthBar/healthBar.js.html">src/healthBar/healthBar.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/environment.manager.js.html">src/environment/environment.manager.js</a></li>
-            <li><a href="http://bentok.github.io/zombie-survival/src/environment/tile.sprite.js.html">src/environment/tile.sprite.js</a></li>
+            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/environment/tile.sprite.js.html">src/environment/tile.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tileGenerator.js.html">src/environment/tileGenerator.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/environment/tree.sprite.js.html">src/environment/tree.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/input/input.manager.js.html">src/input/input.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/layerManager/layerManager.js.html">src/layerManager/layerManager.js</a></li>
-            <li class="active"><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
+            <li><a href="http://bentok.github.io/zombie-survival/src/player/player.manager.js.html">src/player/player.manager.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/player/player.sprite.js.html">src/player/player.sprite.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie-detection.js.html">src/zombie/zombie-detection.js</a></li>
             <li><a href="http://bentok.github.io/zombie-survival/src/zombie/zombie.js.html">src/zombie/zombie.js</a></li>
@@ -92,28 +92,32 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
-              <li><a href="#PlayerManager"><i class="alert alert-success"></i><span>PlayerManager</span></a>
+              <li><a href="#TileSprite"><i class="alert alert-success"></i><span>TileSprite</span></a>
               </li>
               <li><a href="#constructor"><i class="alert alert-success"></i><span>constructor</span></a>
+              </li>
+              <li><a href="#render"><i class="alert alert-info"></i><span>render</span></a>
+              </li>
+              <li><a href="#update"><i class="alert alert-info"></i><span>update</span></a>
               </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <section id="PlayerManager">
-            <h1>PlayerManager</h1>
+          <section id="TileSprite">
+            <h1>TileSprite</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">class</div><span>new PlayerManager()</span>
+              <div class="label label-success radius ctx-type">class</div><span>new TileSprite()</span>
             </p>
           </section>
-          <div class="description"><p>Player manager is responsible for managing the state of the player and any aspects that are not<br />directly related to the body of the sprite such as user input and various stats and configuration<br />settings</p> </div>
-          <pre><code class="language-javascript">export class PlayerManager {</code></pre>
+          <div class="description"><p>TileSprite is an individual tile rendered by the tile generator</p> </div>
+          <pre><code class="language-javascript">export class TileSprite extends Phaser.Sprite {</code></pre>
           <section id="constructor">
             <h1>constructor</h1>
             <h5 class="subheader"></h5>
             <p>
-              <div class="label label-success radius ctx-type">constructor</div><span>PlayerManager.prototype.constructor()</span>
+              <div class="label label-success radius ctx-type">constructor</div><span>TileSprite.prototype.constructor()</span>
             </p>
           </section>
           <table class="table table-bordered table-striped">
@@ -131,44 +135,58 @@
                 <td><p>Reference to the state&#39;s game object</p></td>
               </tr>
               <tr>
-                <td>health</td>
-                <td>Number</td>
-                <td><p>Current player health</p></td>
+                <td>location</td>
+                <td>Object</td>
+                <td><p>X and Y coordinates to render the sprite</p></td>
               </tr>
               <tr>
-                <td>maxHealth</td>
+                <td>scale</td>
                 <td>Number</td>
-                <td><p>Maximum health the player can have</p></td>
+                <td><p>Scale to render the sprite</p></td>
               </tr>
               <tr>
-                <td>speed</td>
-                <td>Number</td>
-                <td><p>Base speed modifier for the player</p></td>
-              </tr>
-              <tr>
-                <td>direction</td>
+                <td>tileName</td>
                 <td>String</td>
-                <td><p>The direction the player should be facing</p></td>
+                <td><p>Name of the tile to render</p></td>
               </tr>
             </tbody>
           </table>
           <div class="description"> </div>
-          <pre><code class="language-javascript">constructor ({ game = {}, health = 100, maxHealth = 100, speed = 25, direction = 'right' } = {}) {
-  this.state = {
-    health,
-    maxHealth,
-    speed,
-    direction
+          <pre><code class="language-javascript">constructor ({ game = {}, location = {}, scale = 1, tileName = 'grass-light' } = {}) {
+  super(game, location.x, location.y, 'ground');
+  this.config = {
+    scale,
+    location,
+    tileName,
   };
-
-  this.game = game;
-  this.inputManager = new InputManager({ game, player: this });
-  this.sprite = new PlayerSprite({ game, speed });
-  this.healthBar = new HealthBarSprite({ game, character: this });
-  
-  // TODO: add a new class to configure camera by extending Phaser.Camera
-  this.game.camera.follow(this.sprite);
-  this.game.camera.setBoundsToWorld();
+  this.render();
+}</code></pre>
+          <section id="render">
+            <h1>render</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>TileSprite.prototype.render()</span>
+            </p>
+          </section>
+          <div class="description"><p>Render the sprite</p> </div>
+          <pre><code class="language-javascript">render () {
+  this.game.add.existing(this);</code></pre>
+          <div class="description"><p>Phaser.Animations.add(name, generateFrameNames, frameRate, loop )<br />name — Name ot assign the animation<br />generateFrameNames — Phaser automatically will grab oak1 through oak3<br />frameRate — Frame rate to play animation<br />loop — Whether or not to loop the animation</p> </div>
+          <pre><code class="language-javascript">this.scale.setTo(this.config.scale, this.config.scale);
+this.anchor.setTo(0, 1);
+this.game.physics.p2.enable(this, false, true);
+this.body.kinematic = true;
+  }</code></pre>
+          <section id="update">
+            <h1>update</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>update()</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets the frame to the tile that needs to be displayed</p> </div>
+          <pre><code class="language-javascript">update () {
+  this.frameName = this.config.tileName;
 }
 
 }</code></pre>
