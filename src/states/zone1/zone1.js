@@ -17,6 +17,7 @@ export class Zone1 extends Phaser.State {
     this.game.load.physics('zombie-polygon', './dist/atlases/zombie/zombie-polygon.json');
     this.game.load.atlas('trees', './dist/atlases/trees/trees.png', './dist/atlases/trees/trees.json');
     this.game.load.atlas('ground', './dist/atlases/tilemaps/tiles.png', './dist/atlases/tilemaps/tiles.json');
+    this.game.load.atlas('sky', './dist/atlases/sky/sky.png', './dist/atlases/sky/sky.json');
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
     this.game.enemyManager = new EnemyManager({ game: this.game });

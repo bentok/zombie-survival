@@ -3,6 +3,7 @@
  * @type {Array}
  */
 const layerRegistry = [
+  'sky',
   'environment',
   'land',
   'enemy',

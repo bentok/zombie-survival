@@ -1,6 +1,7 @@
 import { LayerManager } from '../layerManager/layerManager';
 import { TreeSprite } from './tree.sprite';
 import { TileSprite } from './tile.sprite';
+import { SkySprite } from './sky.sprite';
 
 /**
  * @class EnvironmentManager
@@ -25,6 +26,7 @@ export class EnvironmentManager {
   init () {
     this.renderTrees();
     this.renderTiles();
+    this.renderSky();
   }
 
   /**
@@ -60,6 +62,14 @@ export class EnvironmentManager {
         }
       }
     }
+  }
+
+  /**
+   * Renders sky and initializes sky events
+   */
+  renderSky () {
+    this.skySprite = new SkySprite({ game: this.game, width: this.config.WORLD_WIDTH });
+    this.game.layerManager.layers.get('skyLayer').add(this.skySprite);
   }
   
 }
