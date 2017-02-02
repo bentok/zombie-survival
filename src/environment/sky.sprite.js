@@ -12,7 +12,7 @@ const config = {
   x: 0,
   y: 0,
   bg: {
-    color: '#7ec0ee'
+    color: '#2B97FC'
   },
   bar: {
     color: '#AB1111'
