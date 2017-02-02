@@ -6,7 +6,7 @@ export class DayCycle {
   /**
    * @param {Number} dayLength Length of day in milliseconds
    */
-  constructor ({ game = {}, dayLength = 1000 } = {}) {
+  constructor ({ game = {}, dayLength = 300000 } = {}) {
     this.game = game;
     this.dayLength = dayLength;
   }
@@ -17,7 +17,7 @@ export class DayCycle {
    */
   initSun (sprite) {
     this.sunSprite = sprite;
-    this.sunset(sprite);
+    this.sunset();
   }
 
   /**
@@ -26,7 +26,7 @@ export class DayCycle {
    */
   initMoon (sprite) {
     this.moonSprite = sprite;
-    this.moonrise(sprite);
+    this.moonrise();
   }
 
   /**
@@ -41,16 +41,13 @@ export class DayCycle {
    * Run sunrise animation, then sunset on complete
    * @param {Object} sprite Sun sprite
    */
-  sunrise (sprite) {
-    console.log(sprite);
-    sprite.position.x = this.game.width - this.game.width / 4;
-
-    this.sunTween = this.game.add.tween(sprite.cameraOffset).to( { y: -250 }, this.dayLength, null, true);
+  sunrise () {
+    this.sunTween = this.game.add.tween(this.sunSprite.cameraOffset).to( { y: -250 }, this.dayLength, null, true);
     this.sunTween.onComplete.add(this.sunset, this);
 
     if (this.shading) {
-      this.shading.forEach((sprite) => {
-        this.tweenTint(sprite.sprite, sprite.from, sprite.to, this.dayLength);
+      this.shading.forEach((shade) => {
+        this.tweenTint(shade.sprite, shade.from, shade.to, this.dayLength);
       });
     }
   }
@@ -59,15 +56,13 @@ export class DayCycle {
    * Run sunset animation, then sunrise on complete
    * @param {Object} sprite Sun sprite
    */
-  sunset (sprite) {
-    sprite.location.x = 50;
-
-    this.sunTween = this.game.add.tween(sprite.cameraOffset).to( { y: this.game.world.height }, this.dayLength, null, true);
+  sunset () {
+    this.sunTween = this.game.add.tween(this.sunSprite.cameraOffset).to( { y: this.game.world.height + 400 }, this.dayLength, null, true);
     this.sunTween.onComplete.add(this.sunrise, this);
 
     if (this.shading) {
-      this.shading.forEach((sprite) => {
-        this.tweenTint(sprite.sprite, sprite.to, sprite.from, this.dayLength);
+      this.shading.forEach((shade) => {
+        this.tweenTint(shade.sprite, shade.to, shade.from, this.dayLength);
       });
     }
   }
@@ -76,10 +71,8 @@ export class DayCycle {
    * Run moonrise animation, then moonset on complete
    * @param {Object} sprite Moon sprite
    */
-  moonrise (sprite) {
-    sprite.position.x = this.game.width - this.game.width / 4;
-
-    this.moonTween = this.game.add.tween(sprite.cameraOffset).to( { y: -350 }, this.dayLength, null, true);
+  moonrise () {
+    this.moonTween = this.game.add.tween(this.moonSprite.cameraOffset).to( { y: -350 }, this.dayLength, null, true);
     this.moonTween.onComplete.add(this.moonset, this);
   }
 
@@ -87,10 +80,8 @@ export class DayCycle {
    * Run moonset animation, then moonrise on complete
    * @param {Object} sprite Moon sprite
    */
-  moonset (sprite) {
-    sprite.position.x = 50;
-
-    this.moonTween = this.game.add.tween(sprite.cameraOffset).to( { y: this.game.world.height }, this.dayLength, null, true);
+  moonset () {
+    this.moonTween = this.game.add.tween(this.moonSprite.cameraOffset).to( { y: this.game.world.height + 400 }, this.dayLength, null, true);
     this.moonTween.onComplete.add(this.moonrise, this);
   }
 

@@ -8,7 +8,7 @@ export class SunSprite extends Phaser.Sprite {
    * @param {Object} location X and Y coordinates to render the sprite
    * @param {Number} scale Scale to render the sprite
    */
-  constructor ({ game = {}, location = {}, scale = 1 } = {}) {
+  constructor ({ game = {}, location = {}, scale = 1.25 } = {}) {
     super(game, location.x, location.y, 'sky');
     this.config = {
       scale,
