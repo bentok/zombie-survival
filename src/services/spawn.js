@@ -1,4 +1,4 @@
-import { WORLD_WIDTH } from '../states/zone1/zone1.config';
+import { store as config } from '../states/zone1/zone1.config';
 
 /**
  * Service for generating spawn points.
@@ -11,8 +11,9 @@ export class Spawn {
   }
 
   getSpawn () {
+    const worldWidth = config.getState().worldWidth;
     return {
-      x: Math.random() * (WORLD_WIDTH - 0) + 0,
+      x: Math.random() * (worldWidth - 0) + 0,
       y: window.innerHeight - 170
     };
   }

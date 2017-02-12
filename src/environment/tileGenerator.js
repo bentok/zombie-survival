@@ -1,5 +1,3 @@
-import { WORLD_WIDTH } from '../states/zone1/zone1.config';
-
 /**
  * Generates the settings for rendering each light grass tile
  * @param {String} tileName Name of the tile's reference in the atlas
