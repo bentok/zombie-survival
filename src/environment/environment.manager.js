@@ -36,8 +36,8 @@ export class EnvironmentManager {
    * Sets up the trees based on the settings provided in a given zone's config object
    */
   renderTrees () {
-    if (this.config.TREES) {
-      for (const tree of this.config.TREES) {
+    if (this.config.trees) {
+      for (const tree of this.config.trees) {
         const treeToAdd = new TreeSprite({ 
           game: this.game,
           location: { x: tree.x, y: tree.y },
@@ -52,8 +52,8 @@ export class EnvironmentManager {
    * Renders a zone's tiles based on a config file
    */
   renderTiles () {
-    if (this.config.TILES) {
-      for (const [key, value] of this.config.TILES.entries()) {
+    if (this.config.tiles) {
+      for (const [key, value] of this.config.tiles.entries()) {
         for (const tile of value) {
           const tileToAdd = new TileSprite({ 
             game: this.game,
@@ -71,7 +71,7 @@ export class EnvironmentManager {
    * Renders sky and initializes sky events
    */
   renderSky () {
-    this.skySprite = new SkySprite({ game: this.game, width: this.config.WORLD_WIDTH });
+    this.skySprite = new SkySprite({ game: this.game, width: this.config.worldWidth });
     this.game.layerManager.layers.get('skyLayer').add(this.skySprite);
 
     this.moonSprite = new MoonSprite({ 

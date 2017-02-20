@@ -55,13 +55,7 @@ const browserifyOpts = {
 const opts = Object.assign({}, watchify.args, browserifyOpts);
 const bundler = watchify(browserify(opts));
 bundler.transform('babelify', {
-  'presets': ['es2015'],
-  'plugins': [
-    ['transform-runtime', {
-      'polyfill': false,
-      'regenerator': true
-    }]
-  ]
+  'plugins': ['transform-es2015-modules-commonjs']
 })
 .transform({ global: true }, envify({
   NODE_ENV: 'development'
