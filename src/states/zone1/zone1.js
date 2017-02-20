@@ -20,7 +20,6 @@ export class Zone1 extends Phaser.State {
     this.game.load.atlas('sky', './dist/atlases/sky/sky.png', './dist/atlases/sky/sky.json');
     this.game.layerManager = new LayerManager({ game: this.game });
     this.game.layerManager.setup();
-    this.game.enemyManager = new EnemyManager({ game: this.game });
 
     // Set game scale
     this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -36,6 +35,7 @@ export class Zone1 extends Phaser.State {
    * Create
    */
   create () {
+    this.game.enemyManager = new EnemyManager({ game: this.game });
     this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
     this.environment = new EnvironmentManager({ game: this.game, config: config.getState() });

@@ -53,26 +53,69 @@ export class Zombie extends Phaser.Sprite {
    */
   render () {
     this.game.add.existing(this);
+    /**
+     * Phaser provides a method to play all of the frames in a series of number frames. If there are six frames of "Run",
+     * naming them Run1, Run2, etc will result in Phaser playing the full animation.
+     * 
+     * Phaser.Sprite.animations.add(name, generateFrameNames(frameNamePrefix, startNumber, endNumber), speed, loop)
+     * name — Name to give the animation
+     * frameNamePrefix — Name of frame in atlas without the number (e.g. Run1 would be "run")
+     * startNumber — Starting frame number in a series of numbered frame names (e.g. Run1 would be "1")
+     * endNumber — Ending frame number in a series of numbered frame names (e.g. Run6 would be "6")
+     * speed - Framerate for animation
+     * loop - If false, the animatino only plays once
+     */
     this.animations.add('shamble', Phaser.Animation.generateFrameNames('shamble', 1, 2), 2, true);
+    this.animations.add('lunge', Phaser.Animation.generateFrameNames('devour', 1, 4), 5, false);
+    this.animations.add('devour', Phaser.Animation.generateFrameNames('devour', 5, 9), 5, true);
     this.scale.setTo(this.config.scale, this.config.scale);
     this.anchor.setTo(0.5, 0);
     this.game.layerManager.layers.get('enemyLayer').add(this);
     this.game.physics.p2.enable(this.game.layerManager.layers.get('enemyLayer'), false, true);
     this.bodySetup();
+
+    this.game.debug.bodyInfo(this, 32, 32);
   }
 
   /**
    * Phaser's game loop
    */
   update () {
-    this.detector.update();
-    this.setPatrol();
-    if ( this.alerted ) {
-      this.perception = 400;
-      this.speed = 60;
-    } else {
-      this.perception = 300;
-      this.speed = 10;
+    if (!this.contact) {
+      this.detector.update();
+      this.setPatrol();
+      if ( this.alerted ) {
+        this.perception = 400;
+        this.speed = 60;
+      } else {
+        this.perception = 300;
+        this.speed = 10;
+      }
+    }
+    // Run when zombie begins contact with a sprite
+    this.body.onBeginContact.add(contact, this);
+    // Run when zombie ends contact with a sprite
+    this.body.onEndContact.add(endContact, this);
+    function contact (body, bodyB, shapeA, shapeB, equation) {
+      if ( body ) {
+        if (body.sprite && body.sprite.key === 'player') {
+          this.contact = true;
+          this.animations.play('lunge');
+          this.animations.currentAnim.onComplete.add(() => {
+            // Bring zombie to top so we can see him devour P
+            const enemyLayer = this.game.layerManager.layers.get('enemyLayer');
+            this.game.world.bringToTop(enemyLayer);
+            this.animations.play('devour');
+          }, this);
+        }
+      }
+    }
+    function endContact (body, bodyB, shapeA, shapeB, equation) {
+      if ( body ) {
+        if (body.sprite && body.sprite.key === 'player') {
+          this.contact = false;
+        }
+      }
     }
   }
 
