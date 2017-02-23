@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const less = require('gulp-less');
 const server = require('gulp-server-livereload');
 const eslint = require('gulp-eslint');
 const browserify = require('browserify');
@@ -10,19 +9,11 @@ const source = require('vinyl-source-stream');
 const gulpDoxx = require('gulp-doxx');
 
 gulp.task('default', ['build', 'copySprites', 'watch', 'server']);
-gulp.task('build', ['less', 'copySprites', 'copyVendorAssets', 'lint', 'browserify']);
+gulp.task('build', ['copySprites', 'copyVendorAssets', 'lint', 'browserify']);
 
 gulp.task('watch', () => {
-  // gulp.watch('src/**/*.js', ['lint']);
-  gulp.watch('src/**/*.less', ['less']);
   gulp.watch('src/**/*.js', ['lint', 'browserify']);
 });
-
-// Compile less
-gulp.task('less', () => gulp.src('src/**/*.less')
-  .pipe(less())
-  .pipe(gulp.dest('dist')));
-
 
 // Serve and live reload at localhost:8000
 gulp.task('server', () => {
