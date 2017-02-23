@@ -81,42 +81,44 @@ export class Zombie extends Phaser.Sprite {
    * Phaser's game loop
    */
   update () {
+    if (this.contact && !this.dead) {
+      this.onZombieGrab();
+    }
     if (!this.contact) {
-      this.detector.update();
-      this.setPatrol();
-      if ( this.alerted ) {
-        this.perception = 400;
-        this.speed = 60;
-      } else {
-        this.perception = 300;
-        this.speed = 10;
-      }
+      this.onZombiePatrol();
     }
     // Run when zombie begins contact with a sprite
     this.body.onBeginContact.add(contact, this);
-    // Run when zombie ends contact with a sprite
-    this.body.onEndContact.add(endContact, this);
-    function contact (body, bodyB, shapeA, shapeB, equation) {
+    function contact (body) {
       if ( body ) {
         if (body.sprite && body.sprite.key === 'player') {
           this.contact = true;
-          this.animations.play('lunge');
-          this.animations.currentAnim.onComplete.add(() => {
-            // Bring zombie to top so we can see him devour P
-            const enemyLayer = this.game.layerManager.layers.get('enemyLayer');
-            this.game.world.bringToTop(enemyLayer);
-            this.animations.play('devour');
-          }, this);
         }
       }
     }
-    function endContact (body, bodyB, shapeA, shapeB, equation) {
-      if ( body ) {
-        if (body.sprite && body.sprite.key === 'player') {
-          this.contact = false;
-        }
-      }
+  }
+
+  onZombiePatrol () {
+    this.detector.update();
+    this.setPatrol();
+    if ( this.alerted ) {
+      this.perception = 400;
+      this.speed = 60;
+    } else {
+      this.perception = 300;
+      this.speed = 10;
     }
+  }
+
+  onZombieGrab () {
+    const enemyLayer = this.game.layerManager.layers.get('enemyLayer');
+    this.game.world.bringToTop(enemyLayer);
+    this.animations.play('lunge');
+    this.animations.currentAnim.onComplete.add(() => {
+      // Bring zombie to top so we can see him devour P
+      this.animations.play('devour');
+    }, this);
+    this.dead = true;
   }
 
   /**
