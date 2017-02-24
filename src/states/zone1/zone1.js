@@ -1,8 +1,13 @@
 import { EnvironmentManager } from '../../environment/environment.manager';
+import { TreeSprite } from '../../environment/tree.sprite';
+import { TileSprite } from '../../environment/tile.sprite';
 import { PlayerManager } from '../../player/player.manager';
 import { LayerManager } from '../../layerManager/layerManager';
-import { EnemyManager } from '../../enemyManager/enemyManager';
-import { store as config } from './zone1.config';
+import { EnemyManager } from '../../zombie/enemyManager';
+import { SkySprite } from '../../environment/sky.sprite';
+import { store } from './zone1.config'; 
+
+const config = store.getState();
 
 export class Zone1 extends Phaser.State {
 
@@ -38,7 +43,10 @@ export class Zone1 extends Phaser.State {
     this.game.enemyManager = new EnemyManager({ game: this.game });
     this.player = new PlayerManager({ game: this.game });
     this.game.enemyManager.addZombie( { player: this.player.sprite } );
-    this.environment = new EnvironmentManager({ game: this.game, config: config.getState() });
+    this.skySprite = new SkySprite({ game: this.game, width: config.worldWidth });
+    this.game.layerManager.layers.get('skyLayer').add(this.skySprite);
+    this.renderTrees();
+    this.renderTiles();
     /**
      * Phaser.World.setBounds(x, y, width, height )
      * x — Top left most corner of the world..
@@ -46,7 +54,38 @@ export class Zone1 extends Phaser.State {
      * width — New width of the game world in pixels.
      * height — New height of the game world in pixels.
      */
-    this.game.world.setBounds(0, 0, config.getState().worldWidth, window.innerHeight);
+    this.game.world.setBounds(0, 0, config.worldWidth, window.innerHeight);
+  }
+
+  /**
+   * Sets up the trees based on the settings provided in a given zone's config object
+   */
+  renderTrees () {
+    for (const tree of config.trees) {
+      const treeToAdd = new TreeSprite({ 
+        game: this.game,
+        location: { x: tree.x, y: tree.y },
+        scale: tree.scale,
+      });
+      this.game.layerManager.layers.get('environmentLayer').add(treeToAdd);
+    }
+  }
+
+  /**
+   * Renders a zone's tiles based on a config file
+   */
+  renderTiles () {
+    for (const [key, value] of config.tiles.entries()) {
+      for (const tile of value) {
+        const tileToAdd = new TileSprite({ 
+          game: this.game,
+          location: { x: tile.x, y: tile.y },
+          scale: tile.scale,
+          tileName: tile.tileName,
+        });
+        this.game.layerManager.layers.get('environmentLayer').add(tileToAdd);
+      }
+    }
   }
 
 }
