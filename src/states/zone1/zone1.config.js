@@ -1,4 +1,4 @@
-import { generateTiles } from '../../environment/tileGenerator';
+import { generateTiles } from '../utilities/tileGenerator';
 import { getTileMap } from './tileMap.config';
 import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
