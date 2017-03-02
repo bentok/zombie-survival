@@ -1,6 +1,7 @@
 import { PlayerSprite } from './player.sprite';
 import { HealthBarSprite } from '../healthBar/healthBar';
 import { InputManager } from '../input/input.manager';
+import { HealthTimer } from './healthTimer.service';
 
 /**
  * Player manager is responsible for managing the state of the player and any aspects that are not
@@ -28,6 +29,7 @@ export class PlayerManager {
     };
 
     this.game = game;
+    this.healthTimer = new HealthTimer({ player: this });
     this.inputManager = new InputManager({ game, player: this });
     this.sprite = new PlayerSprite({ game, speed });
     this.healthBar = new HealthBarSprite({ game, character: this });
