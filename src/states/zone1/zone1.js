@@ -1,4 +1,3 @@
-import { EnvironmentManager } from '../../environment/environment.manager';
 import { TreeSprite } from '../../environment/tree.sprite';
 import { TileSprite } from '../../environment/tile.sprite';
 import { PlayerManager } from '../../player/player.manager';
