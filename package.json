@@ -18,7 +18,8 @@
     "yarn": "^1.19.1"
   },
   "dependencies": {
-    "phaser": "^3.20.1"
+    "phaser": "^3.20.1",
+    "rxjs": "^6.5.3"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.5",
