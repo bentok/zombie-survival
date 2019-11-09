@@ -8,6 +8,9 @@
   },
   "author": "Ben Copeland",
   "license": "none",
+  "engines": {
+    "yarn": "^1.19.1"
+  },
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -19,8 +22,7 @@
     "gulp-server-livereload": "^1.5.4",
     "gulp-util": "^3.0.7",
     "phaser": "^2.6.2",
-    "vinyl-source-stream": "^1.1.0",
-    "yarn": "^1.17.3"
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
