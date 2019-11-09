@@ -1,3 +1,5 @@
+import { ITextStyle, Scene, Text } from './lib';
+
 const buttonRestStyle = {
   fill: '#FFFFFF',
 };
@@ -10,9 +12,9 @@ const buttonActiveStyle = {
   fill: '#000000',
 };
 
-export class MenuButton extends Phaser.GameObjects.Text {
-  constructor(scene: Phaser.Scene, x: number, y: number, text: string, onClick?: () => void) {
-    super(scene, x, y, text, buttonRestStyle as Phaser.Types.GameObjects.Text.TextStyle);
+export class MenuButton extends Text {
+  constructor(scene: Scene, x: number, y: number, text: string, onClick?: () => void) {
+    super(scene, x, y, text, buttonRestStyle as ITextStyle);
     scene.add.existing(this);
 
     this.setInteractive({ useHandCursor: true })

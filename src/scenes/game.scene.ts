@@ -1,14 +1,14 @@
 
-import { Body, CursorKeys, Rectangle, SettingsConfig } from '../phaser-interfaces';
+import { IBody, ICursorKeys, IRectangle, ISettingsConfig, Scene } from '../lib';
 
-const sceneConfig: SettingsConfig = {
+const sceneConfig: ISettingsConfig = {
   active: false,
   visible: false,
   key: 'Game',
 };
 
-export class GameScene extends Phaser.Scene {
-  private square: Rectangle & { body: Body };
+export class GameScene extends Scene {
+  private square: IRectangle & { body: IBody };
 
   constructor() {
     super(sceneConfig);
@@ -23,19 +23,20 @@ export class GameScene extends Phaser.Scene {
   }
 
   update() {
-    const cursorKeys: CursorKeys = this.input.keyboard.createCursorKeys();
+    const cursorKeys: ICursorKeys = this.input.keyboard.createCursorKeys();
 
-    if (cursorKeys?.up?.isDown) {
+    // TODO: figure out why tslint doesn't like optional chaining
+    if (cursorKeys && cursorKeys.up && cursorKeys.up.isDown) {
       this.square.body.setVelocityY(-500);
-    } else if (cursorKeys?.down?.isDown) {
+    } else if (cursorKeys && cursorKeys.down && cursorKeys.down.isDown) {
       this.square.body.setVelocityY(500);
     } else {
       this.square.body.setVelocityY(0);
     }
 
-    if (cursorKeys?.right?.isDown) {
+    if (cursorKeys && cursorKeys.right && cursorKeys.right.isDown) {
       this.square.body.setVelocityX(500);
-    } else if (cursorKeys?.left?.isDown) {
+    } else if (cursorKeys && cursorKeys.left && cursorKeys.left.isDown) {
       this.square.body.setVelocityX(-500);
     } else {
       this.square.body.setVelocityX(0);

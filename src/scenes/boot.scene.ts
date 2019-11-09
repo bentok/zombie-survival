@@ -1,6 +1,6 @@
-import { SettingsConfig } from '../phaser-interfaces';
+import { ISettingsConfig, Scene } from '../lib';
 
-const sceneConfig: SettingsConfig = {
+const sceneConfig: ISettingsConfig = {
   active: false,
   visible: false,
   key: 'Boot',
@@ -9,7 +9,7 @@ const sceneConfig: SettingsConfig = {
 /**
  * The initial scene that loads all necessary assets to the game and displays a loading bar.
  */
-export class BootScene extends Phaser.Scene {
+export class BootScene extends Scene {
   constructor() {
     super(sceneConfig);
   }
@@ -22,7 +22,7 @@ export class BootScene extends Phaser.Scene {
     return this.game.scale.height;
   }
 
-  public preload() {
+  preload() {
     const halfWidth = this.getGameWidth() * 0.5;
     const halfHeight = this.getGameHeight() * 0.5;
 

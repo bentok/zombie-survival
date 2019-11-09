@@ -1,7 +1,7 @@
+import { ISettingsConfig, Scene } from '../lib';
 import { MenuButton } from '../menu-button.text';
-import { SettingsConfig } from '../phaser-interfaces';
 
-const sceneConfig: SettingsConfig = {
+const sceneConfig: ISettingsConfig = {
   active: false,
   visible: false,
   key: 'MainMenu',
@@ -10,7 +10,7 @@ const sceneConfig: SettingsConfig = {
 /**
  * The initial scene that starts, shows the splash screens, and loads the necessary assets.
  */
-export class MainMenuScene extends Phaser.Scene {
+export class MainMenuScene extends Scene {
   constructor() {
     super(sceneConfig);
   }
