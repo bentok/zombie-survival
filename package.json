@@ -20,7 +20,7 @@
     "gulp-util": "^3.0.7",
     "phaser": "^2.6.2",
     "vinyl-source-stream": "^1.1.0",
-    "yarn": "^0.16.1"
+    "yarn": "^1.17.3"
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
