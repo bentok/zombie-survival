@@ -11,14 +11,17 @@ export class GameScene extends Phaser.Scene {
 
   constructor() {
     super(sceneConfig);
+  }
+
+  preload() {
     this.square = this.add.rectangle(400, 400, 100, 100, 0xFFFFFF) as any;
   }
 
-  public create() {
+  create() {
     this.physics.add.existing(this.square);
   }
 
-  public update() {
+  update() {
     const cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys =
       this.input.keyboard.createCursorKeys();
 
