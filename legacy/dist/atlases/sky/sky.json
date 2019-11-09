@@ -1,0 +1,53 @@
+{
+  "frames": [{
+    "filename": "moon",
+    "frame": {
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 300
+    },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 300
+    },
+    "sourceSize": {
+      "w": 300,
+      "h": 300
+    }
+  }, {
+    "filename": "sun",
+    "frame": {
+      "x": 0,
+      "y": 301,
+      "w": 276,
+      "h": 276
+    },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x": 0,
+      "y": 0,
+      "w": 276,
+      "h": 276
+    },
+    "sourceSize": {
+      "w": 276,
+      "h": 276
+    }
+  }],
+  "meta": {
+    "app": "https://www.leshylabs.com/apps/sstool/",
+    "version": "Leshy SpriteSheet Tool v0.8.4",
+    "image": "sky.png",
+    "size": {
+      "w": 300,
+      "h": 577
+    },
+    "scale": 1
+  }
+}
