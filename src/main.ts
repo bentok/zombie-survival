@@ -1,13 +1,14 @@
 import * as Phaser from 'phaser';
+import { Body, CursorKeys, Rectangle, SettingsConfig } from './phaser-interfaces';
 
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
+const sceneConfig: SettingsConfig = {
   active: false,
   visible: false,
   key: 'Game',
 };
 
 export class GameScene extends Phaser.Scene {
-  private square: Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body };
+  private square: Rectangle & { body: Body };
 
   constructor() {
     super(sceneConfig);
@@ -22,8 +23,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   update() {
-    const cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys =
-      this.input.keyboard.createCursorKeys();
+    const cursorKeys: CursorKeys = this.input.keyboard.createCursorKeys();
 
     if (cursorKeys?.up?.isDown) {
       this.square.body.setVelocityY(-500);
