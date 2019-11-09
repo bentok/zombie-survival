@@ -19,3 +19,9 @@
 
 - `npm run build && npm run serve`
 - Open browser and go to `http://localhost:8000`
+
+## View demos and game
+
+As progress is made, this site will be where to view the game and progress
+
+[http://bentok.github.io/zombie-survival](http://bentok.github.io/zombie-survival)
