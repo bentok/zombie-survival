@@ -25,3 +25,7 @@
 As progress is made, this site will be where to view the game and progress
 
 [http://bentok.github.io/zombie-survival](http://bentok.github.io/zombie-survival)
+
+## Game design document
+
+The game design document is maintained here: [https://github.com/bentok/zombie-survival/blob/master/DESIGN.md](https://github.com/bentok/zombie-survival/blob/master/DESIGN.md)
