@@ -80,6 +80,7 @@ export class BootScene extends Scene {
   private loadAssets() {
     // Load sample assets
     // Replace with real assets
-    this.load.image('sample', 'assets/sample.jpg');
+    this.load.image('ground', 'assets/backgrounds/hills-layer-5.png');
+    this.load.image('zombie', 'assets/enemies/zombie.png');
   }
 }

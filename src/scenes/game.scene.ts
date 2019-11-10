@@ -1,5 +1,11 @@
 
-import { IBody, ICursorKeys, IRectangle, ISettingsConfig, Scene } from '../lib';
+import {
+  // IBody,
+  // ICursorKeys,
+  // IRectangle,
+  ISettingsConfig,
+  Scene,
+} from '../lib';
 
 const sceneConfig: ISettingsConfig = {
   active: false,
@@ -8,38 +14,27 @@ const sceneConfig: ISettingsConfig = {
 };
 
 export class GameScene extends Scene {
-  private square: IRectangle & { body: IBody };
 
   constructor() {
     super(sceneConfig);
   }
 
-  preload() {
-    this.square = this.add.rectangle(400, 400, 100, 100, 0xFFFFFF) as any;
-  }
-
   create() {
-    this.physics.add.existing(this.square);
+    this.add.tileSprite(0, window.innerHeight, window.innerWidth, 256, 'ground').setOrigin(0, 1);
+    this.matter.world.setBounds(0, 0, 800, 600, 32, true, true, false, true);
+    const path = `0 ${window.innerHeight - 10} ${window.innerWidth} ${window.innerHeight - 10} ${window.innerWidth} ${window.innerHeight} 0 ${window.innerHeight}`;
+    const verts = (this.matter as any).verts.fromPath(path);
+
+    this.matter.add.fromVertices(408, 492, verts, { ignoreGravity: true }, true, 0.01, 10);
+
+    const zombie = this.matter.add
+      .image(Phaser.Math.Between(32, 768), -200, 'zombie', Phaser.Math.Between(0, 5));
+
+    // zombie.setCircle();
+    zombie.setBounce(0.96);
   }
 
   update() {
-    const cursorKeys: ICursorKeys = this.input.keyboard.createCursorKeys();
-
-    // TODO: figure out why tslint doesn't like optional chaining
-    if (cursorKeys && cursorKeys.up && cursorKeys.up.isDown) {
-      this.square.body.setVelocityY(-500);
-    } else if (cursorKeys && cursorKeys.down && cursorKeys.down.isDown) {
-      this.square.body.setVelocityY(500);
-    } else {
-      this.square.body.setVelocityY(0);
-    }
-
-    if (cursorKeys && cursorKeys.right && cursorKeys.right.isDown) {
-      this.square.body.setVelocityX(500);
-    } else if (cursorKeys && cursorKeys.left && cursorKeys.left.isDown) {
-      this.square.body.setVelocityX(-500);
-    } else {
-      this.square.body.setVelocityX(0);
-    }
+   // game update loop
   }
 }
