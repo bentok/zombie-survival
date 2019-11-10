@@ -22,7 +22,7 @@ Version # 0.0.1
 
 ### Philosophy: General
 
-This game aims to be primarily a survival and resource management game with a focus on exploration and periodic checkins. I wish to create a game with high replay value that encourages the gamer to come back often to check on their character, sometimes to manage resources and sometimes to explore. Inspiration for tone is the original Dead Rising's infinite mode.
+This game aims to be primarily a survival and resource management game with a focus on exploration and periodic checkins. I wish to create a game with high replay value that encourages the player to come back often to check on their character, sometimes to manage resources and sometimes to explore. Inspiration for tone is the original Dead Rising's infinite mode.
 
 Another aspect would be a companion app to make resource management easy.
 
@@ -43,3 +43,18 @@ The playable character is a normal person who is trying to survive.
 ### How many characters do I control?
 
 You control one character, although you will encounter and be able to save npcs. Saving them will allow them to return to your current safe area.
+
+## Mechanics (to be further fleshed out)
+
+### Perks
+
+Have a pool of perks where at the start of each game the player can choose 1 perk out of 5 random perks.
+
+Examples:
+- Higher health but lower speed
+- High speed but low strength
+- Start with a certain weapon
+- Start with enough food for a day
+- Health items restore 10% more health, but enemies do double damage
+
+Saving and escorting an NPC may will result an additional random perk while the NPC is alive at the safe zone. If the perk is undesirable, then the player will need to decide whether to save them or not.
