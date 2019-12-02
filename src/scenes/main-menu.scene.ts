@@ -20,7 +20,8 @@ export class MainMenuScene extends Scene {
     new MenuButton(this, 100, 150, 'Start Game', () => {
       this.scene.start('Game');
     });
-    new MenuButton(this, 100, 200, 'Settings', () => console.log('settings button clicked'));
-    new MenuButton(this, 100, 250, 'Help', () => console.log('help button clicked'));
+    new MenuButton(this, 100, 200, 'Controls Module', () => {
+      this.scene.start('Controls');
+    });
   }
 }

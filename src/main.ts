@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { BootScene, GameScene, MainMenuScene } from './scenes';
+import { BootScene, ControlsScene, GameScene, MainMenuScene } from './scenes';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Zombie Survival',
@@ -11,12 +11,12 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 
   physics: {
     default: 'matter',
-    arcade: {
+    matter: {
       debug: true,
     },
   },
 
-  scene: [BootScene, MainMenuScene, GameScene],
+  scene: [BootScene, ControlsScene, MainMenuScene, GameScene],
 
   parent: 'content',
   backgroundColor: '#000000',
