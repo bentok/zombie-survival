@@ -12,12 +12,12 @@
 
 ### Via webpack dev server
 
-- `npm run dev`
+- `yarn run dev`
 - Open browser and go to `https://localhost:8080`
 
 ### Via webpack build
 
-- `npm run build && npm run serve`
+- `yarn run build && yarn run serve`
 - Open browser and go to `http://localhost:8000`
 
 ## View demos and game
